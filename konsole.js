@@ -29,19 +29,19 @@ var Konsole = function () {
         opts = opts || {};
         var props = this.findType(rawText),
             type = props.type,
-            text = props.text,
-            name = opts.name || '';
+            text = props.text || '';
         type = opts.error ? 'error' : type;
         type = opts.fnName ? opts.fnName + '(' + opts.fnArgs.toString() + ') returns ' + type : type;
-        text = text || '';
         text = type + '\n' + text;
         console.log("%c" + text, "color:" + opts.color + ";font-weight:bold;");
-        if (opts.log) console.log(rawText);
+        if (opts.log) {
+            console.log(rawText);
+        }
     };
 
-    this.debug = function (fn) {
+    this.run = function (fn, opts) {
         if (typeof fn !== 'function') {
-            this.out(fn, {"color": 'blue'});
+            this.out(fn, opts);
         } else {
             var args = [], n;
             for (n = 1; n < arguments.length; n++) {
@@ -53,7 +53,7 @@ var Konsole = function () {
                     "fnName": fn.name || 'anonymous function',
                     "fnArgs": args
                 });
-                console.log(fn);
+                return fn.apply(this, args);
             } catch (e) {
                 this.out(e.message, {
                     "color": 'red',
@@ -64,32 +64,19 @@ var Konsole = function () {
             }
         }
     };
-    this.clear = function (el) {
-        el.innerHTML = '';
+
+    this.clear = function () {
+        console.clear();
     };
-    return this;
+    try {
+        if (require) {
+            define([], function() {return this;});
+            return;
+        }
+    } catch(e) {}
+    try {
+        if (window) {
+            return this;
+        }
+    } catch(e) {}
 };
-
-var konsole = new Konsole();
-
-///////////////////////////////////////////////
-/////////////Enter code below./////////////////
-///////////////////////////////////////////////
-
-konsole.out("here's an example of konsole.out()");
-konsole.out("you can specify a color.", {"color": 'salmon'});
-konsole.out(true);
-konsole.out(undefined);
-konsole.out(Math.PI);
-konsole.out(NaN);
-konsole.out(['can', 'print', 'arrays']);
-konsole.out({"can": "print", "object": "literals"});
-konsole.out({
-    "pass": 'log:true',
-    "to": 'trigger console.log()'
-}, {"log": true});
-konsole.out(function () {return 'can output function text';});
-
-konsole.debug(function info () {return "use konsole.debug() to print function output";});
-konsole.debug({"note": "blue indicates you're trying to debug a non-function"});
-konsole.debug(function () {return badThingsCanHappen;});
