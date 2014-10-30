@@ -22,7 +22,7 @@ plain ol' JavaScript:
 <script src="path/to/konsole.js"></script>
 ```
 
-###konsole.out###
+###konsole.out()###
 like `console.log`, but also prints the primitive type.  Takes arguments to set the text color and to call native console to take a closer look at nested objects/arrays.
 <hr>
 `konsole.out('hello world!');`
