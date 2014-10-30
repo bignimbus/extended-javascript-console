@@ -1,4 +1,5 @@
-var Konsole = function () {
+function Konsole (settings) {
+    this.console = settings.console || true;
     this.findType = function (text) {
         var type = typeof text;
         switch (type) {
@@ -35,7 +36,7 @@ var Konsole = function () {
             opts.fnArgs.toString() + ') returns ' + type : type;
         text = type + '\n' + text;
         console.log("%c" + text, "color:" + opts.color + ";font-weight:bold;");
-        if (opts.log) {
+        if (this.useNativeConsole) {
             console.log(rawText);
         }
     };
@@ -70,17 +71,11 @@ var Konsole = function () {
         console.clear();
     };
 
-    // return module if using require,
-    // otherwise just return the constructor
-    try {
-        if (require) {
-            define([], function() {return this;});
-            return;
-        }
-    } catch(e) {}
-    try {
-        if (window) {
-            return this;
-        }
-    } catch(e) {}
-};
+    return this;
+}
+
+try {
+    if (require) {
+        define([], function() {return Konsole;});
+    }
+} catch(e) {}
