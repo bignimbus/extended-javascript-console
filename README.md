@@ -9,7 +9,7 @@
 konsole.js works as a require module or as a pojo.
 
 require.js:
-```
+```js
 define([
 	"path/to/konsole"
 ], function (Konsole) {
@@ -18,7 +18,7 @@ define([
 ```
 
 plain ol' JavaScript:
-```
+```html
 <script src="path/to/konsole.js"></script>
 ```
 
