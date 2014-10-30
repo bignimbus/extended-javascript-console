@@ -1,5 +1,7 @@
 function Konsole (settings) {
+    settings = settings || {};
     this.console = settings.console || true;
+    
     this.findType = function (text) {
         var type = typeof text;
         switch (type) {
@@ -36,7 +38,7 @@ function Konsole (settings) {
             opts.fnArgs.toString() + ') returns ' + type : type;
         text = type + '\n' + text;
         console.log("%c" + text, "color:" + opts.color + ";font-weight:bold;");
-        if (this.useNativeConsole) {
+        if (this.console || opts.console) {
             console.log(rawText);
         }
     };
