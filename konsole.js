@@ -1,7 +1,6 @@
 function Konsole (settings) {
-    settings = settings || {};
-    this.console = settings.console || true;
-    
+    "use strict";
+
     this.findType = function (text) {
         var type = typeof text;
         switch (type) {
@@ -38,7 +37,7 @@ function Konsole (settings) {
             opts.fnArgs.toString() + ') returns ' + type : type;
         text = type + '\n' + text;
         console.log("%c" + text, "color:" + opts.color + ";font-weight:bold;");
-        if (this.console || opts.console) {
+        if (opts.console) {
             console.log(rawText);
         }
     };
@@ -79,5 +78,11 @@ function Konsole (settings) {
 try {
     if (require) {
         define([], function() {return Konsole;});
+    }
+} catch(e) {}
+
+try {
+    if (window) {
+        window.konsole = new Konsole();
     }
 } catch(e) {}
