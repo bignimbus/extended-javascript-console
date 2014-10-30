@@ -31,7 +31,8 @@ var Konsole = function () {
             type = props.type,
             text = props.text || '';
         type = opts.error ? 'error' : type;
-        type = opts.fnName ? opts.fnName + '(' + opts.fnArgs.toString() + ') returns ' + type : type;
+        type = opts.fnName ? opts.fnName + '(' + 
+            opts.fnArgs.toString() + ') returns ' + type : type;
         text = type + '\n' + text;
         console.log("%c" + text, "color:" + opts.color + ";font-weight:bold;");
         if (opts.log) {
@@ -68,6 +69,9 @@ var Konsole = function () {
     this.clear = function () {
         console.clear();
     };
+
+    // return module if using require,
+    // otherwise just return the constructor
     try {
         if (require) {
             define([], function() {return this;});
