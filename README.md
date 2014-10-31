@@ -25,38 +25,42 @@ plain ol' JavaScript:
 ###konsole.out()###
 like `console.log`, but also prints the primitive type.  Takes arguments to set the text color and to call native console to take a closer look at nested objects/arrays.
 <hr>
-`konsole.out('hello world!');`
 
-logs:
+`konsole.out('hello world!');`
 ```
 @string:
 hello world!
 ```
 <hr width="50%">
-`konsole.out(Math.PI);`
 
-logs:
+`konsole.out(Math.PI);`
 ```
 @number:
 3.141592653589793 
 ```
 <hr width="50%">
-`konsole.out(NaN)`
 
-logs:
+`konsole.out(false)`
+```
+@boolean:
+false
+```
+<hr width="50%">
+
+`konsole.out(NaN)`
 ```
 @number:
 NaN 
 ```
 <hr width="50%">
-`konsole.out([1, 2, 3]);`
 
-logs:
+`konsole.out([1, 2, 3]);`
 ```
 @array:
 [1,2,3] 
 ```
 <hr width="50%">
+
 ```js
 konsole.out({
 	"can": "tell",
@@ -65,7 +69,6 @@ konsole.out({
     "and": "arrays"
 });
 ```
-logs:
 ```
 @object:
 {"can":"tell","the":"difference","between":"objects","and":"arrays"}
@@ -116,7 +119,7 @@ konsole.run(multiply, 2, 2, 2);
 ```
 ![arguments](https://lh3.googleusercontent.com/-EvrzruiOz-k/VFK6xPgpmJI/AAAAAAAAKe8/wzIa0pCXp6U/w425-h153-no/Screen%2BShot%2B2014-10-30%2Bat%2B5.24.48%2BPM.png)
 
-####chaining calls####
+####nesting calls####
 sometimes it helps to know what a chain of dependent functions are doing.  Because konsole.run() returns the value of the function, you can keep eye on the output of each function in an organized way.
 ```js
 function mcConaughey (article) {
@@ -147,6 +150,12 @@ konsole.run(
 );
 ```
 ![chain undefined](https://lh3.googleusercontent.com/-z142WA2ufrY/VFK9ljNTACI/AAAAAAAAKfg/xygmQPdpO2o/w418-h106-no/Screen%2BShot%2B2014-10-30%2Bat%2B5.36.53%2BPM.png)
+
+<hr width="50%">
+####assigning values####
+```js
+var a = konsole.run(
+```
 
 <hr>
 ###konsole.clear()###
