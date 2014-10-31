@@ -40,7 +40,7 @@ hello world!
 ```
 <hr width="50%">
 
-`konsole.out(false)`
+`konsole.out(false);`
 ```
 @boolean:
 false
@@ -63,7 +63,7 @@ NaN
 
 ```js
 konsole.out({
-	"can": "tell",
+    "can": "tell",
     "the": "difference",
     "between": "objects",
     "and": "arrays"
