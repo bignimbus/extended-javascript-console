@@ -1,4 +1,4 @@
-function Konsole (settings) {
+function Konsole () {
     "use strict";
 
     this.findType = function (text) {
