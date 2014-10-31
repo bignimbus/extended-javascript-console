@@ -151,12 +151,6 @@ konsole.run(
 ```
 ![chain undefined](https://lh3.googleusercontent.com/-z142WA2ufrY/VFK9ljNTACI/AAAAAAAAKfg/xygmQPdpO2o/w418-h106-no/Screen%2BShot%2B2014-10-30%2Bat%2B5.36.53%2BPM.png)
 
-<hr width="50%">
-####assigning values####
-```js
-var a = konsole.run(
-```
-
 <hr>
 ###konsole.clear()###
 
