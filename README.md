@@ -1,7 +1,7 @@
 #extended javascript console#
 
 
-##more descriptive JavaScript console methods. Formerly konsole.js##
+##more descriptive JavaScript console methods.##
 ![Welcome](https://lh4.googleusercontent.com/-BgQgz_SHFBk/VFfvbGGaLcI/AAAAAAAAKi4/ANrB9_TMPhA/w394-h61-no/Screen%2BShot%2B2014-11-03%2Bat%2B3.10.11%2BPM.png "Welcome")
 
 
