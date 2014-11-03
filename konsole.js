@@ -1,7 +1,9 @@
-function Konsole () {
+(function extendedConsole (console) {
     "use strict";
-
-    this.findType = function (text) {
+    if (!console) {
+        return;
+    }
+    console.findType = function (text) {
         var type = typeof text;
         switch (type) {
             case 'number':
@@ -20,14 +22,14 @@ function Konsole () {
                 text = 'undefined';
                 break;
         }
-        type = '@' + type + ':';
+        type = type + ':';
         return {
             "type": type,
             "text": text
         }
     };
 
-    this.out = function (rawText, opts) {
+    console.out = function (rawText, opts) {
         opts = opts || {};
         var props = this.findType(rawText),
             type = props.type,
@@ -42,7 +44,7 @@ function Konsole () {
         }
     };
 
-    this.run = function (fn, opts) {
+    console.run = function (fn, opts) {
         if (typeof fn !== 'function') {
             this.out(fn, opts);
         } else {
@@ -67,22 +69,5 @@ function Konsole () {
             }
         }
     };
-
-    this.clear = function () {
-        console.clear();
-    };
-
-    return this;
-}
-
-try {
-    if (require) {
-        define([], function() {return Konsole;});
-    }
-} catch(e) {}
-
-try {
-    if (window) {
-        window.konsole = new Konsole();
-    }
-} catch(e) {}
+    return console;
+})(window.console);
