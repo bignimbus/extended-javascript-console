@@ -1,4 +1,4 @@
-(function extendedConsole (console) {
+(function excon (console) {
     "use strict";
     if (!console) {
         return;
