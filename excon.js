@@ -34,7 +34,7 @@
         var props = this.findType(rawText),
             type = props.type,
             text = props.text || '',
-            typeColor = opts.fnName ? opts.color : 'gray';
+            typeColor = opts.color || 'gray';
         type = opts.error ? 'error' : type;
         type = opts.fnName ? opts.fnName + '(' + 
             opts.fnArgs.toString() + ') returns ' + type : type;
