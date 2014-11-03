@@ -149,3 +149,9 @@ console.run(
 );
 ```
 ![chain undefined](https://lh3.googleusercontent.com/-z142WA2ufrY/VFK9ljNTACI/AAAAAAAAKfg/xygmQPdpO2o/w418-h106-no/Screen%2BShot%2B2014-10-30%2Bat%2B5.36.53%2BPM.png)
+
+<hr>
+
+###Tests###
+
+Jasmine unit tests are in the `tests` directory.
