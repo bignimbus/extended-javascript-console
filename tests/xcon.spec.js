@@ -49,6 +49,11 @@ describe('console.findType()', function () {
 		expect(console.findType(['Steve', 123][1]).type).not.toEqual('string:');
 	});
 
+	it('should be able to identify undefined', function () {
+		expect(console.findType(undefined).type).toEqual('undefined:');
+		expect(console.findType('undefined').type).not.toEqual('undefined:');
+	});
+
 	it('should correctly identify objects', function () {
 		expect(console.findType({"name": "value"}).type).toEqual('object:');
 	});
@@ -57,20 +62,16 @@ describe('console.findType()', function () {
 		expect(console.findType(["one", "two", 3]).type).toEqual('array:');
 	});
 
-	it('should differentiate between objects and arrays', function () {
-		expect(console.findType([1, 2, 3]).type).not.toEqual('object:');
-		expect(console.findType({"an": "object"}).type).not.toEqual('array:');
-	});
-
-	it('should be able to identify undefined', function () {
-		expect(console.findType(undefined).type).toEqual('undefined:');
-		expect(console.findType('undefined').type).not.toEqual('undefined:');
-	});
-
 	it('should be able to identify null', function () {
 		expect(console.findType(null).type).toEqual('null:');
 		expect(console.findType(undefined).type).not.toEqual('null:');
 		expect(console.findType('null').type).not.toEqual('null:');
+	});
+
+	it('should differentiate between objects, arrays, and null', function () {
+		expect(console.findType([1, 2, 3]).type).not.toEqual('object:');
+		expect(console.findType({"an": "object"}).type).not.toEqual('array:');
+		expect(console.findType(null).type).not.toEqual('object:');
 	});
 
 });
