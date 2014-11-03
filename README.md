@@ -1,7 +1,7 @@
 #extended javascript console#
 
 
-##more descriptive JavaScript console methods. Formerly console.js##
+##more descriptive JavaScript console methods. Formerly konsole.js##
 ![I am console](https://lh6.googleusercontent.com/-yF0Z7tZ7i3g/VFK-nbe2tfI/AAAAAAAAKfs/DGHoL3WM-8w/w101-h30-no/Screen%2BShot%2B2014-10-30%2Bat%2B5.41.16%2BPM.png)
 
 
