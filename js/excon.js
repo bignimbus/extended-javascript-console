@@ -1,5 +1,6 @@
 (function excon (console) {
     "use strict";
+
     if (!console) {
         return;
     }
@@ -16,6 +17,7 @@
                 break;
             case 'object':
                 type = text instanceof Array ? 'array' : 'object';
+                type = text !== null ? type : 'null';
                 text = JSON.stringify(text);
                 break;
             case 'undefined':
@@ -70,5 +72,7 @@
             }
         }
     };
+
     return console;
+
 })(window.console);
