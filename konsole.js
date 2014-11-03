@@ -33,11 +33,12 @@
         opts = opts || {};
         var props = this.findType(rawText),
             type = props.type,
-            text = props.text || '';
+            text = props.text || '',
+            typeColor = opts.fnName ? opts.color : 'gray';
         type = opts.error ? 'error' : type;
         type = opts.fnName ? opts.fnName + '(' + 
             opts.fnArgs.toString() + ') returns ' + type : type;
-        text = type + '\n' + text;
+        console.log("%c" + type, "color:" + typeColor + ";font-weight:bold;");
         console.log("%c" + text, "color:" + opts.color + ";font-weight:bold;");
         if (opts.console) {
             console.log(rawText);
