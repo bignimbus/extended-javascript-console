@@ -2,23 +2,23 @@
 
 
 ##more descriptive JavaScript console methods.##
-![Welcome](https://lh4.googleusercontent.com/-BgQgz_SHFBk/VFfvbGGaLcI/AAAAAAAAKi4/ANrB9_TMPhA/w394-h61-no/Screen%2BShot%2B2014-11-03%2Bat%2B3.10.11%2BPM.png "Welcome")
+![Welcome](https://lh5.googleusercontent.com/-szn-LngTI5U/VFfxTa8NIFI/AAAAAAAAKjo/uYKW0I9nEoU/w386-h63-no/Screen%2BShot%2B2014-11-03%2Bat%2B3.18.55%2BPM.png "Welcome")
 
 
 ###getting started###
-excon works as a require module or as a pojo.
+xcon works as a require module or as a pojo.
 
 require.js:
 ```js
 define([
-	"path/to/excon.js"
+	"path/to/xcon.js"
 ], function () {
 // etc.
 ```
 
 plain ol' JavaScript:
 ```html
-<script src="path/to/excon.js"></script>
+<script src="path/to/xcon.js"></script>
 ```
 
 ###console.out()###
