@@ -28,7 +28,7 @@
         return {
             "type": type,
             "text": text
-        }
+        };
     };
 
     console.out = function (rawText, opts) {
@@ -38,7 +38,7 @@
             text = props.text || '',
             typeColor = opts.color || 'gray';
         type = opts.error ? 'error' : type;
-        type = opts.fnName ? opts.fnName + '(' + 
+        type = opts.fnName ? opts.fnName + '(' +
             opts.fnArgs.toString() + ') returns ' + type : type;
         console.log("%c" + type, "color:" + typeColor + ";font-weight:bold;");
         console.log("%c" + text, "color:" + opts.color + ";font-weight:bold;");
@@ -48,9 +48,7 @@
     };
 
     console.run = function (fn, opts) {
-        if (typeof fn !== 'function') {
-            this.out(fn, opts);
-        } else {
+        if (typeof fn === 'function') {
             var args = [], n;
             for (n = 1; n < arguments.length; n++) {
                 args.push(arguments[n]);
@@ -70,6 +68,8 @@
                     "error": true
                 });
             }
+        } else {
+            this.out(fn, opts);
         }
     };
 
