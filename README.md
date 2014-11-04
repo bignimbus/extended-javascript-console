@@ -11,9 +11,9 @@ xcon works as a require module or as a pojo.
 require.js:
 ```js
 define([
-	"path/to/xcon.js"
+	"path/to/xcon"
 ], function () {
-// etc.
+// no need to declare as a parameter
 ```
 
 plain ol' JavaScript:
