@@ -69,7 +69,7 @@
                 });
             }
         } else {
-            this.out(fn, opts);
+            this.out(arguments[0], arguments[1]);
         }
     };
 
