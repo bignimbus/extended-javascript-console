@@ -93,7 +93,7 @@ function goodFunction () {
 }
 console.run(goodFunction);
 ```
-![valid output](https://lh6.googleusercontent.com/-5SKd2dYk1zs/VFK42koRWlI/AAAAAAAAKes/ywClh4gO-Uk/w425-h99-no/Screen%2BShot%2B2014-10-30%2Bat%2B5.16.29%2BPM.png "Success")
+![valid output](https://dl.dropboxusercontent.com/u/10976600/xcon/Screen%20Shot%202014-10-30%20at%205.16.29%20PM.png "Success")
 
 <hr width="50%">
 ```js
@@ -102,7 +102,7 @@ function badFunction () {
 }
 console.run(badFunction);
 ```
-![error output](https://lh3.googleusercontent.com/-SPXeWlU-TSE/VFK3OKNo-MI/AAAAAAAAKeY/iRnFucet6c4/w473-h104-no/undefined%2Berror.png "Error")
+![error output](https://dl.dropboxusercontent.com/u/10976600/xcon/undefined%20error.png "Error")
 
 ####passing arguments####
 same syntax as `Function.prototype.call()`
@@ -116,7 +116,7 @@ function multiply () {
 }
 console.run(multiply, 2, 2, 2);
 ```
-![arguments](https://lh3.googleusercontent.com/-EvrzruiOz-k/VFK6xPgpmJI/AAAAAAAAKe8/wzIa0pCXp6U/w425-h153-no/Screen%2BShot%2B2014-10-30%2Bat%2B5.24.48%2BPM.png "Arguments")
+![arguments](https://dl.dropboxusercontent.com/u/10976600/xcon/Screen%20Shot%202014-10-30%20at%205.24.48%20PM.png "Arguments")
 
 ####nesting calls####
 sometimes it helps to know what a chain of dependent functions are doing.  Because console.run() returns the value of the function, you can keep eye on the output of each function in an organized way.
@@ -132,7 +132,7 @@ console.run(
 	console.run(mcConaughey, "shirt")
 );
 ```
-![chaining](https://lh6.googleusercontent.com/-5o8KDCrUUqw/VFK8rIfOv2I/AAAAAAAAKfM/QcyryhkdwQU/w423-h209-no/Screen%2BShot%2B2014-10-30%2Bat%2B5.32.55%2BPM.png "Chaining")
+![chaining](https://dl.dropboxusercontent.com/u/10976600/xcon/Screen%20Shot%202014-10-30%20at%205.32.55%20PM.png "Chaining")
 
 <hr width="50%">
 It can help keep track of what's going wrong in your application flow:
