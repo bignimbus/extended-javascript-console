@@ -8,7 +8,7 @@
 ###getting started###
 xcon works as a require module or as a pojo.
 
-require.js:
+require.js: I recommend declaring xcon last in your require path list, since you will not need to declare it as a module.
 ```js
 define([
 	"path/to/xcon"
