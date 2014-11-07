@@ -1,10 +1,12 @@
-(function excon (console) {
+(function xcon () {
+
     "use strict";
 
-    if (!console) {
-        return;
+    if (this !== console) {
+        return false;
     }
-    console.findType = function (text) {
+    
+    this.findType = function (text) {
         var type = typeof text;
         switch (type) {
             case 'number':
@@ -31,7 +33,7 @@
         };
     };
 
-    console.out = function (rawText, opts) {
+    this.out = function (rawText, opts) {
         opts = opts || {};
         var props = this.findType(rawText),
             type = props.type,
@@ -40,26 +42,27 @@
         type = opts.error ? 'error' : type;
         type = opts.fnName ? opts.fnName + '(' +
             opts.fnArgs.toString() + ') returns ' + type : type;
-        console.log("%c" + type, "color:" + typeColor + ";font-weight:bold;");
-        console.log("%c" + text, "color:" + opts.color + ";font-weight:bold;");
+        this.log("%c" + type, "color:" + typeColor + ";font-weight:bold;");
+        this.log("%c" + text, "color:" + opts.color + ";font-weight:bold;");
         if (opts.console) {
-            console.log(rawText);
+            this.log(rawText);
         }
     };
 
-    console.run = function (fn, opts) {
+    this.run = function (fn) {
         if (typeof fn === 'function') {
-            var args = [], n;
+            var args = [], n, result;
             for (n = 1; n < arguments.length; n++) {
                 args.push(arguments[n]);
             }
             try {
-                this.out(fn.apply(this, args), {
+                result = fn.apply(this, args);
+                this.out(result, {
                     "color": 'darkgreen',
                     "fnName": fn.name || 'anonymous function',
                     "fnArgs": args
                 });
-                return fn.apply(this, args);
+                return result;
             } catch (e) {
                 this.out(e.message, {
                     "color": 'red',
@@ -73,6 +76,6 @@
         }
     };
 
-    return console;
+    return this;
 
-})(window.console);
+}).call(window.console);
