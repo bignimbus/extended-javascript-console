@@ -1,4 +1,4 @@
-(function xcon () {
+(function Xcon () {
 
     "use strict";
 
