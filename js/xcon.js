@@ -5,16 +5,11 @@
     if (this !== console) {
         return false;
     }
-    
+
     this.condition = function (text) {
         var type = typeof text;
         switch (type) {
-            case 'number':
-                if (isNaN(text)) {
-                    text = text.toString();
-                }
-                break;
-            case 'boolean' || 'function':
+            case 'number' || 'boolean' || 'function':
                 text = text.toString();
                 break;
             case 'object':

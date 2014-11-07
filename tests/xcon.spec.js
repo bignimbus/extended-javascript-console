@@ -20,7 +20,7 @@ describe('console.condition()', function () {
 	it('should return .text and .type', function () {
 		var foundType = console.condition(Math.PI);
 		expect(foundType.type).toEqual('number:');
-		expect(foundType.text).toEqual(3.141592653589793);
+		expect(foundType.text).toEqual('3.141592653589793');
 	});
 
 	it('should stringify objects, arrays, and null values', function () {
