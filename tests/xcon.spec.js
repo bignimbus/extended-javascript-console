@@ -11,67 +11,67 @@ describe('console', function () {
 		expect(window.console.run).toBeDefined();
 	});
 
-	it('should have method .findType()', function () {
-		expect(window.console.findType).toBeDefined();
+	it('should have method .condition()', function () {
+		expect(window.console.condition).toBeDefined();
 	});
 });
 
-describe('console.findType()', function () {
+describe('console.condition()', function () {
 	it('should return .text and .type', function () {
-		var foundType = console.findType(Math.PI);
+		var foundType = console.condition(Math.PI);
 		expect(foundType.type).toEqual('number:');
 		expect(foundType.text).toEqual(3.141592653589793);
 	});
 
 	it('should stringify objects, arrays, and null values', function () {
-		var obj = console.findType({"hello":"goodbye"}).text,
-			arr = console.findType([1, 2, 3]).text,
-			nl = console.findType(null).text;
+		var obj = console.condition({"hello":"goodbye"}).text,
+			arr = console.condition([1, 2, 3]).text,
+			nl = console.condition(null).text;
 		expect(obj).toEqual('{"hello":"goodbye"}');
 		expect(arr).toEqual('[1,2,3]');
 		expect(nl).toEqual('null');
 	});
 
 	it('should correctly identify numbers', function () {
-		expect(console.findType(4).type).toEqual('number:');
-		expect(console.findType(NaN).type).toEqual('number:');
-		expect(console.findType("4").type).not.toEqual('number:');
+		expect(console.condition(4).type).toEqual('number:');
+		expect(console.condition(NaN).type).toEqual('number:');
+		expect(console.condition("4").type).not.toEqual('number:');
 	});
 
 	it('should correctly identify booleans', function () {
-		expect(console.findType(false).type).toEqual('boolean:');
-		expect(console.findType(true).type).toEqual('boolean:');
-		expect(console.findType('true').type).not.toEqual('boolean:');
+		expect(console.condition(false).type).toEqual('boolean:');
+		expect(console.condition(true).type).toEqual('boolean:');
+		expect(console.condition('true').type).not.toEqual('boolean:');
 	});
 
 	it('should correctly identify strings', function () {
-		expect(console.findType('Steve Perry').type).toEqual('string:');
-		expect(console.findType(['Steve', 123][1]).type).not.toEqual('string:');
+		expect(console.condition('Steve Perry').type).toEqual('string:');
+		expect(console.condition(['Steve', 123][1]).type).not.toEqual('string:');
 	});
 
 	it('should be able to identify undefined', function () {
-		expect(console.findType(undefined).type).toEqual('undefined:');
-		expect(console.findType('undefined').type).not.toEqual('undefined:');
+		expect(console.condition(undefined).type).toEqual('undefined:');
+		expect(console.condition('undefined').type).not.toEqual('undefined:');
 	});
 
 	it('should correctly identify objects', function () {
-		expect(console.findType({"name": "value"}).type).toEqual('object:');
+		expect(console.condition({"name": "value"}).type).toEqual('object:');
 	});
 
 	it('should correctly identify arrays', function () {
-		expect(console.findType(["one", "two", 3]).type).toEqual('array:');
+		expect(console.condition(["one", "two", 3]).type).toEqual('array:');
 	});
 
 	it('should be able to identify null', function () {
-		expect(console.findType(null).type).toEqual('null:');
-		expect(console.findType(undefined).type).not.toEqual('null:');
-		expect(console.findType('null').type).not.toEqual('null:');
+		expect(console.condition(null).type).toEqual('null:');
+		expect(console.condition(undefined).type).not.toEqual('null:');
+		expect(console.condition('null').type).not.toEqual('null:');
 	});
 
 	it('should differentiate between objects, arrays, and null', function () {
-		expect(console.findType([1, 2, 3]).type).not.toEqual('object:');
-		expect(console.findType({"an": "object"}).type).not.toEqual('array:');
-		expect(console.findType(null).type).not.toEqual('object:');
+		expect(console.condition([1, 2, 3]).type).not.toEqual('object:');
+		expect(console.condition({"an": "object"}).type).not.toEqual('array:');
+		expect(console.condition(null).type).not.toEqual('object:');
 	});
 
 });

@@ -6,7 +6,7 @@
         return false;
     }
     
-    this.findType = function (text) {
+    this.condition = function (text) {
         var type = typeof text;
         switch (type) {
             case 'number':
@@ -35,7 +35,7 @@
 
     this.out = function (rawText, opts) {
         opts = opts || {};
-        var props = this.findType(rawText),
+        var props = this.condition(rawText),
             type = props.type,
             text = props.text || '',
             typeColor = opts.color || 'gray';
