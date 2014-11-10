@@ -104,8 +104,9 @@ console.run(badFunction);
 ```
 ![error output](https://dl.dropboxusercontent.com/u/10976600/xcon/undefined%20error.png "Error")
 
+<hr width="50%">
 ####passing arguments####
-same syntax as `Function.prototype.call()`
+Pass all function arguments as an array as the second argument.
 ```js
 function multiply () {
 	var product = 1, n;
@@ -114,10 +115,24 @@ function multiply () {
     }
     return product;
 }
-console.run(multiply, 2, 2, 2);
+console.run(multiply, [2, 2, 2]);
 ```
 ![arguments](https://dl.dropboxusercontent.com/u/10976600/xcon/Screen%20Shot%202014-10-30%20at%205.24.48%20PM.png "Arguments")
 
+<hr width="50%">
+###passing context###
+```js
+var fakeObj = {};
+function FakeConstructor () {
+	this.prop = "something";
+	return this;
+}
+fakeObj = console.run(FakeConstructor, [], fakeObj);
+```
+
+in the above example, `fakeObj` will be interpreted as `this` by `FakeConstructor'.
+
+<hr width="50%">
 ####nesting calls####
 sometimes it helps to know what a chain of dependent functions are doing.  Because console.run() returns the value of the function, you can keep eye on the output of each function in an organized way.
 ```js
