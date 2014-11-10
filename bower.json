@@ -1,0 +1,28 @@
+{
+  "name": "extended-javascript-console",
+  "version": "0.1",
+  "homepage": "https://github.com/bignimbus/extended-javascript-console",
+  "authors": [
+    "Jeff Auriemma"
+  ],
+  "description": "more descriptive JavaScript console methods",
+  "main": "js/xcon.js",
+  "moduleType": [
+    "amd",
+    "globals"
+  ],
+  "keywords": [
+    "console",
+    "javascript",
+    "extended",
+    "xcon"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
