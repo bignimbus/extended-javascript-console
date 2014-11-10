@@ -25,7 +25,6 @@
                 blob = 'undefined';
                 break;
         }
-        type = type + ':';
         return {
             "type": type,
             "text": blob
@@ -33,7 +32,9 @@
     }
 
     // returns a random color to improve contrast between
-    // adjacent .out logs
+    // adjacent .out logs.  Colors should be non-red and
+    // non-green to differentiate between .run() and .out()
+    // logs.
     function colorSelect () {
         var outColors = [
             'blue',
@@ -87,7 +88,7 @@
         type = opts.error ? 'error' : type;
         type = opts.fnName ? opts.fnName + '(' +
             opts.fnArgs + ') returns ' + type : type;
-        console.log("%c" + type + "\n" + text, "color:" + color + ";font-weight:" + fontWeight);
+        console.log("%c" + type + ":\n" + text, "color:" + color + ";font-weight:" + fontWeight);
         if (opts.log) {
             console.log(blob);
         }
