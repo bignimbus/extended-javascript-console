@@ -8,28 +8,6 @@
         return Xcon.call(window.xcon);
     }
 
-    this.condition = function (text) {
-        var type = typeof text;
-        switch (type) {
-            case 'number' || 'boolean' || 'function':
-                text = text.toString();
-                break;
-            case 'object':
-                type = text instanceof Array ? 'array' : 'object';
-                type = text !== null ? type : 'null';
-                text = JSON.stringify(text);
-                break;
-            case 'undefined':
-                text = 'undefined';
-                break;
-        }
-        type = type + ':';
-        return {
-            "type": type,
-            "text": text
-        };
-    };
-
     this.out = function (rawText, opts) {
         opts = opts || {};
         var props = this.condition(rawText),
@@ -71,6 +49,28 @@
         } else {
             this.out(arguments[0], arguments[1]);
         }
+    };
+
+    this.condition = function (text) {
+        var type = typeof text;
+        switch (type) {
+            case 'number' || 'boolean' || 'function':
+                text = text.toString();
+                break;
+            case 'object':
+                type = text instanceof Array ? 'array' : 'object';
+                type = text !== null ? type : 'null';
+                text = JSON.stringify(text);
+                break;
+            case 'undefined':
+                text = 'undefined';
+                break;
+        }
+        type = type + ':';
+        return {
+            "type": type,
+            "text": text
+        };
     };
 
     return this;
