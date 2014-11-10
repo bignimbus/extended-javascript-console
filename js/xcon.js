@@ -8,25 +8,27 @@
         return Xcon.call(window.xcon);
     }
 
-    function condition (text) {
-        var type = typeof text;
+    // private method that takes a raw input and determines
+    // its primitive type.  Outputs all input as a string.
+    function condition (blob) {
+        var type = typeof blob;
         switch (type) {
             case 'number' || 'boolean' || 'function':
-                text = text.toString();
+                blob = blob.toString();
                 break;
             case 'object':
-                type = text instanceof Array ? 'array' : 'object';
-                type = text !== null ? type : 'null';
-                text = JSON.stringify(text);
+                type = blob instanceof Array ? 'array' : 'object';
+                type = blob !== null ? type : 'null';
+                blob = JSON.stringify(blob);
                 break;
             case 'undefined':
-                text = 'undefined';
+                blob = 'undefined';
                 break;
         }
         type = type + ':';
         return {
             "type": type,
-            "text": text
+            "text": blob
         };
     }
 
@@ -44,10 +46,10 @@
     //     "fnArgs": "all passed arguments",
     //     "error": true // indicates a thrown error
     // }
-    this.out = function (rawText, opts) {
+    this.out = function (blob, opts) {
 
         opts = opts || {};
-        var props = condition(rawText),
+        var props = condition(blob),
             type = props.type,
             text = props.text || '',
             typeColor = opts.color || 'gray';
@@ -57,7 +59,7 @@
         console.log("%c" + type, "color:" + typeColor + ";font-weight:bold;");
         console.log("%c" + text, "color:" + opts.color + ";font-weight:bold;");
         if (opts.log) {
-            console.log(rawText);
+            console.log(blob);
         }
     };
 
