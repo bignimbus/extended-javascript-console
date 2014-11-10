@@ -4,7 +4,17 @@
 ##more descriptive JavaScript console methods.##
 ![Welcome](https://lh5.googleusercontent.com/-szn-LngTI5U/VFfxTa8NIFI/AAAAAAAAKjo/uYKW0I9nEoU/w386-h63-no/Screen%2BShot%2B2014-11-03%2Bat%2B3.18.55%2BPM.png "Welcome")
 
+<hr>
+###contents###
+<ol>
+	<li><a href="#getting-started">Getting Started</a></li>
+	<li><a href="#consoleout">console.out()</a></li>
+	<li><a href="#consolerun">console.run()</a></li>
+	<li><a href="#namespace">Namespace</a></li>
+	<li><a href="#tests">Tests</a></li>
+</ol>
 
+<hr>
 ###getting started###
 xcon works as a require module or as a pojo.
 
@@ -120,7 +130,7 @@ console.run(multiply, [2, 2, 2]);
 ![arguments](https://dl.dropboxusercontent.com/u/10976600/xcon/Screen%20Shot%202014-10-30%20at%205.24.48%20PM.png "Arguments")
 
 <hr width="50%">
-###passing context###
+####passing context####
 ```js
 var fakeObj = {};
 function FakeConstructor () {
