@@ -20,10 +20,10 @@ plain ol' JavaScript:
 ```html
 <script src="path/to/xcon.js"></script>
 ```
+<hr>
 
 ###console.out()###
 like `console.log`, but also prints the primitive type.  Takes arguments to set the text color and to call native console to take a closer look at nested objects/arrays.
-<hr>
 
 `console.out('hello world!');`
 ```
@@ -149,7 +149,14 @@ console.run(
 );
 ```
 ![chain undefined](https://lh3.googleusercontent.com/-z142WA2ufrY/VFK9ljNTACI/AAAAAAAAKfg/xygmQPdpO2o/w418-h106-no/Screen%2BShot%2B2014-10-30%2Bat%2B5.36.53%2BPM.png "Chain Debugging")
+<hr>
 
+###Namespace###
+To make sure that xcon.js remains functional in case a vendor suddenly adds a native method that matches one of the xcon method names, there is a built-in fallback to the "xcon" namespace for all methods.
+
+`xcon.out()` and `xcon.run()` will function exactly the same as `console.out()` and `console.run()`.
+
+If you wish to namespace all the xcon functions by default, simply modify the context being passed in the last line of the source code to the object you wish to attach these methods to.
 <hr>
 
 ###Tests###
