@@ -11,67 +11,88 @@ describe('console', function () {
 		expect(window.console.run).toBeDefined();
 	});
 
-	it('should have method .condition()', function () {
-		expect(window.console.condition).toBeDefined();
-	});
 });
 
-describe('console.condition()', function () {
+describe('condition()', function () {
+
+	// keep this up-to-date with function in source code
+	function condition (text) {
+        var type = typeof text;
+        switch (type) {
+            case 'number' || 'boolean' || 'function':
+                text = text.toString();
+                break;
+            case 'object':
+                type = text instanceof Array ? 'array' : 'object';
+                type = text !== null ? type : 'null';
+                text = JSON.stringify(text);
+                break;
+            case 'undefined':
+                text = 'undefined';
+                break;
+        }
+        type = type + ':';
+        return {
+            "type": type,
+            "text": text
+        };
+    }
+
 	it('should return .text and .type', function () {
-		var foundType = console.condition(Math.PI);
+		var foundType = condition(Math.PI);
 		expect(foundType.type).toEqual('number:');
 		expect(foundType.text).toEqual('3.141592653589793');
 	});
 
 	it('should stringify objects, arrays, and null values', function () {
-		var obj = console.condition({"hello":"goodbye"}).text,
-			arr = console.condition([1, 2, 3]).text,
-			nl = console.condition(null).text;
+		var obj = condition({"hello":"goodbye"}).text,
+			arr = condition([1, 2, 3]).text,
+			nl = condition(null).text;
 		expect(obj).toEqual('{"hello":"goodbye"}');
 		expect(arr).toEqual('[1,2,3]');
 		expect(nl).toEqual('null');
 	});
 
 	it('should correctly identify numbers', function () {
-		expect(console.condition(4).type).toEqual('number:');
-		expect(console.condition(NaN).type).toEqual('number:');
-		expect(console.condition("4").type).not.toEqual('number:');
+		expect(condition(4).type).toEqual('number:');
+		expect(condition(NaN).type).toEqual('number:');
+		expect(condition("4").type).not.toEqual('number:');
 	});
 
 	it('should correctly identify booleans', function () {
-		expect(console.condition(false).type).toEqual('boolean:');
-		expect(console.condition(true).type).toEqual('boolean:');
-		expect(console.condition('true').type).not.toEqual('boolean:');
+		expect(condition(false).type).toEqual('boolean:');
+		expect(condition(true).type).toEqual('boolean:');
+		expect(condition('true').type).not.toEqual('boolean:');
 	});
 
 	it('should correctly identify strings', function () {
-		expect(console.condition('Steve Perry').type).toEqual('string:');
-		expect(console.condition(['Steve', 123][1]).type).not.toEqual('string:');
+		expect(condition('Steve Perry').type).toEqual('string:');
+		expect(condition(['Steve', 123][1]).type).not.toEqual('string:');
 	});
 
 	it('should be able to identify undefined', function () {
-		expect(console.condition(undefined).type).toEqual('undefined:');
-		expect(console.condition('undefined').type).not.toEqual('undefined:');
+		expect(condition(undefined).type).toEqual('undefined:');
+		expect(condition('undefined').type).not.toEqual('undefined:');
 	});
 
 	it('should correctly identify objects', function () {
-		expect(console.condition({"name": "value"}).type).toEqual('object:');
+		expect(condition({"name": "value"}).type).toEqual('object:');
 	});
 
 	it('should correctly identify arrays', function () {
-		expect(console.condition(["one", "two", 3]).type).toEqual('array:');
+		expect(condition(["one", "two", 3]).type).toEqual('array:');
 	});
 
 	it('should be able to identify null', function () {
-		expect(console.condition(null).type).toEqual('null:');
-		expect(console.condition(undefined).type).not.toEqual('null:');
-		expect(console.condition('null').type).not.toEqual('null:');
+		expect(condition(null).type).toEqual('null:');
+		expect(condition(undefined).type).not.toEqual('null:');
+		expect(condition('null').type).not.toEqual('null:');
 	});
 
 	it('should differentiate between objects, arrays, and null', function () {
-		expect(console.condition([1, 2, 3]).type).not.toEqual('object:');
-		expect(console.condition({"an": "object"}).type).not.toEqual('array:');
-		expect(console.condition(null).type).not.toEqual('object:');
+		expect(condition([1, 2, 3]).type).not.toEqual('object:');
+		expect(condition({"an": "object"}).type).not.toEqual('array:');
+		expect(condition(null).type).not.toEqual('object:');
 	});
 
 });
