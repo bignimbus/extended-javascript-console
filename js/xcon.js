@@ -67,14 +67,13 @@
     // and calls .out() to skin the output in green (success)
     // or red (failure).  Arguments, function name, and any error
     // messages are logged.
-    this.run = function (fn) {
+    this.run = function (fn, args, context) {
         if (typeof fn === 'function') {
-            var args = [], n, result;
-            for (n = 1; n < arguments.length; n++) {
-                args.push(arguments[n]);
-            }
+            context = context || this;
+            args = args || [];
+            var n, result;
             try {
-                result = fn.apply(this, args);
+                result = fn.apply(context, args);
                 this.out(result, {
                     "color": 'darkgreen',
                     "fnName": fn.name || 'anonymous function',
