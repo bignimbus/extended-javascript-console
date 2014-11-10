@@ -32,6 +32,37 @@
         };
     }
 
+    // returns a random color to improve contrast between
+    // adjacent .out logs
+    function colorSelect () {
+        var outColors = [
+            'blue',
+            'darkgray',
+            'black',
+            'darkorange',
+            'chocolate',
+            'brown',
+            'darkmagenta',
+            'darkgoldenrod',
+            'darkslateblue',
+            'dimgray',
+            'indigo',
+            'maroon',
+            'midnightblue',
+            'navy',
+            'purple',
+            'royalblue',
+            'sienna',
+            'saddlebrown',
+            'slateblue',
+            'slategray',
+            'teal',
+            'steelblue'
+        ],
+        random = Math.floor(Math.random() * outColors.length);
+        return outColors[random];
+    }
+
     // skins a console.log message to display the primitive type as well
     // as the expected output of a vanilla .log() command
     // opts: {
@@ -47,17 +78,16 @@
     //     "error": true // indicates a thrown error
     // }
     this.out = function (blob, opts) {
-
         opts = opts || {};
         var props = condition(blob),
             type = props.type,
             text = props.text || '',
-            typeColor = opts.color || 'gray';
+            color = opts.color || colorSelect(),
+            fontWeight = opts.fnName ? "bold" : "normal";
         type = opts.error ? 'error' : type;
         type = opts.fnName ? opts.fnName + '(' +
             opts.fnArgs + ') returns ' + type : type;
-        console.log("%c" + type, "color:" + typeColor + ";font-weight:bold;");
-        console.log("%c" + text, "color:" + opts.color + ";font-weight:bold;");
+        console.log("%c" + type + "\n" + text, "color:" + color + ";font-weight:" + fontWeight);
         if (opts.log) {
             console.log(blob);
         }
