@@ -1,12 +1,23 @@
 {
   "name": "extended-javascript-console",
-  "version": "1.0",
+  "version": "0.1",
   "homepage": "https://github.com/bignimbus/extended-javascript-console",
   "authors": [
     "Jeff Auriemma"
   ],
   "description": "more descriptive JavaScript console methods",
   "main": "dist/edge/xcon-min.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bignimbus/extended-javascript-console.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bignimbus/extended-javascript-console/issues"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "jasmine": "2.0"
+  },
   "moduleType": [
     "amd",
     "globals"
