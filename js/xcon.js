@@ -3,7 +3,7 @@
     "use strict";
 
     // future-proof against vender expansions to browser console
-    if (this.condition || this.out || this.run) {
+    if (this.out || this.run) {
         window.xcon = {};
         return Xcon.call(window.xcon);
     }

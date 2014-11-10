@@ -1,19 +1,18 @@
-describe('console', function () {
-	it('should exist', function () {
-		expect(window.console).toBeDefined();
-	});
+describe('Xcon', function () {
 
-	it('should have method .out()', function () {
-		expect(window.console.out).toBeDefined();
-	});
+	"use strict";
 
-	it('should have method .run()', function () {
-		expect(window.console.run).toBeDefined();
+	it('should namespace .out and .run methods to console or fall back to xcon', function () {
+		var itWorked = (!!window.console.run && !!window.console.out) ||
+						(!!window.xcon.run && !!window.xcon.out);
+		expect(itWorked).toEqual(true);
 	});
 
 });
 
 describe('condition()', function () {
+
+	"use strict";
 
 	// keep this up-to-date with function in source code
 	function condition (text) {
@@ -99,6 +98,8 @@ describe('condition()', function () {
 
 describe('console.out()', function () {
 
+	"use strict";
+
 	it('should log the type and output of a given JS statement in the browser console (open console to check output).', 
 	function () {
 		console.out(2);
@@ -143,6 +144,8 @@ describe('console.out()', function () {
 });
 
 describe('console.run()', function () {
+
+	"use strict";
 
 	var ex;
 
