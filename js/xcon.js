@@ -2,8 +2,10 @@
 
     "use strict";
 
-    if (this !== console) {
-        return false;
+    // future-proof against vender expansions to browser console
+    if (this.condition || this.out || this.run) {
+        window.xcon = {};
+        return Xcon.call(window.xcon);
     }
 
     this.condition = function (text) {
@@ -37,10 +39,10 @@
         type = opts.error ? 'error' : type;
         type = opts.fnName ? opts.fnName + '(' +
             opts.fnArgs.toString() + ') returns ' + type : type;
-        this.log("%c" + type, "color:" + typeColor + ";font-weight:bold;");
-        this.log("%c" + text, "color:" + opts.color + ";font-weight:bold;");
+        console.log("%c" + type, "color:" + typeColor + ";font-weight:bold;");
+        console.log("%c" + text, "color:" + opts.color + ";font-weight:bold;");
         if (opts.console) {
-            this.log(rawText);
+            console.log(rawText);
         }
     };
 
