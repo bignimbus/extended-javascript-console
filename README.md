@@ -128,6 +128,7 @@ function FakeConstructor () {
 	return this;
 }
 fakeObj = console.run(FakeConstructor, [], fakeObj);
+fakeObj.prop === "something"; // true
 ```
 
 in the above example, `fakeObj` will be interpreted as `this` by `FakeConstructor'.
