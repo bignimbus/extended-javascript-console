@@ -156,6 +156,10 @@ describe('console.run()', function () {
 			},
 			"notAFunction": {
 				"not": "function"
+			},
+			"fakeConstructor": function () {
+				this.something = "something";
+				return this;
 			}
 		};
 	});
@@ -183,7 +187,13 @@ describe('console.run()', function () {
 	});
 
 	it('should accept function arguments and run the function with those arguments', function () {
-		expect(console.run(ex.example, 1, 1, 1)).toEqual(3);
+		expect(console.run(ex.example, [1, 1, 1])).toEqual(3);
+	});
+
+	it('should accept a context as the third argument and run the function with that context', function () {
+		var fakeObj = {};
+		fakeObj = console.run(ex.fakeConstructor, [], fakeObj);
+		expect(fakeObj.something).toEqual("something");
 	});
 
 });
