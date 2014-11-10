@@ -88,7 +88,8 @@
         type = opts.error ? 'error' : type;
         type = opts.fnName ? opts.fnName + '(' +
             opts.fnArgs + ') returns ' + type : type;
-        console.log("%c" + type + ":\n" + text, "color:" + color + ";font-weight:" + fontWeight);
+        console.log("%c" + type + ":\n" + text,
+            "color:" + color + ";font-weight:" + fontWeight);
         if (opts.log) {
             console.log(blob);
         }
