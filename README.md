@@ -88,7 +88,7 @@ object:
 var someVar = {"foo": "bar"};
 console.out(someVar, {
 	"color": "rgba(0, 0, 255, 0.8)", // or any valid css color
-    "console": true, // also calls native console.  Useful for objects
+    "log": true, // also calls native console.  Useful for objects
 });
 ```
 <hr>
