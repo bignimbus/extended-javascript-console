@@ -100,28 +100,27 @@
     // or red (failure).  Arguments, function name, and any error
     // messages are logged.
     this.run = function (fn, args, context) {
-        if (typeof fn === 'function') {
-            context = context || this;
-            args = args || [];
-            var n, result;
-            try {
-                result = fn.apply(context, args);
-                this.out(result, {
-                    "color": 'darkgreen',
-                    "fnName": fn.name || 'anonymous function',
-                    "fnArgs": args.toString()
-                });
-                return result;
-            } catch (e) {
-                this.out(e.message, {
-                    "color": 'red',
-                    "fnName": fn.name || 'anonymous function',
-                    "fnArgs": args.toString(),
-                    "error": true
-                });
-            }
-        } else {
+        if (typeof fn !== 'function') {
             this.out(arguments[0], arguments[1]);
+            return arguments[0];
+        }
+        context = context || this;
+        args = args || [];
+        try {
+            var result = fn.apply(context, args);
+            this.out(result, {
+                "color": 'darkgreen',
+                "fnName": fn.name || 'anonymous function',
+                "fnArgs": args.toString()
+            });
+            return result;
+        } catch (e) {
+            this.out(e.message, {
+                "color": 'red',
+                "fnName": fn.name || 'anonymous function',
+                "fnArgs": args.toString(),
+                "error": true
+            });
         }
     };
 
