@@ -181,7 +181,10 @@ console.run(
 It is possible to pass a non-function into `.run()`.  The value of that non-function will be logged as though you were calling `.out()`.  Additionally, that non-function will be returned, enabling the developer to write inline console statements.
 ```js
 var a = console.run('a');
-a === 'a' // true
+a === 'a' // evaluates to true
+// in the console...
+// string:
+// a
 ```
 <hr>
 
