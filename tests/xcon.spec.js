@@ -180,6 +180,11 @@ describe('console.run()', function () {
 		expect(console.out).toHaveBeenCalled();
 	});
 
+	it('should return the value of a non-function input', function () {
+		var a = console.run('a');
+		expect(a).toEqual('a');
+	});
+
 	it('should call console.out() for non-functions as well', function () {
 		spyOn(console, 'out');
 		console.run(ex.notAFunction);
