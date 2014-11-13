@@ -175,6 +175,14 @@ console.run(
 );
 ```
 ![chain undefined](https://lh3.googleusercontent.com/-z142WA2ufrY/VFK9ljNTACI/AAAAAAAAKfg/xygmQPdpO2o/w418-h106-no/Screen%2BShot%2B2014-10-30%2Bat%2B5.36.53%2BPM.png "Chain Debugging")
+
+<hr width="50%">
+####Non-functions####
+It is possible to pass a non-function into `.run()`.  The value of that non-function will be logged as though you were calling `.out()`.  Additionally, that non-function will be returned, enabling the developer to write inline console statements.
+```js
+var a = console.run('a');
+a === 'a' // true
+```
 <hr>
 
 ###Namespace###
