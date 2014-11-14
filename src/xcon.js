@@ -106,22 +106,37 @@
         }
         context = context || this;
         args = args || [];
-        try {
-            var result = fn.apply(context, args);
-            this.out(result, {
-                "color": 'darkgreen',
+        var result,
+            opts = {
                 "fnName": fn.name || 'anonymous function',
                 "fnArgs": args.toString()
-            });
+            };
+        try {
+            result = fn.apply(context, args);
+            opts.color = 'darkgreen';
+            this.out(result, opts);
             return result;
         } catch (e) {
-            this.out(e.message, {
-                "color": 'red',
-                "fnName": fn.name || 'anonymous function',
-                "fnArgs": args.toString(),
-                "error": true
-            });
+            opts.color = 'red';
+            opts.error = true;
+            this.out(e.message, opts);
         }
+    };
+
+    this.compare = function (oneThing, theOther) {
+        var compare = {
+            "things": [oneThing, theOther]
+        };
+        compare.expect = function (expectation) {
+            var args = [];
+            if (this.oneThing) {
+                args.push(oneThing);
+            }
+            if (this.theOther) {
+                args.push(theOther);
+            }
+        }
+        return compare;
     };
 
     return this;
