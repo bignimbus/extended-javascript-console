@@ -13,7 +13,7 @@ module.exports = function (grunt) {
                     'findNestedDependencies': true,
                     'baseUrl': 'src',
                     'optimize': 'none',
-                    'mainConfigFile': 'src/config/config.js',
+                    'mainConfigFile': 'config/config.js',
                     'include': ['main.js'],
                     'out': 'build/xcon.js',
                     'onModuleBundleComplete': function (data) {
