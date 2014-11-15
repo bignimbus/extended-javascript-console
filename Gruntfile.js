@@ -11,7 +11,7 @@ module.exports = function (grunt) {
             "js": {
                 "options": {
                     'findNestedDependencies': true,
-                    'baseUrl': 'src/js',
+                    'baseUrl': 'src',
                     'optimize': 'none',
                     'mainConfigFile': 'src/config/config.js',
                     'include': ['main.js'],
