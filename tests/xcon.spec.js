@@ -1,6 +1,5 @@
 define(['main'],
 function () {
-	debugger;
 	"use strict";
 	describe('Xcon', function () {
 
