@@ -1,9 +1,35 @@
 ;(function() {
+// takes a raw input and determines its
+// primitive type.  Outputs all input as a string.
+var condition, color_select, format, mainjs;
+condition = function () {
+  
+  function condition(blob) {
+    var type = typeof blob;
+    switch (type) {
+    case 'number' || 'boolean' || 'function':
+      blob = blob.toString();
+      break;
+    case 'object':
+      type = blob instanceof Array ? 'array' : 'object';
+      type = blob !== null ? type : 'null';
+      blob = JSON.stringify(blob);
+      break;
+    case 'undefined':
+      blob = 'undefined';
+      break;
+    }
+    return {
+      'type': type,
+      'text': blob
+    };
+  }
+  return condition;
+}();
 // returns a random color to improve contrast between
 // adjacent .out logs.  Colors should be non-red and
 // non-green to differentiate between .run() and .out()
 // logs.
-var color_select, condition, mainjs;
 color_select = function () {
   var outColors = [
       'blue',
@@ -31,33 +57,25 @@ color_select = function () {
     ], random = Math.floor(Math.random() * outColors.length);
   return outColors[random];
 };
-// takes a raw input and determines its
-// primitive type.  Outputs all input as a string.
-condition = function () {
+// formats a log message with options
+// to be passed to the .out method
+format = function (condition, colorSelect) {
   
-  function condition(blob) {
-    var type = typeof blob;
-    switch (type) {
-    case 'number' || 'boolean' || 'function':
-      blob = blob.toString();
-      break;
-    case 'object':
-      type = blob instanceof Array ? 'array' : 'object';
-      type = blob !== null ? type : 'null';
-      blob = JSON.stringify(blob);
-      break;
-    case 'undefined':
-      blob = 'undefined';
-      break;
-    }
-    return {
-      'type': type,
-      'text': blob
-    };
+  function format(blob, opts) {
+    opts = opts || {};
+    var logMessage, logParams, props = condition(blob), type = props.type, text = props.text || '', color = opts.color || colorSelect(), fontWeight = opts.fnName ? 'bold' : 'normal';
+    type = opts.error ? 'error' : type;
+    type = opts.fnName ? opts.fnName + '(' + opts.fnArgs + ') returns ' + type : type;
+    logMessage = '%c' + type + ':\n' + text;
+    logParams = 'color:' + color + ';font-weight:' + fontWeight;
+    return [
+      logMessage,
+      logParams
+    ];
   }
-  return condition;
-}();
-mainjs = function (colorSelect, condition) {
+  return format;
+}(condition, color_select);
+mainjs = function (format) {
   
   function Xcon() {
     // skins a console.log message to display the primitive type as well
@@ -76,10 +94,8 @@ mainjs = function (colorSelect, condition) {
     // }
     this.out = function (blob, opts) {
       opts = opts || {};
-      var props = condition(blob), type = props.type, text = props.text || '', color = opts.color || colorSelect(), fontWeight = opts.fnName ? 'bold' : 'normal';
-      type = opts.error ? 'error' : type;
-      type = opts.fnName ? opts.fnName + '(' + opts.fnArgs + ') returns ' + type : type;
-      console.log('%c' + type + ':\n' + text, 'color:' + color + ';font-weight:' + fontWeight);
+      var logPart = format(blob, opts);
+      console.log(logPart[0], logPart[1]);
       if (opts.log) {
         console.log(blob);
       }
@@ -113,5 +129,5 @@ mainjs = function (colorSelect, condition) {
     return this;
   }
   return Xcon.call(window.console);
-}(color_select, condition);
+}(format);
 }());
