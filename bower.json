@@ -16,7 +16,6 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "jasmine": "2.0.2",
     "requirejs": "2.1.15",
     "amdclean": "2.3.0"
   },
@@ -40,6 +39,7 @@
     "Gruntfile.js",
     "test-environment.html",
     "src",
-    "build"
+    "build",
+    "package.json"
   ]
 }
