@@ -1,5 +1,5 @@
-define(['color-select', 'condition'],
-function (colorSelect, condition) {
+define(['format'],
+function (format) {
     "use strict";
     function Xcon () {
 
@@ -19,16 +19,8 @@ function (colorSelect, condition) {
         // }
         this.out = function (blob, opts) {
             opts = opts || {};
-            var props = condition(blob),
-                type = props.type,
-                text = props.text || '',
-                color = opts.color || colorSelect(),
-                fontWeight = opts.fnName ? "bold" : "normal";
-            type = opts.error ? 'error' : type;
-            type = opts.fnName ? opts.fnName + '(' +
-                opts.fnArgs + ') returns ' + type : type;
-            console.log("%c" + type + ":\n" + text,
-                "color:" + color + ";font-weight:" + fontWeight);
+            var logPart = format(blob, opts);
+            console.log(logPart[0], logPart[1]);
             if (opts.log) {
                 console.log(blob);
             }
