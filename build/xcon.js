@@ -31,32 +31,42 @@ condition = function () {
 // non-green to differentiate between .run() and .out()
 // logs.
 color_select = function () {
-  var outColors = [
-      'blue',
-      'darkgray',
-      'black',
-      'darkorange',
-      'chocolate',
-      'brown',
-      'darkmagenta',
-      'darkgoldenrod',
-      'darkslateblue',
-      'dimgray',
-      'indigo',
-      'maroon',
-      'midnightblue',
-      'navy',
-      'purple',
-      'royalblue',
-      'sienna',
-      'saddlebrown',
-      'slateblue',
-      'slategray',
-      'teal',
-      'steelblue'
-    ], random = Math.floor(Math.random() * outColors.length);
-  return outColors[random];
-};
+  
+  function colorSelect() {
+    var outColors = [
+        'blue',
+        'darkgray',
+        'black',
+        'darkorange',
+        'chocolate',
+        'brown',
+        'darkmagenta',
+        'darkgoldenrod',
+        'darkslateblue',
+        'dimgray',
+        'indigo',
+        'maroon',
+        'midnightblue',
+        'navy',
+        'purple',
+        'royalblue',
+        'sienna',
+        'saddlebrown',
+        'slateblue',
+        'slategray',
+        'teal',
+        'steelblue'
+      ], random = Math.floor(Math.random() * outColors.length), color = outColors[random];
+    if (color === colorSelect.last) {
+      colorSelect();
+    } else {
+      colorSelect.last = color;
+      return color;
+    }
+  }
+  colorSelect.last = null;
+  return colorSelect;
+}();
 // formats a log message with options
 // to be passed to the .out method
 format = function (condition, colorSelect) {
@@ -82,7 +92,7 @@ mainjs = function (format) {
     // as the expected output of a vanilla .log() command
     // opts: {
     //     "color": "#f9f9f9", // specify a css color
-    //     "log": true //
+    //     "log": true // also calls native console.log, which is useful for large objects and arrays
     // }
     // sometimes this function is called from console.run() to output
     // function return values.  In that case,
@@ -92,7 +102,7 @@ mainjs = function (format) {
     //     "fnArgs": "all passed arguments",
     //     "error": true // indicates a thrown error
     // }
-    this.out = function (blob, opts) {
+    this.out = this.out || function (blob, opts) {
       opts = opts || {};
       var logPart = format(blob, opts);
       console.log(logPart[0], logPart[1]);
@@ -104,7 +114,7 @@ mainjs = function (format) {
     // and calls .out() to skin the output in green (success)
     // or red (failure).  Arguments, function name, and any error
     // messages are logged.
-    this.run = function (fn, args, context) {
+    this.run = this.run || function (fn, args, context) {
       if (typeof fn !== 'function') {
         this.out(arguments[0], arguments[1]);
         return arguments[0];
