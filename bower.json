@@ -38,6 +38,8 @@
     "test",
     "tests",
     "Gruntfile.js",
-    "test-environment.html"
+    "test-environment.html",
+    "src",
+    "build"
   ]
 }
