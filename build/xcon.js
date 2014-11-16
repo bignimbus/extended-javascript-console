@@ -1,7 +1,7 @@
 ;(function() {
 // takes a raw input and determines its
 // primitive type.  Outputs all input as a string.
-var condition, color_select, format, mainjs;
+var condition, color_select, format, expectation, mainjs;
 condition = function () {
   
   function condition(blob) {
@@ -85,7 +85,20 @@ format = function (condition, colorSelect) {
   }
   return format;
 }(condition, color_select);
-mainjs = function (format) {
+expectation = function () {
+  
+  function Expectation(thing) {
+    this.toEqual = function (otherThing) {
+      if (thing === otherThing) {
+        return true;
+      }
+      return false;
+    };
+    return this;
+  }
+  return Expectation;
+}();
+mainjs = function (format, Expectation) {
   
   function Xcon() {
     // skins a console.log message to display the primitive type as well
@@ -136,8 +149,11 @@ mainjs = function (format) {
         this.out(e.message, opts);
       }
     };
+    this.expect = this.expect || function (thing) {
+      return new Expectation(thing);
+    };
     return this;
   }
   return Xcon.call(window.console);
-}(format);
+}(format, expectation);
 }());

@@ -1,5 +1,5 @@
-define(['format'],
-function (format) {
+define(['format', 'expectation'],
+function (format, Expectation) {
     "use strict";
     function Xcon () {
 
@@ -53,7 +53,13 @@ function (format) {
                 this.out(e.message, opts);
             }
         };
+
+        this.expect = this.expect || function (thing) {
+            return new Expectation(thing);
+        };
+
         return this;
+
     }
 
     return Xcon.call(window.console);
