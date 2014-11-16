@@ -198,4 +198,4 @@ Jasmine unit tests are in the `tests` directory.
 <hr>
 
 ###Contribute###
-Xcon source and test files use AMD modules via require.js.  <a href="http://gruntjs.com/">Grunt</a>, <a href="https://github.com/gfranko/amdclean">AMDclean</a>, and <a href="https://github.com/gruntjs/grunt-contrib-uglify">uglify</a> are used to create production builds that do not need AMD.
+Xcon source and test files use AMD modules via <a href="http://requirejs.org/">require.js</a>.  <a href="http://gruntjs.com/">Grunt</a>, <a href="https://github.com/gfranko/amdclean">AMDclean</a>, and <a href="https://github.com/gruntjs/grunt-contrib-uglify">uglify</a> are used to create production builds that do not need AMD.
