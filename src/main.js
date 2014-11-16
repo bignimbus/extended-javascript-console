@@ -7,7 +7,7 @@ function (format) {
         // as the expected output of a vanilla .log() command
         // opts: {
         //     "color": "#f9f9f9", // specify a css color
-        //     "log": true //
+        //     "log": true // also calls native console.log, which is useful for large objects and arrays
         // }
         // sometimes this function is called from console.run() to output
         // function return values.  In that case,
