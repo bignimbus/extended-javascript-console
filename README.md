@@ -189,11 +189,7 @@ a === 'a' // evaluates to true
 <hr>
 
 ###Namespace###
-To make sure that xcon.js remains functional in case a vendor suddenly adds a native method that matches one of the xcon method names, there is a built-in fallback to the "xcon" namespace for all methods.
-
-`xcon.out()` and `xcon.run()` will function exactly the same as `console.out()` and `console.run()`.
-
-If you wish to namespace all the xcon functions by default, simply modify the context being passed in the last line of the source code to the object you wish to attach these methods to.
+To ensure that xcon.js will never break native console methods, there are fallbacks in the code.  If Mozilla, Webkit, Microsoft, etc. were to implement .run or .out tomorrow, xcon will not overwrite those methods.
 <hr>
 
 ###Tests###
