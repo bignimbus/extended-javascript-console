@@ -5,7 +5,7 @@
 
 define([], function () {
 	"use strict";
-	return function () {
+	function colorSelect () {
 		var outColors = [
 			'blue',
 			'darkgray',
@@ -30,7 +30,15 @@ define([], function () {
 			'teal',
 			'steelblue'
 		],
-		random = Math.floor(Math.random() * outColors.length);
-		return outColors[random];
-	};
+		random = Math.floor(Math.random() * outColors.length),
+		color = outColors[random];
+		if (color === colorSelect.last) {
+			colorSelect();
+		} else {
+			colorSelect.last = color;
+			return color;
+		}
+	}
+	colorSelect.last = null;
+	return colorSelect;
 });
