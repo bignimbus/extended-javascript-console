@@ -17,7 +17,7 @@ function (format) {
         //     "fnArgs": "all passed arguments",
         //     "error": true // indicates a thrown error
         // }
-        this.out = function (blob, opts) {
+        this.out = this.out || function (blob, opts) {
             opts = opts || {};
             var logPart = format(blob, opts);
             console.log(logPart[0], logPart[1]);
@@ -30,7 +30,7 @@ function (format) {
         // and calls .out() to skin the output in green (success)
         // or red (failure).  Arguments, function name, and any error
         // messages are logged.
-        this.run = function (fn, args, context) {
+        this.run = this.run || function (fn, args, context) {
             if (typeof fn !== 'function') {
                 this.out(arguments[0], arguments[1]);
                 return arguments[0];
