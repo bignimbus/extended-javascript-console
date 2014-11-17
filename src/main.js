@@ -20,9 +20,9 @@ function (format, Expectation) {
         this.out = this.out || function (blob, opts) {
             opts = opts || {};
             var logPart = format(blob, opts);
-            console.log(logPart[0], logPart[1]);
+            this.log(logPart[0], logPart[1]);
             if (opts.log) {
-                console.log(blob);
+                this.log(blob);
             }
         };
 
@@ -55,7 +55,9 @@ function (format, Expectation) {
         };
 
         this.expect = this.expect || function (thing) {
-            return new Expectation(thing);
+            var expect = new Expectation(thing);
+            expect.not = new Expectation(thing, {"not": true});
+            return expect;
         };
 
         return this;
