@@ -1,16 +1,31 @@
 ;(function() {
+var get_type, condition, color_select, format, is_equal, expectation, mainjs;
+get_type = function () {
+  
+  function getType(blob) {
+    var type = typeof blob;
+    if (blob === void 0) {
+      type = 'undefined';
+    }
+    if (type === 'object') {
+      type = blob instanceof Array ? 'array' : 'object';
+      type = blob !== null ? type : 'null';
+    }
+    return type;
+  }
+  return getType;
+}();
 // takes a raw input and determines its
 // primitive type.  Outputs all input as a string.
-var condition, color_select, format, expectation, mainjs;
-condition = function () {
+condition = function (getType) {
   
   function condition(blob) {
-    var type = typeof blob;
+    var type = getType(blob);
     switch (type) {
     case 'number' || 'boolean' || 'function':
       blob = blob.toString();
       break;
-    case 'object':
+    case 'object' || 'array' || 'null':
       type = blob instanceof Array ? 'array' : 'object';
       type = blob !== null ? type : 'null';
       blob = JSON.stringify(blob);
@@ -25,7 +40,7 @@ condition = function () {
     };
   }
   return condition;
-}();
+}(get_type);
 // returns a random color to improve contrast between
 // adjacent .out logs.  Colors should be non-red and
 // non-green to differentiate between .run() and .out()
@@ -85,19 +100,66 @@ format = function (condition, colorSelect) {
   }
   return format;
 }(condition, color_select);
-expectation = function () {
+// based on a solution by Ebrahim Byagowi.  Original code can be found at:
+// http://stackoverflow.com/questions/201183/how-to-determine-equality-for-two-javascript-objects/16788517#16788517
+is_equal = function () {
   
-  function Expectation(thing) {
-    this.toEqual = function (otherThing) {
-      if (thing === otherThing) {
-        return true;
+  function isEqual(thing, otherThing) {
+    if (thing instanceof Function) {
+      if (otherThing instanceof Function) {
+        return thing.toString() === otherThing.toString();
       }
       return false;
+    }
+    if (thing === null || thing === void 0 || otherThing === null || otherThing === void 0) {
+      return thing === otherThing;
+    }
+    if (thing === otherThing || thing.valueOf() === otherThing.valueOf()) {
+      return true;
+    }
+    // if one of them is date, they must had equal valueOf
+    if (thing instanceof Date || otherThing instanceof Date) {
+      return false;
+    }
+    // if they are not function or strictly equal, they both need to be Objects
+    if (!(thing instanceof Object) || !(otherThing instanceof Object)) {
+      return false;
+    }
+    var thingKeys = Object.keys(thing), otherKeys = Object.keys(otherThing), equal = otherKeys.every(function (key) {
+        return thingKeys.indexOf(key) !== -1;
+      }) && thingKeys.every(function (key) {
+        return isEqual(thing[key], otherThing[key]);
+      });
+    return equal;
+  }
+  return isEqual;
+}();
+expectation = function (isEqual) {
+  
+  function Expectation(thing, opts) {
+    opts = opts || {};
+    var not = opts.not || false;
+    this.toEqual = function (otherThing) {
+      var result = isEqual(thing, otherThing);
+      result = not ? !result : result;
+      return result;
+    };
+    this.toBeTruthy = function () {
+      var result = not ? !thing : !!thing;
+      return result;
+    };
+    this.toBeFalsy = function () {
+      var result = not ? !!thing : !thing;
+      return result;
+    };
+    this.toBeDefined = function () {
+      var result = not ? thing === void 0 : thing !== void 0;
+      return result;
     };
     return this;
   }
   return Expectation;
-}();
+}(is_equal);
 mainjs = function (format, Expectation) {
   
   function Xcon() {
@@ -118,9 +180,9 @@ mainjs = function (format, Expectation) {
     this.out = this.out || function (blob, opts) {
       opts = opts || {};
       var logPart = format(blob, opts);
-      console.log(logPart[0], logPart[1]);
+      this.log(logPart[0], logPart[1]);
       if (opts.log) {
-        console.log(blob);
+        this.log(blob);
       }
     };
     // given a function, calls that function, returns the output,
@@ -150,7 +212,9 @@ mainjs = function (format, Expectation) {
       }
     };
     this.expect = this.expect || function (thing) {
-      return new Expectation(thing);
+      var expect = new Expectation(thing);
+      expect.not = new Expectation(thing, { 'not': true });
+      return expect;
     };
     return this;
   }
