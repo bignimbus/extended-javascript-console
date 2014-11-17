@@ -1,4 +1,5 @@
 define(['condition'], function(condition) {
+	"use strict";
 	describe('condition', function () {
 
 		it('should return .text and .type', function () {
@@ -8,7 +9,7 @@ define(['condition'], function(condition) {
 		});
 
 		it('should stringify objects, arrays, and null values', function () {
-			var obj = condition({"hello":"goodbye"}).text,
+			var obj = condition({"hello": "goodbye"}).text,
 				arr = condition([1, 2, 3]).text,
 				nl = condition(null).text;
 			expect(obj).toEqual('{"hello":"goodbye"}');

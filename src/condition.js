@@ -6,12 +6,14 @@ function (getType) {
     function condition (blob) {
         var type = getType(blob);
         switch (type) {
-            case 'number' || 'boolean' || 'function':
+            case 'number':
+            case 'boolean':
+            case 'function':
                 blob = blob.toString();
                 break;
-            case 'object' || 'array' || 'null':
-                type = blob instanceof Array ? 'array' : 'object';
-                type = blob !== null ? type : 'null';
+            case 'object':
+            case 'array':
+            case 'null':
                 blob = JSON.stringify(blob);
                 break;
             case 'undefined':
