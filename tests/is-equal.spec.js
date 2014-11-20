@@ -52,6 +52,10 @@ function (isEqual) {
 			})).toEqual(false);
 		});
 
+		it('should return true when given two identical functions', function () {
+			expect(isEqual(fn, function () {return "function";})).toEqual(true);
+		});
+
 		it('should return true when given two identical falsy values', function () {
 			expect(isEqual(false, false)).toEqual(true);
 			expect(isEqual(null, null)).toEqual(true);

@@ -6,7 +6,11 @@ define([], function () {
     function isEqual (thing, otherThing) {
         if (thing instanceof Function) {
             if (otherThing instanceof Function) {
-                return thing.toString() === otherThing.toString();
+                thing = thing.toString();
+                otherThing = otherThing.toString();
+                thing = thing.replace(/\s/gm, '');
+                otherThing = otherThing.replace(/\s/gm, '');
+                return thing.toString().replace(/\n\s/, '') === otherThing.toString().replace(/\n\s/, '');
             }
             return false;
         }
