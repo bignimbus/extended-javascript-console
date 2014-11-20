@@ -4,6 +4,10 @@ function (isEqual) {
 	function Expectation (thing, opts) {
 		opts = opts || {};
 		var not = opts.not || false;
+		// TODO create some way to memoize test data
+		// so that we can return messages instead of
+		// booleans
+		this.message = "";
 		this.toEqual = function (otherThing) {
 			var result = isEqual(thing, otherThing);
 			result = not ? !result : result;

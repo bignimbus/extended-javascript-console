@@ -10,7 +10,7 @@ define([], function () {
                 otherThing = otherThing.toString();
                 thing = thing.replace(/\s/gm, '');
                 otherThing = otherThing.replace(/\s/gm, '');
-                return thing.toString().replace(/\n\s/, '') === otherThing.toString().replace(/\n\s/, '');
+                return thing === otherThing;
             }
             return false;
         }
