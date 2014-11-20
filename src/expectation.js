@@ -1,5 +1,5 @@
-define(['is-equal', 'get-type'],
-function (isEqual, getType) {
+define(['is-equal', 'get-type', 'condition'],
+function (isEqual, getType, condition) {
 	"use strict";
 	function Expectation (context, thing, opts) {
 		opts = opts || {};
@@ -9,7 +9,7 @@ function (isEqual, getType) {
 		function message () {
 			var n,
 				text = [passed ? "PASSED: " : "FAILED: ",
-						"expected ", getType(thing), ' ', thing, ' '];
+						"expected ", getType(thing), ' ', condition(thing).text, ' '];
 			for (n = 0; n < arguments.length; n++) {
 				text.push(arguments[n]);
 			}
@@ -23,7 +23,7 @@ function (isEqual, getType) {
 		this.toEqual = function (otherThing) {
 			var result = isEqual(thing, otherThing);
 			passed = not ? !result : result;
-			message('to equal ', getType(otherThing), ' ', otherThing);
+			message('to equal ', getType(otherThing), ' ', condition(otherThing).text);
 		};
 		this.toBeTruthy = function () {
 			passed = not ? !thing : !!thing;
