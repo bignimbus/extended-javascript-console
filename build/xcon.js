@@ -146,7 +146,7 @@ is_equal = function () {
   }
   return isEqual;
 }();
-expectation = function (isEqual, getType) {
+expectation = function (isEqual, getType, condition) {
   
   function Expectation(context, thing, opts) {
     opts = opts || {};
@@ -157,7 +157,7 @@ expectation = function (isEqual, getType) {
           'expected ',
           getType(thing),
           ' ',
-          thing,
+          condition(thing).text,
           ' '
         ];
       for (n = 0; n < arguments.length; n++) {
@@ -172,7 +172,7 @@ expectation = function (isEqual, getType) {
     this.toEqual = function (otherThing) {
       var result = isEqual(thing, otherThing);
       passed = not ? !result : result;
-      message('to equal ', getType(otherThing), ' ', otherThing);
+      message('to equal ', getType(otherThing), ' ', condition(otherThing).text);
     };
     this.toBeTruthy = function () {
       passed = not ? !thing : !!thing;
@@ -190,7 +190,7 @@ expectation = function (isEqual, getType) {
     return this;
   }
   return Expectation;
-}(is_equal, get_type);
+}(is_equal, get_type, condition);
 mainjs = function (format, Expectation) {
   
   function Xcon() {
