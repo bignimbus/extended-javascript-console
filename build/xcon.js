@@ -109,7 +109,11 @@ is_equal = function () {
   function isEqual(thing, otherThing) {
     if (thing instanceof Function) {
       if (otherThing instanceof Function) {
-        return thing.toString() === otherThing.toString();
+        thing = thing.toString();
+        otherThing = otherThing.toString();
+        thing = thing.replace(/\s/gm, '');
+        otherThing = otherThing.replace(/\s/gm, '');
+        return thing.toString().replace(/\n\s/, '') === otherThing.toString().replace(/\n\s/, '');
       }
       return false;
     }
@@ -141,6 +145,9 @@ expectation = function (isEqual) {
   function Expectation(thing, opts) {
     opts = opts || {};
     var not = opts.not || false;
+    // TODO create some way to memoize test data
+    // so that we can return messages instead of
+    // booleans
     this.message = '';
     this.toEqual = function (otherThing) {
       var result = isEqual(thing, otherThing);
