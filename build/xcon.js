@@ -90,11 +90,17 @@ format = function (condition, colorSelect) {
   
   function format(blob, opts) {
     opts = opts || {};
-    var logMessage, logParams, props = condition(blob), type = props.type, text = props.text || '', color = opts.color || colorSelect(), fontWeight = opts.fnName ? 'bold' : 'normal';
-    type = opts.error ? 'error' : type;
-    type = opts.fnName ? opts.fnName + '(' + opts.fnArgs + ') returns ' + type : type;
-    logMessage = '%c' + type + ':\n' + text;
-    logParams = 'color:' + color + ';font-weight:' + fontWeight;
+    var logMessage, logParams, props, type, text = blob, color = opts.color || colorSelect(), bg = opts.background || '#fff', fontWeight = opts.fnName ? 'bold' : 'normal';
+    if (!opts.test) {
+      props = condition(blob);
+      type = props.type + ':\n';
+      text = props.text || '';
+      type = opts.error ? 'error' : type;
+      type = opts.fnName ? opts.fnName + '(' + opts.fnArgs + ') returns ' + type : type;
+    }
+    type = type || '';
+    logMessage = '%c' + type + text;
+    logParams = 'color:' + color + ';background:' + bg + ';font-weight:' + fontWeight;
     return [
       logMessage,
       logParams
@@ -140,36 +146,51 @@ is_equal = function () {
   }
   return isEqual;
 }();
-expectation = function (isEqual) {
+expectation = function (isEqual, getType) {
   
-  function Expectation(thing, opts) {
+  function Expectation(context, thing, opts) {
     opts = opts || {};
-    var not = opts.not || false;
-    // TODO create some way to memoize test data
-    // so that we can return messages instead of
-    // booleans
-    this.message = '';
+    var not = opts.not || false, passed = null;
+    function message() {
+      var n, text = [
+          passed ? 'PASSED: ' : 'FAILED: ',
+          'expected ',
+          getType(thing),
+          ' ',
+          thing,
+          ' '
+        ];
+      for (n = 0; n < arguments.length; n++) {
+        text.push(arguments[n]);
+      }
+      context.out(text.join(''), {
+        'color': '#000',
+        'background': passed ? 'rgba(44, 226, 44, 0.4)' : 'rgba(226, 44, 44, 0.4)',
+        'test': true
+      });
+    }
     this.toEqual = function (otherThing) {
       var result = isEqual(thing, otherThing);
-      result = not ? !result : result;
-      return result;
+      passed = not ? !result : result;
+      message('to equal ', getType(otherThing), ' ', otherThing);
     };
     this.toBeTruthy = function () {
-      var result = not ? !thing : !!thing;
-      return result;
+      passed = not ? !thing : !!thing;
+      message('to be truthy');
     };
     this.toBeFalsy = function () {
-      var result = not ? !!thing : !thing;
-      return result;
+      passed = not ? !!thing : !thing;
+      message('to be falsy');
     };
     this.toBeDefined = function () {
-      var result = not ? thing === void 0 : thing !== void 0;
-      return result;
+      passed = not ? thing === void 0 : thing !== void 0;
+      message('to be defined');
     };
+    this.messages = {};
     return this;
   }
   return Expectation;
-}(is_equal);
+}(is_equal, get_type);
 mainjs = function (format, Expectation) {
   
   function Xcon() {
@@ -177,6 +198,7 @@ mainjs = function (format, Expectation) {
     // as the expected output of a vanilla .log() command
     // opts: {
     //     "color": "#f9f9f9", // specify a css color
+    //     "background": "rgb(0, 0, 0)", // specify a css color
     //     "log": true // also calls native console.log, which is useful for large objects and arrays
     // }
     // sometimes this function is called from console.run() to output
@@ -222,8 +244,8 @@ mainjs = function (format, Expectation) {
       }
     };
     this.expect = this.expect || function (thing) {
-      var expect = new Expectation(thing);
-      expect.not = new Expectation(thing, { 'not': true });
+      var expect = new Expectation(this, thing);
+      expect.not = new Expectation(this, thing, { 'not': true });
       return expect;
     };
     return this;
