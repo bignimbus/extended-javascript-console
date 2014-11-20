@@ -7,6 +7,7 @@ function (format, Expectation) {
         // as the expected output of a vanilla .log() command
         // opts: {
         //     "color": "#f9f9f9", // specify a css color
+        //     "background": "rgb(0, 0, 0)", // specify a css color
         //     "log": true // also calls native console.log, which is useful for large objects and arrays
         // }
         // sometimes this function is called from console.run() to output
@@ -55,8 +56,8 @@ function (format, Expectation) {
         };
 
         this.expect = this.expect || function (thing) {
-            var expect = new Expectation(thing);
-            expect.not = new Expectation(thing, {"not": true});
+            var expect = new Expectation(this, thing);
+            expect.not = new Expectation(this, thing, {"not": true});
             return expect;
         };
 
