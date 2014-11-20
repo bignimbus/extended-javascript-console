@@ -18,7 +18,7 @@ function (condition, colorSelect) {
             props = condition(blob);
             type = props.type + ':\n';
             text = props.text || '';
-            type = opts.error ? 'error' : type;
+            type = opts.error ? 'error:\n' : type;
             type = opts.fnName ? opts.fnName + '(' +
                 opts.fnArgs + ') returns ' + type : type;
         }
