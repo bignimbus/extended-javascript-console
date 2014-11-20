@@ -10,7 +10,7 @@ function (format) {
         function () {
             expect(format(blob, opts)).toEqual([
                 "%cstring:\nit puts the lotion on the skin",
-                "color:#000000;font-weight:normal"
+                "color:#000000;background:#fff;font-weight:normal"
             ]);
         });
 
