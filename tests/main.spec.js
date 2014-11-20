@@ -3,8 +3,10 @@ function () {
 	"use strict";
 	describe('Xcon', function () {
 
-		it('should add .out and .run methods to console', function () {
-			var itWorked = !!window.console.run && !!window.console.out;
+		it('should add .expect, .out and .run methods to console', function () {
+			var itWorked = !!window.console.expect
+				&& !!window.console.run
+				&& !!window.console.out;
 			expect(itWorked).toEqual(true);
 		});
 
@@ -111,5 +113,41 @@ function () {
 			expect(fakeObj.something).toEqual("something");
 		});
 
+	});
+
+	describe('console.expect', function () {
+
+		var a = "a",
+			b = "b",
+			pass = "PASSED: expected string a to equal string a",
+			fail = "FAILED: expected string a to equal string b",
+			notfail = "PASSED: expected string a not to equal string b",
+			pOpts = {
+				"color": "#000",
+				"background": 'rgba(44, 226, 44, 0.4)',
+				"test": true
+			},
+			fOpts = {
+				"color": "#000",
+				"background": 'rgba(226, 44, 44, 0.4)',
+				"test": true
+			};
+		it('should console.out a PASSED message for true expectations', function () {
+			spyOn(window.console, "out");
+			window.console.expect(a).toEqual(a);
+			expect(window.console.out).toHaveBeenCalledWith(pass, pOpts);
+		});
+
+		it('should console.out a FAILED message for false expectation', function () {
+			spyOn(window.console, "out");
+			window.console.expect(a).toEqual(b);
+			expect(window.console.out).toHaveBeenCalledWith(fail, fOpts);
+		});
+
+		it('should return the opposite boolean if the .not modifier is used', function () {
+			spyOn(window.console, "out");
+			window.console.expect(a).not.toEqual(b);
+			expect(window.console.out).toHaveBeenCalledWith(notfail, pOpts);
+		});
 	});
 });

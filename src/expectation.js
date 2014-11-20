@@ -23,7 +23,7 @@ function (isEqual, getType, condition) {
 		this.toEqual = function (otherThing) {
 			var result = isEqual(thing, otherThing);
 			passed = not ? !result : result;
-			message('to equal ', getType(otherThing), ' ', condition(otherThing).text);
+			message(not ? "not " : "", 'to equal ', getType(otherThing), ' ', condition(otherThing).text);
 		};
 		this.toBeTruthy = function () {
 			passed = not ? !thing : !!thing;
