@@ -110,7 +110,7 @@ format = function (condition, colorSelect) {
 }(condition, color_select);
 // based on a solution by Ebrahim Byagowi.  Original code can be found at:
 // http://stackoverflow.com/questions/201183/how-to-determine-equality-for-two-javascript-objects/16788517#16788517
-is_equal = function () {
+is_equal = function (getType) {
   
   function isEqual(thing, otherThing) {
     if (thing instanceof Function) {
@@ -137,6 +137,10 @@ is_equal = function () {
     if (!(thing instanceof Object) || !(otherThing instanceof Object)) {
       return false;
     }
+    // arrays and objects can be considered equal in JavaScript.  We don't want that.
+    if (getType(thing) !== getType(otherThing)) {
+      return false;
+    }
     var thingKeys = Object.keys(thing), otherKeys = Object.keys(otherThing), equal = otherKeys.every(function (key) {
         return thingKeys.indexOf(key) !== -1;
       }) && thingKeys.every(function (key) {
@@ -145,7 +149,7 @@ is_equal = function () {
     return equal;
   }
   return isEqual;
-}();
+}(get_type);
 expectation = function (isEqual, getType, condition) {
   
   function Expectation(context, thing, opts) {
@@ -241,6 +245,11 @@ mainjs = function (format, Expectation) {
         this.out(e.message, opts);
       }
     };
+    // borrows heavily from jasmine.js syntax
+    // console.expect instantiates an expectation object
+    // with methods to test equality, truthiness,
+    // falsiness, and whether or not data is defined.
+    // Adding .not works the same way as jasmine.
     this.expect = this.expect || function (thing) {
       var expect = new Expectation(this, thing);
       expect.not = new Expectation(this, thing, { 'not': true });

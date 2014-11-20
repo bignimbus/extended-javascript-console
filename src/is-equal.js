@@ -1,7 +1,8 @@
 // based on a solution by Ebrahim Byagowi.  Original code can be found at:
 // http://stackoverflow.com/questions/201183/how-to-determine-equality-for-two-javascript-objects/16788517#16788517
 
-define([], function () {
+define(['get-type'],
+function (getType) {
     "use strict";
     function isEqual (thing, otherThing) {
         if (thing instanceof Function) {
@@ -28,6 +29,11 @@ define([], function () {
 
         // if they are not function or strictly equal, they both need to be Objects
         if (!(thing instanceof Object) || !(otherThing instanceof Object)) {
+            return false;
+        }
+
+        // arrays and objects can be considered equal in JavaScript.  We don't want that.
+        if (getType(thing) !== getType(otherThing)) {
             return false;
         }
 

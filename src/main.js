@@ -55,6 +55,11 @@ function (format, Expectation) {
             }
         };
 
+        // borrows heavily from jasmine.js syntax
+        // console.expect instantiates an expectation object
+        // with methods to test equality, truthiness,
+        // falsiness, and whether or not data is defined.
+        // Adding .not works the same way as jasmine.
         this.expect = this.expect || function (thing) {
             var expect = new Expectation(this, thing);
             expect.not = new Expectation(this, thing, {"not": true});
