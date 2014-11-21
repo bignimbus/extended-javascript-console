@@ -14,6 +14,7 @@
 	<li><a href="#namespace">Namespace</a></li>
 	<li><a href="#tests">Tests</a></li>
 	<li><a href="#contribute">Contribute</a></li>
+	<li><a href="#acknowledgements">Acknowledgements</a></li>
 </ol>
 
 <hr>
@@ -249,3 +250,6 @@ Jasmine unit tests are in the `tests` directory.
 
 ###Contribute###
 Xcon source and test files use AMD modules via <a href="http://requirejs.org/">require.js</a>.  <a href="http://gruntjs.com/">Grunt</a>, <a href="https://github.com/gfranko/amdclean">AMDclean</a>, and <a href="https://github.com/gruntjs/grunt-contrib-uglify">uglify</a> are used to create production builds that do not need AMD.
+
+###Acknowledgements###
+Thanks to <a href="https://github.com/kurtpeters">Kurt Peters</a> and Corbin Swagerty, both of whom offered some great ideas for this project.
