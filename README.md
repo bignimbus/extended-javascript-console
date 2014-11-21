@@ -24,14 +24,16 @@ xcon works as a require module or as a pojo.
 require.js: I recommend declaring xcon last in your require path list, since you will not need to declare it as a module.
 ```js
 define([
-	"path/to/xcon-min"
+	"path/to/xcon-0.3.0.min"
 ], function () {
 // no need to declare as a parameter
+/* or... */
+require(["path/to/xcon-0.3.0.min"])
 ```
 
 plain ol' JavaScript:
 ```html
-<script src="path/to/dist/xcon-min.js"></script>
+<script src="path/to/dist/xcon-0.3.0.min.js"></script>
 ```
 <hr>
 
