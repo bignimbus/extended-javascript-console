@@ -235,7 +235,8 @@ console.expect(Math.PI).not.toEqual(Math.PI);
 console.expect([0, 1, 2]).not.toEqual({"0": 0, "1": 1, "2": 2});
 ```
 ![array-object](https://lh5.googleusercontent.com/-grkZ2V1mync/VG65GXkZWXI/AAAAAAAAKwI/MFy2JxbDvrw/w378-h36-no/Screen%2BShot%2B2014-11-20%2Bat%2B10.01.11%2BPM.png "array-object")
-<em>Note: JavaScript would interpret these two blobs as identical because they are both considered object, have identical keys and identical values.  Since they are two data types with different prototypes, however, they will not be interpreted by xcon as equal.</em>
+
+<em>Note: JavaScript would interpret these two blobs as identical because they are both objects, have identical keys and values.  For the purposes of testing, it is anticipated that developers would not want an array and object to be considered stricty equal for the purpose of testing code.  Furthermore, arrays and objects have different prototypes.  For these reasons, arrays and objects with identical keys and values will not be interpreted by xcon as equal.</em>
 
 <hr>
 ###Namespace###
