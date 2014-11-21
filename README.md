@@ -10,6 +10,7 @@
 	<li><a href="#getting-started">Getting Started</a></li>
 	<li><a href="#consoleout">console.out()</a></li>
 	<li><a href="#consolerun">console.run()</a></li>
+	<li><a href="#consoleexpect">console.expect()</a></li>
 	<li><a href="#namespace">Namespace</a></li>
 	<li><a href="#tests">Tests</a></li>
 	<li><a href="#contribute">Contribute</a></li>
@@ -188,7 +189,47 @@ a === 'a' // evaluates to true
 // a
 ```
 <hr>
+###console.expect()###
+####unit tests in the browser console####
+A stripped-down collection of unit test methods that borrow heavily from <a href="http://jasmine.github.io/">jasmine.js</a>.  Developers who regularly use console.log() to debug or dirty-test their code may find that console.expect adds a more precise tool to their workflow.
 
+<hr width="50%">
+####console.expect(data).toEqual(comparison)####
+A passed test indicates that the argument passed to `expect()` and the argument passed to `toEqual()` are strictly equal - including truthy and falsy values.  Works for any JavaScript data type: primitives, objects, and functions.  Test results are highlighted in green (passed) or red (failed) in the console.
+```js
+console.expect(4).toEqual(4);
+```
+
+<hr width="50%">
+####console.expect(data).toBeTruthy()####
+Passed test indicates a <a href="http://www.codeproject.com/Articles/713894/Truthy-Vs-Falsy-Values-in-JavaScript">truthy</a> value.
+```js
+console.expect("I'm truthy").toBeTruthy();
+```
+
+<hr width="50%">
+####console.expect(data).toBeFalsy()####
+Passed test indicates a <a href="http://www.codeproject.com/Articles/713894/Truthy-Vs-Falsy-Values-in-JavaScript">falsy</a> value.
+```js
+console.expect(undefined).toBeFalsy();
+```
+
+<hr width="50%">
+####console.expect(data).toBeDefined()####
+Passed test indicates data that is not undefined.
+```js
+console.expect({}).toBeDefined();
+```
+
+<hr width="50%">
+####.not####
+Prepend the test method with .not to invert the test.
+```js
+console.expect([0, 1, 2]).not.toEqual({"0": 0, "1": 1, "2": 2});
+```
+<em>Note: JavaScript would interpret these two blobs as identical because they are both considered object, have identical keys and identical values.  Since they are two data types with different prototypes, however, they will not be interpreted by xcon as equal.</em>
+
+<hr>
 ###Namespace###
 To ensure that xcon.js will never break native console methods, there are fallbacks in the code.  If Mozilla, Webkit, Microsoft, etc. were to implement .run or .out tomorrow, xcon will not overwrite those methods.
 <hr>
