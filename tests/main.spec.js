@@ -119,9 +119,9 @@ function () {
 
         var a = "a",
             b = "b",
-            pass = "PASSED: expected string a to equal string a",
-            fail = "FAILED: expected string a to equal string b",
-            notfail = "PASSED: expected string a not to equal string b",
+            pass = "PASSED: expected string \"a\" to equal string \"a\"",
+            fail = "FAILED: expected string \"a\" to equal string \"b\"",
+            notfail = "PASSED: expected string \"a\" not to equal string \"b\"",
             pOpts = {
                 "color": "#000",
                 "background": 'rgba(44, 226, 44, 0.4)',

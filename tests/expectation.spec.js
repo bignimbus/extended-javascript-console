@@ -18,7 +18,7 @@ function (Expectation) {
 			spyOn(window.console, 'out');
 			x.toEqual('hello');
 			expect(window.console.out).toHaveBeenCalledWith(
-				"PASSED: expected string hello to equal string hello", {
+				"PASSED: expected string \"hello\" to equal string \"hello\"", {
 				"color": "#000",
 				"background": 'rgba(44, 226, 44, 0.4)',
 				"test": true
