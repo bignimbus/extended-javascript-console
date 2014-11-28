@@ -27,15 +27,15 @@ function (isEqual, getType, condition) {
 		};
 		this.toBeTruthy = function () {
 			passed = not ? !thing : !!thing;
-			message('to be truthy');
+			message(not ? "not " : "", 'to be truthy');
 		};
 		this.toBeFalsy = function () {
 			passed = not ? !!thing : !thing;
-			message('to be falsy');
+			message(not ? "not " : "", 'to be falsy');
 		};
 		this.toBeDefined = function () {
 			passed = not ? thing === void 0 : thing !== void 0;
-			message('to be defined');
+			message(not ? "not " : "", 'to be defined');
 		};
 
 		return this;
