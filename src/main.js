@@ -66,6 +66,11 @@ function (format, Expectation, diff, isEqual) {
             return expect;
         };
 
+        // given two objects or two arrays, returns two objects/arrays
+        // containing only the unique data for the corresponding argument.
+        // ex: console.diff({"a": 1}, {"a": 1, "b": 2});
+        // will return one empty object (no unique data in first arg)
+        // and one object: {"b": 2} (the only unique data in second arg)
         this.diff = this.diff || function (obj, compare) {
             if (typeof obj !== "object" || typeof compare !== "object") {
                 this.out("both arguments must be objects or arrays", {
