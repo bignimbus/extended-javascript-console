@@ -150,4 +150,45 @@ function () {
             expect(window.console.out).toHaveBeenCalledWith(notfail, pOpts);
         });
     });
+
+    describe('console.diff', function () {
+
+        it('should .out an error message if given a non-object or non-array as an argument', function () {
+            spyOn(window.console, "out");
+            window.console.diff("a", 3);
+            expect(window.console.out).toHaveBeenCalledWith("both arguments must be objects or arrays", {
+                "color": "red"
+            });
+        });
+
+        it('should .out a message indicating that the two arguments are equal', function () {
+            spyOn(window.console, "out");
+            window.console.diff({"a": "a"}, {"a": "a"});
+            expect(window.console.out).toHaveBeenCalledWith("both arguments are equal", {
+                "test": true,
+                "color": "darkgreen"
+            });
+        });
+
+        it('should display two diff objects and a short message to the user indicating'
+        + ' the difference between the two data types', function () {
+            spyOn(window.console, "out");
+            spyOn(window.console, "log");
+            window.console.diff({"a": 1}, {"a": 2});
+            expect(window.console.out).toHaveBeenCalledWith("first argument has unique data: ", {
+                "test": true,
+                "color": "black",
+                "background": "oldlace"
+            });
+            expect(window.console.log).toHaveBeenCalledWith({"a": 1});
+            expect(window.console.out).toHaveBeenCalledWith("second argument has unique data: ", {
+                "test": true,
+                "color": "black",
+                "background": "papayawhip"
+            });
+            expect(window.console.log).toHaveBeenCalledWith({"a": 2});
+        });
+
+    });
+
 });
