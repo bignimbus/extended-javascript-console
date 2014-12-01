@@ -23,6 +23,11 @@ function (isEqual, getType, condition) {
 			var result = isEqual(thing, otherThing);
 			passed = not ? !result : result;
 			message(not ? "not " : "", 'to equal ', getType(otherThing), ' ', condition(otherThing).text);
+			if (getType(thing) === getType(otherThing)
+				&& typeof thing === "object"
+				&& !passed) {
+				context.diff(thing, otherThing);
+			}
 		};
 		this.toBeTruthy = function () {
 			passed = not ? !thing : !!thing;
