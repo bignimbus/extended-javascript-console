@@ -5,20 +5,19 @@ function (isEqual, getType, condition) {
 		opts = opts || {};
 		var not = opts.not || false,
 			passed = null,
-
-		message = function () {
-			var n,
-				text = [passed ? "PASSED: " : "FAILED: ",
-						"expected ", getType(thing), ' ', condition(thing).text, ' '];
-			for (n = 0; n < arguments.length; n++) {
-				text.push(arguments[n]);
-			}
-			return context.out(text.join(''), {
-				"color": "#000",
-				"background": passed ? 'rgba(44, 226, 44, 0.4)' : 'rgba(226, 44, 44, 0.4)',
-				"test": true
-			});
-		};
+			message = function () {
+				var n,
+					text = [passed ? "PASSED: " : "FAILED: ",
+							"expected ", getType(thing), ' ', condition(thing).text, ' '];
+				for (n = 0; n < arguments.length; n++) {
+					text.push(arguments[n]);
+				}
+				return context.out(text.join(''), {
+					"color": "#000",
+					"background": passed ? 'rgba(44, 226, 44, 0.4)' : 'rgba(226, 44, 44, 0.4)',
+					"test": true
+				});
+			};
 
 		this.toEqual = function (otherThing) {
 			var result = isEqual(thing, otherThing);
