@@ -25,6 +25,16 @@ function (Expectation) {
 			});
 		});
 
+		it('should call console.diff when testing object or array equality', function () {
+			var first = {"fake": "data"},
+				second = {"something": 234},
+				x = new Expectation(window.console, first);
+			window.console.diff = window.console.diff || function () {return false;};
+			spyOn(window.console, 'diff');
+			x.toEqual(second);
+			expect(window.console.diff).toHaveBeenCalledWith(first, second);
+		});
+
 	});
 
 });
