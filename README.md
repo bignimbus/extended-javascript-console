@@ -11,6 +11,7 @@
 	<li><a href="#consoleout">console.out()</a></li>
 	<li><a href="#consolerun">console.run()</a></li>
 	<li><a href="#consoleexpect">console.expect()</a></li>
+	<li><a href="#consolediff">console.diff()</a></li>
 	<li><a href="#namespace">Namespace</a></li>
 	<li><a href="#tests">Tests</a></li>
 	<li><a href="#contribute">Contribute</a></li>
@@ -242,8 +243,28 @@ console.expect([0, 1, 2]).not.toEqual({"0": 0, "1": 1, "2": 2});
 <em>Note: JavaScript would interpret these two blobs as identical because they are both objects, have identical keys and values.  For the purposes of testing, it is anticipated that developers would not want an array and object to be considered stricty equal for the purpose of testing code.  Furthermore, arrays and objects have different prototypes.  For these reasons, arrays and objects with identical keys and values will not be interpreted by xcon as equal.</em>
 
 <hr>
+###console.diff()###
+Given two objects or two arrays, tells the user whether the two arguments are equal and, if not, exactly what unique data is in each argument.  Will return false if the types of both arguments do not match or if given a non-object or non-array as an argument.  Works for nested objects and arrays, as well.  This method is automatically called when there is a failed isEqual() test in <a href="#consoleexpect">console.expect()</a>.
+
+```js
+var harry = {
+		"mock": "yeah",
+		"ing": "yeah",
+		"bird": {
+			"yeah": "yeah",
+			"yeah": ["yeah"]
+		}
+	},
+	lloyd = {
+		"mock": "yeah",
+		"annoyingSound": "eeeeehhhhhh"
+	};
+console.diff(harry, lloyd);
+```
+![console.diff](https://lh5.googleusercontent.com/-UeP8QvHC0UQ/VHzw4Rgy8cI/AAAAAAAALjc/Y6VDgMmiw-U/w456-h76-no/Screen%2BShot%2B2014-12-01%2Bat%2B4.50.28%2BPM.png "console.diff")
+<hr>
 ###Namespace###
-To ensure that xcon.js will never break native console methods, there are fallbacks in the code.  If Mozilla, Webkit, Microsoft, etc. were to implement .run or .out tomorrow, xcon will not overwrite those methods.
+To ensure that xcon.js will never break native console methods, there are fallbacks in the code.  If Mozilla, Webkit, Microsoft, etc. were to implement .run, .out, .diff, or .expect tomorrow, xcon would not overwrite those methods.
 <hr>
 
 ###Tests###
