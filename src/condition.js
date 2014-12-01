@@ -16,6 +16,9 @@ function (getType) {
             case 'null':
                 blob = JSON.stringify(blob);
                 break;
+            case 'string':
+                blob = '"' + blob + '"';
+                break;
             case 'undefined':
                 blob = 'undefined';
                 break;

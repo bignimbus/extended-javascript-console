@@ -1,5 +1,5 @@
 ;(function() {
-var get_type, condition, color_select, format, is_equal, expectation, mainjs;
+var get_type, condition, color_select, format, is_equal, expectation, obj_diff, mainjs;
 get_type = function () {
   
   function getType(blob) {
@@ -31,6 +31,9 @@ condition = function (getType) {
     case 'array':
     case 'null':
       blob = JSON.stringify(blob);
+      break;
+    case 'string':
+      blob = '"' + blob + '"';
       break;
     case 'undefined':
       blob = 'undefined';
@@ -176,24 +179,114 @@ expectation = function (isEqual, getType, condition) {
       var result = isEqual(thing, otherThing);
       passed = not ? !result : result;
       message(not ? 'not ' : '', 'to equal ', getType(otherThing), ' ', condition(otherThing).text);
+      if (getType(thing) === getType(otherThing) && typeof thing === 'object' && !passed) {
+        context.diff(thing, otherThing);
+      }
     };
     this.toBeTruthy = function () {
       passed = not ? !thing : !!thing;
-      message('to be truthy');
+      message(not ? 'not ' : '', 'to be truthy');
     };
     this.toBeFalsy = function () {
       passed = not ? !!thing : !thing;
-      message('to be falsy');
+      message(not ? 'not ' : '', 'to be falsy');
     };
     this.toBeDefined = function () {
       passed = not ? thing === void 0 : thing !== void 0;
-      message('to be defined');
+      message(not ? 'not ' : '', 'to be defined');
     };
     return this;
   }
   return Expectation;
 }(is_equal, get_type, condition);
-mainjs = function (format, Expectation) {
+obj_diff = function (isEqual, getType) {
+  
+  function diff(obj, compare) {
+    if (getType(obj) !== getType(compare)) {
+      return false;
+    }
+    var called = false, objDiff, compareDiff, diffs;
+    function trim(arr) {
+      for (var n = arr.length - 1; n >= 0; n--) {
+        if (arr[n] === void 0) {
+          arr.splice(n, 1);
+        }
+        if (getType(arr[n]) === 'array') {
+          trim(arr[n]);
+        }
+      }
+      return arr;
+    }
+    function clone(thing) {
+      // clone function was originally written by A. Levy
+      // and edited by Jeff Auriemma for style and accuracy
+      // source:
+      // http://stackoverflow.com/questions/728360/most-elegant-way-to-clone-a-javascript-object
+      var copy, attr, i;
+      if (thing === null || typeof thing !== 'object') {
+        return thing;
+      }
+      if (thing instanceof Date) {
+        copy = new Date();
+        copy.setTime(thing.getTime());
+        return copy;
+      }
+      if (thing instanceof Array) {
+        copy = [];
+        for (i = 0; i < thing.length; i++) {
+          copy[i] = clone(thing[i]);
+        }
+        return copy;
+      }
+      if (thing instanceof Object) {
+        copy = {};
+        for (attr in thing) {
+          if (thing.hasOwnProperty(attr)) {
+            copy[attr] = clone(thing[attr]);
+          }
+        }
+        return copy;
+      }
+      throw new Error('Unable to provide object diff; infinite recursion detected.');
+    }
+    function findUniqueData(first, second) {
+      var unique, len, index, key, keys, currentPath = [];
+      if (!called) {
+        unique = clone(first);
+        called = true;
+      }
+      function getPath(blob) {
+        for (var i = 0; i < currentPath.length - 1; i++) {
+          blob = blob[currentPath[i]];
+        }
+        return blob;
+      }
+      len = first.length || Object.keys(first).length;
+      keys = getType(first) === 'object' ? Object.keys(first) : null;
+      for (index = 0; index < len; index++) {
+        key = getType(first) === 'array' ? index : keys[index];
+        currentPath.push(key);
+        if (first.hasOwnProperty(key) && isEqual(first[key], second[key])) {
+          delete getPath(unique)[key];
+        } else if (typeof first[key] === 'object' && second[key]) {
+          findUniqueData(first[key], second[key]);
+        }
+        currentPath = [];
+      }
+      called = false;
+      return unique;
+    }
+    objDiff = findUniqueData(obj, compare);
+    compareDiff = findUniqueData(compare, obj);
+    diffs = {
+      'firstObjectDiff': getType(objDiff) === 'array' ? trim(objDiff) : objDiff,
+      'secondObjectDiff': getType(compareDiff) === 'array' ? trim(compareDiff) : compareDiff
+    };
+    return diffs;
+  }
+  return diff;
+}(is_equal, get_type);
+mainjs = function (format, Expectation, diff, isEqual) {
   
   function Xcon() {
     // skins a console.log message to display the primitive type as well
@@ -255,8 +348,39 @@ mainjs = function (format, Expectation) {
       expect.not = new Expectation(this, thing, { 'not': true });
       return expect;
     };
+    // given two objects or two arrays, returns two objects/arrays
+    // containing only the unique data for the corresponding argument.
+    // ex: console.diff({"a": 1}, {"a": 1, "b": 2});
+    // will return one empty object (no unique data in first arg)
+    // and one object: {"b": 2} (the only unique data in second arg)
+    this.diff = this.diff || function (obj, compare) {
+      if (typeof obj !== 'object' || typeof compare !== 'object') {
+        this.out('both arguments must be objects or arrays', { 'color': 'red' });
+        return false;
+      }
+      if (isEqual(obj, compare)) {
+        this.out('both arguments are equal', {
+          'test': true,
+          'color': 'darkgreen'
+        });
+        return false;
+      }
+      var diffs = diff(obj, compare);
+      this.out('first argument has unique data: ', {
+        'test': true,
+        'color': 'black',
+        'background': 'oldlace'
+      });
+      this.log(diffs.firstObjectDiff);
+      this.out('second argument has unique data: ', {
+        'test': true,
+        'color': 'black',
+        'background': 'papayawhip'
+      });
+      this.log(diffs.secondObjectDiff);
+    };
     return this;
   }
   return Xcon.call(window.console);
-}(format, expectation);
+}(format, expectation, obj_diff, is_equal);
 }());

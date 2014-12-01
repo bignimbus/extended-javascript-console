@@ -11,6 +11,7 @@
 	<li><a href="#consoleout">console.out()</a></li>
 	<li><a href="#consolerun">console.run()</a></li>
 	<li><a href="#consoleexpect">console.expect()</a></li>
+	<li><a href="#consolediff">console.diff()</a></li>
 	<li><a href="#namespace">Namespace</a></li>
 	<li><a href="#tests">Tests</a></li>
 	<li><a href="#contribute">Contribute</a></li>
@@ -24,14 +25,16 @@ xcon works as a require module or as a pojo.
 require.js: I recommend declaring xcon last in your require path list, since you will not need to declare it as a module.
 ```js
 define([
-	"path/to/xcon-min"
+	"path/to/xcon-0.3.0.min"
 ], function () {
 // no need to declare as a parameter
+/* or... */
+require(["path/to/xcon-0.3.0.min"])
 ```
 
 plain ol' JavaScript:
 ```html
-<script src="path/to/dist/xcon-min.js"></script>
+<script src="path/to/dist/xcon-0.3.0.min.js"></script>
 ```
 <hr>
 
@@ -201,6 +204,18 @@ console.expect(4).toEqual(4);
 ![toEqual](https://lh3.googleusercontent.com/-5h11iNoLwKM/VG63SifSbiI/AAAAAAAAKu8/Ng9OGwxRPng/w457-h27-no/Screen%2BShot%2B2014-11-20%2Bat%2B9.53.29%2BPM.png ".toEqual")
 
 <hr width="50%">
+####Failed isEqual() tests####
+Failed isEqual() tests will call <a href="#consolediff">console.diff()</a> if both inputs are objects or both are arrays.
+```js
+console.expect({
+	"one": 1, "two": 2
+}).toEqual({
+	"one": 1, "three": 3
+});
+```
+![failed-object-equality](https://lh5.googleusercontent.com/-Vw2cmkAxLyY/VHzzhInxplI/AAAAAAAALkA/JyNgIo5JJlM/w453-h101-no/Screen%2BShot%2B2014-12-01%2Bat%2B5.01.53%2BPM.png "failed-object-equality")
+
+<hr width="50%">
 ####console.expect(data).toBeTruthy()####
 Passed test indicates a <a href="http://www.codeproject.com/Articles/713894/Truthy-Vs-Falsy-Values-in-JavaScript">truthy</a> value.
 ```js
@@ -240,8 +255,28 @@ console.expect([0, 1, 2]).not.toEqual({"0": 0, "1": 1, "2": 2});
 <em>Note: JavaScript would interpret these two blobs as identical because they are both objects, have identical keys and values.  For the purposes of testing, it is anticipated that developers would not want an array and object to be considered stricty equal for the purpose of testing code.  Furthermore, arrays and objects have different prototypes.  For these reasons, arrays and objects with identical keys and values will not be interpreted by xcon as equal.</em>
 
 <hr>
+###console.diff()###
+Given two objects or two arrays, tells the user whether the two arguments are equal and, if not, exactly what unique data is in each argument.  Will return false if the types of both arguments do not match or if given a non-object or non-array as an argument.  Works for nested objects and arrays, as well.  This method is automatically called when there is a failed isEqual() test in <a href="#consoleexpect">console.expect()</a>.
+
+```js
+var harry = {
+		"mock": "yeah",
+		"ing": "yeah",
+		"bird": {
+			"yeah": "yeah",
+			"yeah": ["yeah"]
+		}
+	},
+	lloyd = {
+		"mock": "yeah",
+		"annoyingSound": "eeeeehhhhhh"
+	};
+console.diff(harry, lloyd);
+```
+![console.diff](https://lh4.googleusercontent.com/-RgbB8kbroR8/VHzxrzPh-8I/AAAAAAAALjs/fxH8LmT3FWo/w310-h196-no/Screen%2BShot%2B2014-12-01%2Bat%2B4.54.21%2BPM.png "console.diff")
+<hr>
 ###Namespace###
-To ensure that xcon.js will never break native console methods, there are fallbacks in the code.  If Mozilla, Webkit, Microsoft, etc. were to implement .run or .out tomorrow, xcon will not overwrite those methods.
+To ensure that xcon.js will never break native console methods, there are fallbacks in the code.  If Mozilla, Webkit, Microsoft, etc. were to implement .run, .out, .diff, or .expect tomorrow, xcon would not overwrite those methods.
 <hr>
 
 ###Tests###
