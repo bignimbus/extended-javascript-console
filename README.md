@@ -204,6 +204,18 @@ console.expect(4).toEqual(4);
 ![toEqual](https://lh3.googleusercontent.com/-5h11iNoLwKM/VG63SifSbiI/AAAAAAAAKu8/Ng9OGwxRPng/w457-h27-no/Screen%2BShot%2B2014-11-20%2Bat%2B9.53.29%2BPM.png ".toEqual")
 
 <hr width="50%">
+####Failed isEqual() tests####
+Failed isEqual() tests will call <a href="#consolediff">console.diff()</a> if both inputs are objects or both are arrays.
+```js
+console.expect({
+	"one": 1, "two": 2
+}).toEqual({
+	"one": 1, "three": 3
+});
+```
+![failed-object-equality](https://lh5.googleusercontent.com/-Vw2cmkAxLyY/VHzzhInxplI/AAAAAAAALkA/JyNgIo5JJlM/w453-h101-no/Screen%2BShot%2B2014-12-01%2Bat%2B5.01.53%2BPM.png "failed-object-equality")
+
+<hr width="50%">
 ####console.expect(data).toBeTruthy()####
 Passed test indicates a <a href="http://www.codeproject.com/Articles/713894/Truthy-Vs-Falsy-Values-in-JavaScript">truthy</a> value.
 ```js
