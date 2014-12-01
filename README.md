@@ -261,7 +261,7 @@ var harry = {
 	};
 console.diff(harry, lloyd);
 ```
-![console.diff](https://lh5.googleusercontent.com/-UeP8QvHC0UQ/VHzw4Rgy8cI/AAAAAAAALjc/Y6VDgMmiw-U/w456-h76-no/Screen%2BShot%2B2014-12-01%2Bat%2B4.50.28%2BPM.png "console.diff")
+![console.diff](https://lh4.googleusercontent.com/-RgbB8kbroR8/VHzxrzPh-8I/AAAAAAAALjs/fxH8LmT3FWo/w310-h196-no/Screen%2BShot%2B2014-12-01%2Bat%2B4.54.21%2BPM.png "console.diff")
 <hr>
 ###Namespace###
 To ensure that xcon.js will never break native console methods, there are fallbacks in the code.  If Mozilla, Webkit, Microsoft, etc. were to implement .run, .out, .diff, or .expect tomorrow, xcon would not overwrite those methods.
