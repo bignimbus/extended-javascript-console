@@ -293,4 +293,4 @@ Xcon source and test files use AMD modules via <a href="http://requirejs.org/">r
 <hr>
 
 ###Acknowledgements###
-Thanks to <a href="https://github.com/kurtpeters">Kurt Peters</a> and Corbin Swagerty, both of whom offered some great ideas for this project.
+Thanks to <a href="https://github.com/kurtpeters">Kurt Peters</a> and <a href="https://github.com/cswagerty">Corbin Swagerty</a>, both of whom offered some great ideas for this project.
