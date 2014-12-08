@@ -243,9 +243,7 @@ obj_diff = function (isEqual, getType, condition) {
       return copy[path];
     }
     function findUniqueData(first, second) {
-      var len, index, key, keys, type = getType(first);
-      len = type === 'object' ? Object.keys(first).length : first.length;
-      keys = type === 'object' ? Object.keys(first) : null;
+      var index, key, type = getType(first), keys = type === 'object' ? Object.keys(first) : null, len = type === 'object' ? Object.keys(first).length : first.length;
       for (index = 0; index < len; index++) {
         key = type === 'array' ? index : keys[index];
         currentPath.push(key);
