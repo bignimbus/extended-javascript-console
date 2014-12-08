@@ -175,18 +175,16 @@ function () {
             spyOn(window.console, "out");
             spyOn(window.console, "log");
             window.console.diff({"a": 1}, {"a": 2});
-            expect(window.console.out).toHaveBeenCalledWith("first argument has unique data: ", {
+            expect(window.console.out).toHaveBeenCalledWith("first object has unique data:\na : 1", {
                 "test": true,
                 "color": "black",
-                "background": "oldlace"
+                "background": "lightblue"
             });
-            expect(window.console.log).toHaveBeenCalledWith({"a": 1});
-            expect(window.console.out).toHaveBeenCalledWith("second argument has unique data: ", {
+            expect(window.console.out).toHaveBeenCalledWith("second object has unique data:\na : 2", {
                 "test": true,
                 "color": "black",
-                "background": "papayawhip"
+                "background": "khaki"
             });
-            expect(window.console.log).toHaveBeenCalledWith({"a": 2});
         });
 
     });

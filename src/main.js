@@ -1,5 +1,5 @@
-define(['format', 'expectation', 'obj-diff', 'is-equal'],
-function (format, Expectation, diff, isEqual) {
+define(['format', 'expectation', 'obj-diff', 'is-equal', 'get-type'],
+function (format, Expectation, diff, isEqual, getType) {
     "use strict";
     function Xcon () {
 
@@ -86,18 +86,16 @@ function (format, Expectation, diff, isEqual) {
                 return false;
             }
             var diffs = diff(obj, compare);
-            this.out("first argument has unique data: ", {
+            this.out("first " + getType(obj) + " has unique data:" + diffs.firstObjectDiff, {
                 "test": true,
                 "color": "black",
-                "background": "oldlace"
+                "background": "lightblue"
             });
-            this.log(diffs.firstObjectDiff);
-            this.out("second argument has unique data: ", {
+            this.out("second " + getType(compare) + " has unique data:" + diffs.secondObjectDiff, {
                 "test": true,
                 "color": "black",
-                "background": "papayawhip"
+                "background": "khaki"
             });
-            this.log(diffs.secondObjectDiff);
         };
 
         return this;
