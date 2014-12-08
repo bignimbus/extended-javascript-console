@@ -56,14 +56,12 @@ function (isEqual, getType, condition) {
         }
 
         function findUniqueData (first, second) {
-            var len,
-                index,
+            var index,
                 key,
-                keys,
-                type = getType(first);
+                type = getType(first),
+                keys = type === "object" ? Object.keys(first) : null,
+                len = type === "object" ? Object.keys(first).length : first.length;
 
-            len = type === "object" ? Object.keys(first).length : first.length;
-            keys = type === "object" ? Object.keys(first) : null;
             for (index = 0; index < len; index ++) {
                 key = type === "array" ? index : keys[index];
                 currentPath.push(key);
