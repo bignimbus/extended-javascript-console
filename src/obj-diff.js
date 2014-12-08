@@ -1,26 +1,17 @@
-define(['is-equal', 'get-type'],
-function (isEqual, getType) {
+define(['is-equal', 'get-type', 'condition'],
+function (isEqual, getType, condition) {
     "use strict";
     function diff (obj, compare) {
+
         if (getType(obj) !== getType(compare)) {
             return false;
         }
-        var called = false,
-            objDiff,
-            compareDiff,
-            diffs;
 
-        function trim (arr) {
-            for (var n = arr.length - 1; n >= 0; n--) {
-                if (arr[n] === void 0) {
-                    arr.splice(n, 1);
-                }
-                if (getType(arr[n]) === "array") {
-                    trim(arr[n]);
-                }
-            }
-            return arr;
-        }
+        var firstObjectDiff,
+            secondObjectDiff,
+            currentPath = [],
+            uniqueData = '';
+
         function clone (thing) {
             // clone function was originally written by A. Levy
             // and edited by Jeff Auriemma for style and accuracy
@@ -58,46 +49,48 @@ function (isEqual, getType) {
 
             throw new Error("Unable to provide object diff; infinite recursion detected.");
         }
+
+        function getData (obj, path) {
+            var copy = clone(obj);
+            return copy[path];
+        }
+
         function findUniqueData (first, second) {
-            var unique,
-                len,
+            var len,
                 index,
                 key,
                 keys,
-                currentPath = [];
-            if (!called) {
-                unique = clone(first);
-                called = true;
-            }
-            function getPath (blob) {
-                for (var i = 0; i < currentPath.length - 1; i++) {
-                    blob = blob[currentPath[i]];
-                }
-                return blob;
-            }
-            len = first.length || Object.keys(first).length;
-            keys = getType(first) === "object" ? Object.keys(first) : null;
+                type = getType(first);
+
+            len = type === "object" ? Object.keys(first).length : first.length;
+            keys = type === "object" ? Object.keys(first) : null;
             for (index = 0; index < len; index ++) {
-                key = getType(first) === "array" ? index : keys[index];
+                key = type === "array" ? index : keys[index];
                 currentPath.push(key);
-                if (first.hasOwnProperty(key) && isEqual(first[key], second[key])) {
-                    delete getPath(unique)[key]; // finds & deletes the corresponding path in the diff object
-                } else if (typeof first[key] === "object" // use typeof to include array and object
-                        && second[key]) {
-                    findUniqueData(first[key], second[key]);
+                if (first.hasOwnProperty(key) && !isEqual(first[key], second[key])) {
+                    if (getType(first[key]) !== getType(second[key])
+                    || getType(first[key]) !== "object" && getType(first[key]) !== "array") {
+                        uniqueData += '\n' + currentPath.join('.')
+                            + ' : ' + condition(getData(first, currentPath.pop())).text;
+                    } else {
+                        findUniqueData(first[key], second[key]);
+                    }
                 }
-                currentPath = [];
+                currentPath = currentPath.slice(0, -1);
             }
-            called = false;
-            return unique;
+            return uniqueData;
         }
-        objDiff = findUniqueData(obj, compare);
-        compareDiff = findUniqueData(compare, obj);
-        diffs = {
-            "firstObjectDiff": getType(objDiff) === "array" ? trim(objDiff) : objDiff,
-            "secondObjectDiff": getType(compareDiff) === "array" ? trim(compareDiff) : compareDiff
+
+        firstObjectDiff = findUniqueData(obj, compare);
+        currentPath = [];
+        uniqueData = '';
+        secondObjectDiff = findUniqueData(compare, obj);
+
+        return {
+            "firstObjectDiff": firstObjectDiff,
+            "secondObjectDiff": secondObjectDiff
         };
-        return diffs;
+
     }
     return diff;
 });

@@ -28,29 +28,15 @@ function (diff) {
 		it('should return a diff with unique properties for arrays', function () {
 			var arrDiffs = diff([1, 2, "3", {"four": 4}], [1, 2, "3", "four"]);
 			expect(arrDiffs).toEqual({
-				"firstObjectDiff": [{"four": 4}],
-				"secondObjectDiff": ["four"]
+				"firstObjectDiff": '\n3 : {"four":4}',
+				"secondObjectDiff": '\n3 : "four"'
 			});
 		});
 		it('should return a diff with unique properties for objects', function () {
 			var objDiffs = diff(first, second);
 			expect(objDiffs).toEqual({
-				"firstObjectDiff": {
-					"hello": "kitty",
-					"nest": {
-						"nested": {
-							"prop": 4
-						}
-					}
-				},
-				"secondObjectDiff": {
-					"hello": "dolly",
-					"nest": {
-						"nested": {
-							"prop": 3
-						}
-					}
-				}
+				"firstObjectDiff": '\nhello : "kitty"\nnest.nested.prop : 4',
+				"secondObjectDiff": '\nhello : "dolly"\nnest.nested.prop : 3'
 			});
 		});
 	});
