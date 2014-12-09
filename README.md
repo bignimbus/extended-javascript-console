@@ -206,7 +206,7 @@ A passed test indicates that the argument passed to `expect()` and the argument 
 ```js
 console.expect(4).toEqual(4);
 ```
-![toEqual](https://lh3.googleusercontent.com/-vBdj9CLmmPI/VIcOjqQsKCI/AAAAAAAALuM/ycjHzbKyc8E/w432-h96-no/Screen%2BShot%2B2014-12-09%2Bat%2B8.56.16%2BAM.png ".toEqual")
+![toEqual](https://lh3.googleusercontent.com/-5h11iNoLwKM/VG63SifSbiI/AAAAAAAAKu8/Ng9OGwxRPng/w457-h27-no/Screen%2BShot%2B2014-11-20%2Bat%2B9.53.29%2BPM.png ".toEqual")
 
 <hr width="50%">
 ####Failed isEqual() tests####
@@ -218,7 +218,7 @@ console.expect({
 	"one": 1, "three": 3
 });
 ```
-![failed-object-equality](https://lh5.googleusercontent.com/-Vw2cmkAxLyY/VHzzhInxplI/AAAAAAAALkA/JyNgIo5JJlM/w453-h101-no/Screen%2BShot%2B2014-12-01%2Bat%2B5.01.53%2BPM.png "failed-object-equality")
+![failed-object-equality](https://lh3.googleusercontent.com/-vBdj9CLmmPI/VIcOjqQsKCI/AAAAAAAALuM/ycjHzbKyc8E/w432-h96-no/Screen%2BShot%2B2014-12-09%2Bat%2B8.56.16%2BAM.png "failed-object-equality")
 
 <hr width="50%">
 ####console.expect(data).toBeTruthy()####
