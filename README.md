@@ -206,7 +206,7 @@ A passed test indicates that the argument passed to `expect()` and the argument 
 ```js
 console.expect(4).toEqual(4);
 ```
-![toEqual](https://lh3.googleusercontent.com/-5h11iNoLwKM/VG63SifSbiI/AAAAAAAAKu8/Ng9OGwxRPng/w457-h27-no/Screen%2BShot%2B2014-11-20%2Bat%2B9.53.29%2BPM.png ".toEqual")
+![toEqual](https://lh3.googleusercontent.com/-vBdj9CLmmPI/VIcOjqQsKCI/AAAAAAAALuM/ycjHzbKyc8E/w432-h96-no/Screen%2BShot%2B2014-12-09%2Bat%2B8.56.16%2BAM.png ".toEqual")
 
 <hr width="50%">
 ####Failed isEqual() tests####
@@ -278,7 +278,7 @@ var harry = {
 	};
 console.diff(harry, lloyd);
 ```
-![console.diff](https://lh4.googleusercontent.com/-RgbB8kbroR8/VHzxrzPh-8I/AAAAAAAALjs/fxH8LmT3FWo/w310-h196-no/Screen%2BShot%2B2014-12-01%2Bat%2B4.54.21%2BPM.png "console.diff")
+![console.diff](https://lh6.googleusercontent.com/-QUb1LCGN3LQ/VIcOjTKilqI/AAAAAAAALuI/4YIvF34eZ3k/w230-h78-no/Screen%2BShot%2B2014-12-09%2Bat%2B8.57.02%2BAM.png "console.diff")
 <hr>
 ###Namespace###
 To ensure that xcon.js will never break native console methods, there are fallbacks in the code.  If Mozilla, Webkit, Microsoft, etc. were to implement .run, .out, .diff, or .expect tomorrow, xcon would not overwrite those methods.
