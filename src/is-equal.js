@@ -41,8 +41,8 @@ function (getType) {
             otherKeys = Object.keys(otherThing),
             equal = otherKeys.every(function (key) {
                     return thingKeys.indexOf(key) !== -1;
-                }) &&
-                thingKeys.every(function (key) {
+                })
+                && thingKeys.every(function (key) {
                     return isEqual(thing[key], otherThing[key]);
                 });
         return equal;
