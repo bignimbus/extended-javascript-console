@@ -132,16 +132,7 @@ is_equal = function (getType) {
     if (thing === otherThing || thing.valueOf() === otherThing.valueOf()) {
       return true;
     }
-    // if one of them is date, they must had equal valueOf
-    if (thing instanceof Date || otherThing instanceof Date) {
-      return false;
-    }
-    // if they are not function or strictly equal, they both need to be Objects
-    if (!(thing instanceof Object) || !(otherThing instanceof Object)) {
-      return false;
-    }
-    // arrays and objects can be considered equal in JavaScript.  We don't want that.
-    if (getType(thing) !== getType(otherThing)) {
+    if (thing instanceof Date || otherThing instanceof Date || !(thing instanceof Object) || !(otherThing instanceof Object) || getType(thing) !== getType(otherThing)) {
       return false;
     }
     var thingKeys = Object.keys(thing), otherKeys = Object.keys(otherThing), equal = otherKeys.every(function (key) {
