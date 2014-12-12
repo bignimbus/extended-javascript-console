@@ -20,7 +20,11 @@
 
 <hr>
 ###getting started###
-xcon works as a require module or as a pojo.
+xcon works as a require module or as a pojo.  There is also a browser extension that will automagically load the latest xcon-min release build to any page.
+
+<a href="https://chrome.google.com/webstore/detail/extended-js-console/ieoofkiofkkmikbdnmaoaemncamdnhnd?hl=en&gl=US">Chrome Extension</a>
+<a href="http://crossrider.com/download/ff/68915">Firefox Extension</a>
+<a href="http://crossrider.com/download/ie/68915">IE Extension</a>
 
 using bower:
 ```
