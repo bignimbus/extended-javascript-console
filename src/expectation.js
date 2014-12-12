@@ -22,24 +22,29 @@ function (isEqual, getType, condition) {
         this.toEqual = function (otherThing) {
             var result = isEqual(thing, otherThing);
             passed = not ? !result : result;
-            message(not ? "not " : "", 'to equal ', getType(otherThing), ' ', condition(otherThing).text);
+            message(not ? 'not ' : '', 'to equal ', getType(otherThing), ' ', condition(otherThing).text);
             if (getType(thing) === getType(otherThing)
                 && typeof thing === "object"
                 && !passed) {
                 context.diff(thing, otherThing);
             }
         };
+        this.toBeCloseTo = function (num, margin) {
+            passed = thing < num + margin || thing > num - margin;
+            passed = not ? !passed : passed;
+            message(not ? 'not ' : '', 'to be close to ', num, ' by a margin of ', margin);
+        };
         this.toBeTruthy = function () {
             passed = not ? !thing : !!thing;
-            message(not ? "not " : "", 'to be truthy');
-        };
-        this.toBeFalsy = function () {
-            passed = not ? !!thing : !thing;
-            message(not ? "not " : "", 'to be falsy');
+            message(not ? 'not ' : '', 'to be truthy');
         };
         this.toBeDefined = function () {
             passed = not ? thing === void 0 : thing !== void 0;
-            message(not ? "not " : "", 'to be defined');
+            message(not ? 'not ' : '', 'to be defined');
+        };
+        this.toBeNull = function () {
+            passed = not ? thing !== null : thing === null;
+            message(not ? 'not ' : '', 'to be null');
         };
 
         return this;
