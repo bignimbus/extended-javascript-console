@@ -118,10 +118,8 @@ is_equal = function (getType) {
   function isEqual(thing, otherThing) {
     if (thing instanceof Function) {
       if (otherThing instanceof Function) {
-        thing = thing.toString();
-        otherThing = otherThing.toString();
-        thing = thing.replace(/\s/gm, '');
-        otherThing = otherThing.replace(/\s/gm, '');
+        thing = thing.toString().replace(/\s/gm, '');
+        otherThing = otherThing.toString().replace(/\s/gm, '');
         return thing === otherThing;
       }
       return false;
@@ -174,17 +172,22 @@ expectation = function (isEqual, getType, condition) {
         context.diff(thing, otherThing);
       }
     };
+    this.toBeCloseTo = function (num, margin) {
+      passed = thing < num + margin || thing > num - margin;
+      passed = not ? !passed : passed;
+      message(not ? 'not ' : '', 'to be close to ', num, ' by a margin of ', margin);
+    };
     this.toBeTruthy = function () {
       passed = not ? !thing : !!thing;
       message(not ? 'not ' : '', 'to be truthy');
     };
-    this.toBeFalsy = function () {
-      passed = not ? !!thing : !thing;
-      message(not ? 'not ' : '', 'to be falsy');
-    };
     this.toBeDefined = function () {
       passed = not ? thing === void 0 : thing !== void 0;
       message(not ? 'not ' : '', 'to be defined');
+    };
+    this.toBeNull = function () {
+      passed = not ? thing !== null : thing === null;
+      message(not ? 'not ' : '', 'to be null');
     };
     return this;
   }
