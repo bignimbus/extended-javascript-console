@@ -29,6 +29,9 @@ function (isEqual, getType, condition) {
                 context.diff(thing, otherThing);
             }
         };
+        this.toContain = function (otherThing) {
+            
+        };
         this.toBeCloseTo = function (num, margin) {
             passed = thing < num + margin || thing > num - margin;
             passed = not ? !passed : passed;
