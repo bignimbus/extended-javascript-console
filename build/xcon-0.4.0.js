@@ -1,5 +1,5 @@
 ;(function() {
-var get_type, condition, color_select, format, is_equal, expectation, obj_diff, mainjs;
+var get_type, condition, color_select, format, is_equal, search, expectation, obj_diff, mainjs;
 get_type = function () {
   
   function getType(blob) {
@@ -142,7 +142,30 @@ is_equal = function (getType) {
   }
   return isEqual;
 }(get_type);
-expectation = function (isEqual, getType, condition) {
+search = function (getType) {
+  
+  function Search(collection) {
+    this.contains = false;
+    this.thisFor = function (thing, blob) {
+      blob = blob || collection;
+      var type = getType(blob), keys = type === 'object' ? Object.keys(blob) : null, len = type === 'object' ? Object.keys(blob).length : blob.length, n, key;
+      for (n = 0; n < len; n++) {
+        key = keys ? keys[n] : n;
+        if (blob[key] === thing) {
+          this.contains = true;
+          break;
+        }
+        if (getType(blob[key]) === 'object' || getType(blob[key]) === 'array') {
+          this.thisFor(thing, blob[key]);
+        }
+      }
+      return this.contains;
+    };
+    return this;
+  }
+  return Search;
+}(get_type);
+expectation = function (isEqual, getType, condition, Search) {
   
   function Expectation(context, thing, opts) {
     opts = opts || {};
@@ -153,7 +176,8 @@ expectation = function (isEqual, getType, condition) {
             getType(thing),
             ' ',
             condition(thing).text,
-            ' '
+            ' ',
+            not ? 'not ' : ''
           ];
         for (n = 0; n < arguments.length; n++) {
           text.push(arguments[n]);
@@ -167,32 +191,37 @@ expectation = function (isEqual, getType, condition) {
     this.toEqual = function (otherThing) {
       var result = isEqual(thing, otherThing);
       passed = not ? !result : result;
-      message(not ? 'not ' : '', 'to equal ', getType(otherThing), ' ', condition(otherThing).text);
+      message('to equal ', getType(otherThing), ' ', condition(otherThing).text);
       if (getType(thing) === getType(otherThing) && typeof thing === 'object' && !passed) {
         context.diff(thing, otherThing);
       }
     };
+    this.toContain = function (otherThing) {
+      var result = new Search(thing).thisFor(otherThing);
+      passed = not ? !result : result;
+      message('to contain ', getType(otherThing), ' ', condition(otherThing).text);
+    };
     this.toBeCloseTo = function (num, margin) {
       passed = thing < num + margin || thing > num - margin;
       passed = not ? !passed : passed;
-      message(not ? 'not ' : '', 'to be close to ', num, ' by a margin of ', margin);
+      message('to be close to ', num, ' by a margin of ', margin);
     };
     this.toBeTruthy = function () {
       passed = not ? !thing : !!thing;
-      message(not ? 'not ' : '', 'to be truthy');
+      message('to be truthy');
     };
     this.toBeDefined = function () {
       passed = not ? thing === void 0 : thing !== void 0;
-      message(not ? 'not ' : '', 'to be defined');
+      message('to be defined');
     };
     this.toBeNull = function () {
       passed = not ? thing !== null : thing === null;
-      message(not ? 'not ' : '', 'to be null');
+      message('to be null');
     };
     return this;
   }
   return Expectation;
-}(is_equal, get_type, condition);
+}(is_equal, get_type, condition, search);
 obj_diff = function (isEqual, getType, condition) {
   
   function diff(obj, compare) {
