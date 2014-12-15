@@ -256,7 +256,7 @@ console.expect(complexObj).toContain(6);
 
 <hr width="50%">
 ####console.expect(data).toBeCloseTo(num, margin)####
-Passed test indicates that num will fall into data +- margin.
+Passed test indicates that num will be greater than data - margin and less than data + margin.
 ```js
 console.expect(5).toBeCloseTo(6, 2);
 ```
