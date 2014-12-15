@@ -1,25 +1,26 @@
 define(['get-type'],
 function (getType) {
    'use strict';
-    function Search (collection, thing) {
+    function Search (collection) {
         this.contains = false;
-        this.searchFor = function (collection, thing) {
-            var type = getType(collection),
-                keys = type === "object" ? Object.keys(collection) : null,
-                len = type === "object" ? Object.keys(collection).length : collection.length,
+        this.thisFor = function (thing, blob) {
+            blob = blob || collection;
+            var type = getType(blob),
+                keys = type === "object" ? Object.keys(blob) : null,
+                len = type === "object" ? Object.keys(blob).length : blob.length,
                 n,
                 key;
             for (n = 0; n < len; n++) {
                 key = keys ? keys[n] : n;
-                if (collection[key] === thing) {
+                if (blob[key] === thing) {
                     this.contains = true;
                     break;
                 }
-                if (getType(collection[key]) === 'object' || getType(collection[key]) === 'array') {
-                    this.searchFor(collection[key], thing);
+                if (getType(blob[key]) === 'object' || getType(blob[key]) === 'array') {
+                    this.thisFor(thing, blob[key]);
                 }
             }
-            return false;
+            return this.contains;
         };
         return this;
     }
