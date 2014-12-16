@@ -22,12 +22,10 @@
 ###getting started###
 xcon works as a require module or as a pojo.  There is also a browser extension that will automagically load the latest xcon-min release build to any page.  The extensions are still new and need to be field-tested more extensively, but I believe that this are the most logical way to deploy the latest xcon builds so that you don't have to touch your source code.
 
-<ul>
-<li><a href="https://chrome.google.com/webstore/detail/extended-js-console/ieoofkiofkkmikbdnmaoaemncamdnhnd?hl=en&gl=US">Chrome Extension</a></li>
-<li><a href="http://crossrider.com/download/ff/68915">Firefox Extension</a></li>
-<li><a href="http://crossrider.com/download/ie/68915">IE Extension</a></li>
-<li><a href="http://crossrider.com/download/safari/68915">Safari Extension</a></li>
-</ul>
+* ![chrome](https://raw.githubusercontent.com/alrra/browser-logos/master/chrome/chrome_16x16.png "chrome") <a href="https://chrome.google.com/webstore/detail/extended-js-console/ieoofkiofkkmikbdnmaoaemncamdnhnd?hl=en&gl=US">Chrome Extension</a></li>
+* ![firefox](https://raw.githubusercontent.com/alrra/browser-logos/master/firefox/firefox_16x16.png "firefox") <a href="http://crossrider.com/download/ff/68915">Firefox Extension</a></li>
+* ![ie](https://raw.githubusercontent.com/alrra/browser-logos/master/internet-explorer/internet-explorer_16x16.png "ie") <a href="http://crossrider.com/download/ie/68915">IE Extension</a></li>
+* ![safari](https://raw.githubusercontent.com/alrra/browser-logos/master/safari/safari_16x16.png "safari") <a href="http://crossrider.com/download/safari/68915">Safari Extension</a></li>
 
 using bower:
 ```
