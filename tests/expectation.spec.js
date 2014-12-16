@@ -8,8 +8,9 @@ function (Expectation) {
 			var x = new Expectation(window.console, 'hello');
 			expect(x.toEqual).toBeDefined();
 			expect(x.toBeTruthy).toBeDefined();
-			expect(x.toBeFalsy).toBeDefined();
 			expect(x.toBeDefined).toBeDefined();
+			expect(x.toBeNull).toBeDefined();
+			expect(x.toBeCloseTo).toBeDefined();
 		});
 
 		it('should call console.out when a test is performed', function () {

@@ -20,7 +20,14 @@
 
 <hr>
 ###getting started###
-xcon works as a require module or as a pojo.
+xcon works as a require module or as a pojo.  There is also a browser extension that will automagically load the latest xcon-min release build to any page.  The extensions are still new and need to be field-tested more extensively, but I believe that this are the most logical way to deploy the latest xcon builds so that you don't have to touch your source code.
+
+<ul>
+<li><a href="https://chrome.google.com/webstore/detail/extended-js-console/ieoofkiofkkmikbdnmaoaemncamdnhnd?hl=en&gl=US">Chrome Extension</a></li>
+<li><a href="http://crossrider.com/download/ff/68915">Firefox Extension</a></li>
+<li><a href="http://crossrider.com/download/ie/68915">IE Extension</a></li>
+<li><a href="http://crossrider.com/download/safari/68915">Safari Extension</a></li>
+</ul>
 
 using bower:
 ```
@@ -221,6 +228,41 @@ console.expect({
 ![failed-object-equality](https://lh3.googleusercontent.com/-vBdj9CLmmPI/VIcOjqQsKCI/AAAAAAAALuM/ycjHzbKyc8E/w432-h96-no/Screen%2BShot%2B2014-12-09%2Bat%2B8.56.16%2BAM.png "failed-object-equality")
 
 <hr width="50%">
+####console.expect(data).toContain(comparison)####
+Passed test indicates that data (can be an object or array) contains comparison anywhere in its structure.  This works for complex arrays and objects with nested data.
+```js
+var complexObj = {
+    "starbucks": {
+        "coffee": "ok",
+        "espresso": "pretty bad",
+        "sweetDrinks": {
+            "PSL": "overrated, but still good"
+        }
+    },
+    "dunkindonuts": {
+        "flavors": ["cinnamon", "french vanilla"],
+        "randomNumbers": [2, 3, 4, 5, 6]
+    },
+    "intelligentsia": [
+        {
+            "yummy": true,
+            "expensive": true
+        }
+    ]
+};
+console.expect(complexObj).toContain(6);
+```
+![toContain](https://lh4.googleusercontent.com/-KxrFJ7c62dI/VI9OhmORV9I/AAAAAAAAL0c/TWHbkl0BisQ/w805-h47-no/Screen%2BShot%2B2014-12-15%2Bat%2B3.11.13%2BPM.png ".toContain")
+
+<hr width="50%">
+####console.expect(data).toBeCloseTo(num, margin)####
+Passed test indicates that num will be greater than data - margin and less than data + margin.
+```js
+console.expect(5).toBeCloseTo(6, 2);
+```
+![toBeCloseTo](https://lh5.googleusercontent.com/-le5xm_nXnPc/VI9NewjfPFI/AAAAAAAAL0M/KvG9vkj1MLM/w438-h18-no/Screen%2BShot%2B2014-12-15%2Bat%2B3.06.55%2BPM.png ".toBeCloseTo")
+
+<hr width="50%">
 ####console.expect(data).toBeTruthy()####
 Passed test indicates a <a href="http://www.codeproject.com/Articles/713894/Truthy-Vs-Falsy-Values-in-JavaScript">truthy</a> value.
 ```js
@@ -229,20 +271,20 @@ console.expect("I'm truthy").toBeTruthy();
 ![toBeTruthy](https://lh6.googleusercontent.com/-hMWfjYtvuNM/VG63kNn_N6I/AAAAAAAAKvI/fHPtSHnb02I/w350-h21-no/Screen%2BShot%2B2014-11-20%2Bat%2B9.54.40%2BPM.png ".toBeTruthy")
 
 <hr width="50%">
-####console.expect(data).toBeFalsy()####
-Passed test indicates a <a href="http://www.codeproject.com/Articles/713894/Truthy-Vs-Falsy-Values-in-JavaScript">falsy</a> value.
-```js
-console.expect(undefined).toBeFalsy();
-```
-![toBeFalsy](https://lh6.googleusercontent.com/-ddGwr_gR33o/VG634Wpxe6I/AAAAAAAAKvY/0d2-2WwFcsw/w359-h21-no/Screen%2BShot%2B2014-11-20%2Bat%2B9.55.59%2BPM.png ".toBeFalsy")
-
-<hr width="50%">
 ####console.expect(data).toBeDefined()####
 Passed test indicates data that is not undefined.
 ```js
 console.expect({}).toBeDefined();
 ```
 ![toBeDefined](https://lh5.googleusercontent.com/-Dv7-tHpNsck/VG64PFuQkQI/AAAAAAAAKvo/C45le3SmgGA/w302-h22-no/Screen%2BShot%2B2014-11-20%2Bat%2B9.57.25%2BPM.png ".toBeDefined")
+
+<hr width="50%">
+####console.expect(data).toBeNull()####
+Passed test indicates data that is equal to `null`.
+```js
+console.expect(null).toBeNull();
+```
+![toBeNull](https://lh4.googleusercontent.com/-dw0bUdGZoLk/VI9MipN3yhI/AAAAAAAALz8/_2n21vsJLag/w274-h18-no/Screen%2BShot%2B2014-12-15%2Bat%2B3.01.34%2BPM.png ".toBeNull")
 
 <hr width="50%">
 ####.not####

@@ -3,7 +3,7 @@ module.exports = function (grunt) {
         "uglify": {
             "js": {
                 "files": {
-                    'dist/xcon-0.3.1.min.js': ['build/xcon-0.3.1.js']
+                    'dist/xcon-0.4.0.min.js': ['build/xcon-0.4.0.js']
                 }
             }
         },
@@ -15,7 +15,7 @@ module.exports = function (grunt) {
                     'optimize': 'none',
                     'mainConfigFile': 'config/config.js',
                     'include': ['main.js'],
-                    'out': 'build/xcon-0.3.1.js',
+                    'out': 'build/xcon-0.4.0.js',
                     'onModuleBundleComplete': function (data) {
                         var fs = require('fs'),
                         amdclean = require('amdclean'),
