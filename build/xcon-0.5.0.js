@@ -40,7 +40,7 @@ condition = function (getType) {
       break;
     }
     if (blob.length > limit) {
-      blob = blob.substring(0, limit) + '...' + type === 'string' ? '"' : '';
+      blob = blob.substring(0, limit) + '...' + (type === 'string' ? '"' : '');
       truncated = true;
     }
     return {
