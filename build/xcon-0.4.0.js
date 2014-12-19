@@ -20,7 +20,7 @@ get_type = function () {
 condition = function (getType) {
   
   function condition(blob) {
-    var type = getType(blob);
+    var type = getType(blob), truncated, limit = 100;
     switch (type) {
     case 'number':
     case 'boolean':
@@ -39,9 +39,14 @@ condition = function (getType) {
       blob = 'undefined';
       break;
     }
+    if (blob.length > limit) {
+      blob = blob.substring(0, limit) + '...' + type === 'string' ? '"' : '';
+      truncated = true;
+    }
     return {
       'type': type,
-      'text': blob
+      'text': blob,
+      'truncated': !!truncated
     };
   }
   return condition;
@@ -91,22 +96,40 @@ color_select = function () {
 // to be passed to the .out method
 format = function (condition, colorSelect) {
   
-  function format(blob, opts) {
+  function prettify(blob, opts) {
     opts = opts || {};
-    var logMessage, logParams, props, type, text = blob, color = opts.color || colorSelect(), bg = opts.background || '#fff', fontWeight = opts.fnName ? 'bold' : 'normal';
+    var logMessage, props, type, text = blob, truncated;
     if (!opts.test) {
       props = condition(blob);
       type = props.type + ':\n';
       text = props.text || '';
+      truncated = props.truncated;
       type = opts.error ? 'error:\n' : type;
       type = opts.fnName ? opts.fnName + '(' + opts.fnArgs + ') returns ' + type : type;
     }
     type = type || '';
-    logMessage = '%c' + type + text;
+    logMessage = type + text;
+    return [
+      logMessage,
+      truncated ? true : false
+    ];
+  }
+  function format(blob, opts) {
+    var n, logMessage = '%c', logParams, color = opts.color || colorSelect(), bg = opts.background || '#fff', fontWeight = opts.fnName ? 'bold' : 'normal', logQueue = [], item;
+    blob = blob instanceof Array ? blob : [blob];
+    for (n in blob) {
+      item = prettify(blob[n], opts);
+      logMessage += item[0];
+      logMessage += n < blob.length - 1 ? '\n' : '';
+      if (item[1]) {
+        logQueue.push(blob[n]);
+      }
+    }
     logParams = 'color:' + color + ';background:' + bg + ';font-weight:' + fontWeight;
     return [
       logMessage,
-      logParams
+      logParams,
+      logQueue
     ];
   }
   return format;
@@ -311,11 +334,16 @@ mainjs = function (format, Expectation, diff, isEqual, getType) {
     //     "error": true // indicates a thrown error
     // }
     this.out = this.out || function (blob, opts) {
-      opts = opts || {};
-      var logPart = format(blob, opts);
-      this.log(logPart[0], logPart[1]);
-      if (opts.log) {
-        this.log(blob);
+      var logMsg, noOptsHash, len = arguments.length - 1, n;
+      opts = arguments[len] || {};
+      noOptsHash = !(opts.color || opts.background || opts.log || opts.error || opts.test || opts.fnName || opts.fnArgs);
+      if (len >= this.out.length) {
+        blob = noOptsHash ? Array.prototype.slice.call(arguments) : Array.prototype.slice.call(arguments, 0, -1);
+      }
+      logMsg = format(blob, opts);
+      this.log(logMsg[0], logMsg[1]);
+      for (n in logMsg[2]) {
+        this.log(logMsg[2][n]);
       }
     };
     // given a function, calls that function, returns the output,
