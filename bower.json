@@ -1,12 +1,12 @@
 {
   "name": "extended-javascript-console",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "homepage": "https://github.com/bignimbus/extended-javascript-console",
   "authors": [
     "Jeff Auriemma"
   ],
   "description": "more descriptive JavaScript console methods",
-  "main": "dist/xcon-min-0.4.0.js",
+  "main": "dist/xcon-min-0.5.0.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/bignimbus/extended-javascript-console.git"
