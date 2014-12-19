@@ -4,7 +4,9 @@ define(['get-type'],
 function (getType) {
     "use strict";
     function condition (blob) {
-        var type = getType(blob);
+        var type = getType(blob),
+            truncated,
+            limit = 100;
         switch (type) {
             case 'number':
             case 'boolean':
@@ -23,9 +25,14 @@ function (getType) {
                 blob = 'undefined';
                 break;
         }
+        if (blob.length > limit) {
+            blob = blob.substring(0, limit) + '...' + type === 'string' ? '"' : '';
+            truncated = true;
+        }
         return {
             "type": type,
-            "text": blob
+            "text": blob,
+            "truncated": !!truncated
         };
     }
     return condition;

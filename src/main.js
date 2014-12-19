@@ -19,19 +19,20 @@ function (format, Expectation, diff, isEqual, getType) {
         //     "error": true // indicates a thrown error
         // }
         this.out = this.out || function (blob, opts) {
-            var logPart,
+            var logMsg,
                 noOptsHash,
-                len = arguments.length - 1;
+                len = arguments.length - 1,
+                n;
             opts = arguments[len] || {};
             noOptsHash = !(opts.color || opts.background || opts.log
                 || opts.error || opts.test || opts.fnName || opts.fnArgs);
             if (len >= this.out.length) {
                 blob = noOptsHash ? Array.prototype.slice.call(arguments) : Array.prototype.slice.call(arguments, 0, -1);
             }
-            logPart = format(blob, opts);
-            this.log(logPart[0], logPart[1]);
-            if (opts.log) {
-                this.log(blob);
+            logMsg = format(blob, opts);
+            this.log(logMsg[0], logMsg[1]);
+            for (n in logMsg[2]) {
+                this.log(logMsg[2][n]);
             }
         };
 

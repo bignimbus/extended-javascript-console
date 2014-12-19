@@ -8,12 +8,14 @@ function (condition, colorSelect) {
         var logMessage,
             props,
             type,
-            text = blob;
+            text = blob,
+            truncated;
 
         if (!opts.test) {
             props = condition(blob);
             type = props.type + ':\n';
             text = props.text || '';
+            truncated = props.truncated;
             type = opts.error ? 'error:\n' : type;
             type = opts.fnName ? opts.fnName + '(' +
                 opts.fnArgs + ') returns ' + type : type;
@@ -21,7 +23,7 @@ function (condition, colorSelect) {
         type = type || '';
 
         logMessage = type + text;
-        return logMessage;
+        return [logMessage, truncated ? true : false];
     }
 
     function format (blob, opts) {
@@ -30,15 +32,21 @@ function (condition, colorSelect) {
             logParams,
             color = opts.color || colorSelect(),
             bg = opts.background || '#fff',
-            fontWeight = opts.fnName ? "bold" : "normal";
+            fontWeight = opts.fnName ? "bold" : "normal",
+            logQueue = [],
+            item;
 
         blob = blob instanceof Array ? blob : [blob];
         for (n in blob) {
-            logMessage += prettify(blob[n], opts);
+            item = prettify(blob[n], opts);
+            logMessage += item[0];
             logMessage += n < blob.length - 1 ? '\n' : '';
+            if (item[1]) {
+                logQueue.push(blob[n]);
+            }
         }
         logParams = "color:" + color + ";background:" + bg + ";font-weight:" + fontWeight;
-        return [logMessage, logParams];
+        return [logMessage, logParams, logQueue];
     }
     return format;
 });
