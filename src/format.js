@@ -3,16 +3,12 @@
 define(['condition', 'color-select'],
 function (condition, colorSelect) {
     "use strict";
-    function format (blob, opts) {
+    function prettify (blob, opts) {
         opts = opts || {};
         var logMessage,
-            logParams,
             props,
             type,
-            text = blob,
-            color = opts.color || colorSelect(),
-            bg = opts.background || '#fff',
-            fontWeight = opts.fnName ? "bold" : "normal";
+            text = blob;
 
         if (!opts.test) {
             props = condition(blob);
@@ -24,7 +20,23 @@ function (condition, colorSelect) {
         }
         type = type || '';
 
-        logMessage = "%c" + type + text;
+        logMessage = type + text;
+        return logMessage;
+    }
+
+    function format (blob, opts) {
+        var n,
+            logMessage = '%c',
+            logParams,
+            color = opts.color || colorSelect(),
+            bg = opts.background || '#fff',
+            fontWeight = opts.fnName ? "bold" : "normal";
+
+        blob = blob instanceof Array ? blob : [blob];
+        for (n in blob) {
+            logMessage += prettify(blob[n], opts);
+            logMessage += n < blob.length - 1 ? '\n' : '';
+        }
         logParams = "color:" + color + ";background:" + bg + ";font-weight:" + fontWeight;
         return [logMessage, logParams];
     }
