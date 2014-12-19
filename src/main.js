@@ -19,8 +19,16 @@ function (format, Expectation, diff, isEqual, getType) {
         //     "error": true // indicates a thrown error
         // }
         this.out = this.out || function (blob, opts) {
-            opts = opts || {};
-            var logPart = format(blob, opts);
+            var logPart,
+                noOptsHash,
+                len = arguments.length - 1;
+            opts = arguments[len] || {};
+            noOptsHash = !(opts.color || opts.background || opts.log
+                || opts.error || opts.test || opts.fnName || opts.fnArgs);
+            if (len >= this.out.length) {
+                blob = noOptsHash ? Array.prototype.slice.call(arguments) : Array.prototype.slice.call(arguments, 0, -1);
+            }
+            logPart = format(blob, opts);
             this.log(logPart[0], logPart[1]);
             if (opts.log) {
                 this.log(blob);
