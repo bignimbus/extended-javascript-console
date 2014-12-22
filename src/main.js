@@ -87,14 +87,14 @@ function (format, Expectation, diff, isEqual, getType) {
                     "test": true,
                     "color": "red"
                 });
-                return false;
+                return;
             }
             if (isEqual(obj, compare)) {
                 this.out("both arguments are equal", {
                     "test": true,
                     "color": "darkgreen"
                 });
-                return false;
+                return;
             }
             var diffs = diff(obj, compare);
             if (!diffs.errorMessage) {
