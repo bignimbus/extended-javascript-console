@@ -84,6 +84,7 @@ function (format, Expectation, diff, isEqual, getType) {
         this.diff = this.diff || function (obj, compare) {
             if (typeof obj !== "object" || typeof compare !== "object") {
                 this.out("both arguments must be objects or arrays", {
+                    "test": true,
                     "color": "red"
                 });
                 return false;
