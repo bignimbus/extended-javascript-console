@@ -21,9 +21,8 @@ function (format, Expectation, diff, isEqual, getType) {
         this.out = this.out || function (blob, opts) {
             var logMsg,
                 noOptsHash,
-                len = arguments.length - 1,
                 n;
-            opts = arguments[len] || {};
+            opts = arguments[arguments.length - 1] || {};
             noOptsHash = !(opts.color || opts.background || opts.log
                 || opts.error || opts.test || opts.fnName || opts.fnArgs);
             opts = noOptsHash ? {} : opts;

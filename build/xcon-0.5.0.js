@@ -356,8 +356,8 @@ mainjs = function (format, Expectation, diff, isEqual, getType) {
     //     "error": true // indicates a thrown error
     // }
     this.out = this.out || function (blob, opts) {
-      var logMsg, noOptsHash, len = arguments.length - 1, n;
-      opts = arguments[len] || {};
+      var logMsg, noOptsHash, n;
+      opts = arguments[arguments.length - 1] || {};
       noOptsHash = !(opts.color || opts.background || opts.log || opts.error || opts.test || opts.fnName || opts.fnArgs);
       opts = noOptsHash ? {} : opts;
       if (arguments.length > this.out.length) {
