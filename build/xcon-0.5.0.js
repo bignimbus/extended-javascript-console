@@ -359,7 +359,8 @@ mainjs = function (format, Expectation, diff, isEqual, getType) {
       var logMsg, noOptsHash, len = arguments.length - 1, n;
       opts = arguments[len] || {};
       noOptsHash = !(opts.color || opts.background || opts.log || opts.error || opts.test || opts.fnName || opts.fnArgs);
-      if (len >= this.out.length) {
+      opts = noOptsHash ? {} : opts;
+      if (arguments.length > this.out.length) {
         blob = noOptsHash ? Array.prototype.slice.call(arguments) : Array.prototype.slice.call(arguments, 0, -1);
       }
       logMsg = format(blob, opts);
