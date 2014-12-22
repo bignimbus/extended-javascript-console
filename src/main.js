@@ -112,6 +112,12 @@ function (format, Expectation, diff, isEqual, getType) {
                     "color": "black",
                     "background": "lightgray"
                 });
+                if (diffs.firstObjectDiff) {
+                    this.log(obj);
+                }
+                if (diffs.secondObjectDiff) {
+                    this.log(compare);
+                }
             }
         };
 

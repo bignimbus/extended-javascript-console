@@ -85,18 +85,20 @@ function (isEqual, getType, condition) {
             firstObjectDiff = findUniqueData(obj, compare);
         } catch (e) {
             problem = true;
+            firstObjectDiff = true;
         }
         currentPath = [];
         uniqueData = '';
         try {
-            secondObjectDiff = findUniqueData(obj, compare);
+            secondObjectDiff = findUniqueData(compare, obj);
         } catch (e) {
             problem = true;
+            secondObjectDiff = true;
         }
 
         if (problem) {
-            errorMessage = 'this object is too complex to diff.'
-                + ' Try testing a smaller object or one with fewer circular data references.';
+            errorMessage = 'object(s) too complex to diff.'
+                + ' Try testing smaller object(s) or one(s) with fewer circular data references.';
         }
 
         return {
