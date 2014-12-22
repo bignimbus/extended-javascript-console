@@ -413,7 +413,10 @@ mainjs = function (format, Expectation, diff, isEqual, getType) {
     // and one object: {"b": 2} (the only unique data in second arg)
     this.diff = this.diff || function (obj, compare) {
       if (typeof obj !== 'object' || typeof compare !== 'object') {
-        this.out('both arguments must be objects or arrays', { 'color': 'red' });
+        this.out('both arguments must be objects or arrays', {
+          'test': true,
+          'color': 'red'
+        });
         return false;
       }
       if (isEqual(obj, compare)) {
