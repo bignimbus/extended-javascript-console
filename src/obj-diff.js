@@ -95,7 +95,7 @@ function (isEqual, getType, condition) {
         }
 
         if (problem) {
-            errorMessage = 'this object is too complex to test.'
+            errorMessage = 'this object is too complex to diff.'
                 + ' Try testing a smaller object or one with fewer circular data references.';
         }
 
