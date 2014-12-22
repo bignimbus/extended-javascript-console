@@ -35,16 +35,16 @@ bower install extended-javascript-console
 require.js: I recommend declaring xcon last in your require path list, since you will not need to declare it as a module.
 ```js
 define([
-	"path/to/xcon-0.3.0.min"
+	"path/to/xcon-0.5.0.min"
 ], function () {
 // no need to declare as a parameter
 /* or... */
-require(["path/to/xcon-0.3.0.min"])
+require(["path/to/xcon-0.5.0.min"])
 ```
 
 plain ol' JavaScript:
 ```html
-<script src="path/to/dist/xcon-0.3.0.min.js"></script>
+<script src="path/to/dist/xcon-0.5.0.min.js"></script>
 ```
 <hr>
 
