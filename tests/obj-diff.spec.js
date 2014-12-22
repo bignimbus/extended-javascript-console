@@ -29,14 +29,16 @@ function (diff) {
 			var arrDiffs = diff([1, 2, "3", {"four": 4}], [1, 2, "3", "four"]);
 			expect(arrDiffs).toEqual({
 				"firstObjectDiff": '\n3 : {"four":4}',
-				"secondObjectDiff": '\n3 : "four"'
+				"secondObjectDiff": '\n3 : "four"',
+				"errorMessage": undefined
 			});
 		});
 		it('should return a diff with unique properties for objects', function () {
 			var objDiffs = diff(first, second);
 			expect(objDiffs).toEqual({
 				"firstObjectDiff": '\nhello : "kitty"\nnest.nested.prop : 4',
-				"secondObjectDiff": '\nhello : "dolly"\nnest.nested.prop : 3'
+				"secondObjectDiff": '\nhello : "dolly"\nnest.nested.prop : 3',
+				"errorMessage": undefined
 			});
 		});
 	});

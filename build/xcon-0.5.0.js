@@ -20,7 +20,7 @@ get_type = function () {
 condition = function (getType) {
   
   function condition(blob) {
-    var type = getType(blob);
+    var type = getType(blob), truncated, limit = 100, log;
     switch (type) {
     case 'number':
     case 'boolean':
@@ -30,7 +30,15 @@ condition = function (getType) {
     case 'object':
     case 'array':
     case 'null':
-      blob = JSON.stringify(blob);
+      try {
+        blob = JSON.stringify(blob);
+      } catch (e) {
+        console.out('*circular data structure detected:', {
+          'color': 'red',
+          'test': true
+        });
+        console.log(blob);
+      }
       break;
     case 'string':
       blob = '"' + blob + '"';
@@ -39,9 +47,14 @@ condition = function (getType) {
       blob = 'undefined';
       break;
     }
+    if (blob.length > limit) {
+      blob = blob.substring(0, limit) + '...' + (type === 'string' ? '"' : '');
+      truncated = true;
+    }
     return {
       'type': type,
-      'text': blob
+      'text': blob,
+      'truncated': !!truncated
     };
   }
   return condition;
@@ -91,22 +104,40 @@ color_select = function () {
 // to be passed to the .out method
 format = function (condition, colorSelect) {
   
-  function format(blob, opts) {
+  function prettify(blob, opts) {
     opts = opts || {};
-    var logMessage, logParams, props, type, text = blob, color = opts.color || colorSelect(), bg = opts.background || '#fff', fontWeight = opts.fnName ? 'bold' : 'normal';
+    var logMessage, props, type, text = blob, truncated;
     if (!opts.test) {
       props = condition(blob);
       type = props.type + ':\n';
       text = props.text || '';
+      truncated = props.truncated;
       type = opts.error ? 'error:\n' : type;
       type = opts.fnName ? opts.fnName + '(' + opts.fnArgs + ') returns ' + type : type;
     }
     type = type || '';
-    logMessage = '%c' + type + text;
+    logMessage = type + text;
+    return [
+      logMessage,
+      truncated ? true : false
+    ];
+  }
+  function format(blob, opts) {
+    var n, logMessage = '%c', logParams, color = opts.color || colorSelect(), bg = opts.background || '#fff', fontWeight = opts.fnName ? 'bold' : 'normal', logQueue = [], item;
+    blob = blob instanceof Array ? blob : [blob];
+    for (n in blob) {
+      item = prettify(blob[n], opts);
+      logMessage += item[0];
+      logMessage += n < blob.length - 1 ? '\n' : '';
+      if (item[1]) {
+        logQueue.push(blob[n]);
+      }
+    }
     logParams = 'color:' + color + ';background:' + bg + ';font-weight:' + fontWeight;
     return [
       logMessage,
-      logParams
+      logParams,
+      logQueue
     ];
   }
   return format;
@@ -228,7 +259,7 @@ obj_diff = function (isEqual, getType, condition) {
     if (getType(obj) !== getType(compare)) {
       return false;
     }
-    var firstObjectDiff, secondObjectDiff, currentPath = [], uniqueData = '';
+    var firstObjectDiff, secondObjectDiff, currentPath = [], uniqueData = '', problem = false, errorMessage;
     function clone(thing) {
       // clone function was originally written by A. Levy
       // and edited by Jeff Auriemma for style and accuracy
@@ -281,13 +312,27 @@ obj_diff = function (isEqual, getType, condition) {
       }
       return uniqueData;
     }
-    firstObjectDiff = findUniqueData(obj, compare);
+    try {
+      firstObjectDiff = findUniqueData(obj, compare);
+    } catch (e) {
+      problem = true;
+      firstObjectDiff = true;
+    }
     currentPath = [];
     uniqueData = '';
-    secondObjectDiff = findUniqueData(compare, obj);
+    try {
+      secondObjectDiff = findUniqueData(compare, obj);
+    } catch (e) {
+      problem = true;
+      secondObjectDiff = true;
+    }
+    if (problem) {
+      errorMessage = 'object(s) too complex to diff.' + ' Try testing smaller object(s) or one(s) with fewer circular data references.';
+    }
     return {
       'firstObjectDiff': firstObjectDiff,
-      'secondObjectDiff': secondObjectDiff
+      'secondObjectDiff': secondObjectDiff,
+      'errorMessage': errorMessage
     };
   }
   return diff;
@@ -296,7 +341,8 @@ mainjs = function (format, Expectation, diff, isEqual, getType) {
   
   function Xcon() {
     // skins a console.log message to display the primitive type as well
-    // as the expected output of a vanilla .log() command
+    // as the expected output of a vanilla .log() command.  Accepts an
+    // arbitrary number of arguments.
     // opts: {
     //     "color": "#f9f9f9", // specify a css color
     //     "background": "rgb(0, 0, 0)", // specify a css color
@@ -311,11 +357,17 @@ mainjs = function (format, Expectation, diff, isEqual, getType) {
     //     "error": true // indicates a thrown error
     // }
     this.out = this.out || function (blob, opts) {
-      opts = opts || {};
-      var logPart = format(blob, opts);
-      this.log(logPart[0], logPart[1]);
-      if (opts.log) {
-        this.log(blob);
+      var logMsg, noOptsHash, n;
+      opts = arguments[arguments.length - 1] || {};
+      noOptsHash = !(opts.color || opts.background || opts.log || opts.error || opts.test || opts.fnName || opts.fnArgs);
+      opts = noOptsHash ? {} : opts;
+      if (arguments.length > this.out.length) {
+        blob = noOptsHash ? Array.prototype.slice.call(arguments) : Array.prototype.slice.call(arguments, 0, -1);
+      }
+      logMsg = format(blob, opts);
+      this.log(logMsg[0], logMsg[1]);
+      for (n in logMsg[2]) {
+        this.log(logMsg[2][n]);
       }
     };
     // given a function, calls that function, returns the output,
@@ -372,16 +424,30 @@ mainjs = function (format, Expectation, diff, isEqual, getType) {
         return false;
       }
       var diffs = diff(obj, compare);
-      this.out('first ' + getType(obj) + ' has unique data:' + diffs.firstObjectDiff, {
-        'test': true,
-        'color': 'black',
-        'background': 'lightblue'
-      });
-      this.out('second ' + getType(compare) + ' has unique data:' + diffs.secondObjectDiff, {
-        'test': true,
-        'color': 'black',
-        'background': 'khaki'
-      });
+      if (!diffs.errorMessage) {
+        this.out('first ' + getType(obj) + ' has unique data:' + diffs.firstObjectDiff, {
+          'test': true,
+          'color': 'black',
+          'background': 'lightblue'
+        });
+        this.out('second ' + getType(compare) + ' has unique data:' + diffs.secondObjectDiff, {
+          'test': true,
+          'color': 'black',
+          'background': 'khaki'
+        });
+      } else {
+        this.out(diffs.errorMessage, {
+          'test': true,
+          'color': 'black',
+          'background': 'lightgray'
+        });
+        if (diffs.firstObjectDiff) {
+          this.log(obj);
+        }
+        if (diffs.secondObjectDiff) {
+          this.log(compare);
+        }
+      }
     };
     return this;
   }

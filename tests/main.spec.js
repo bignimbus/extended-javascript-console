@@ -27,6 +27,17 @@ function () {
             expect(window.console.out('placeholder')).not.toBeDefined();
         });
 
+        it('should accept an arbitrary number of arguments and call .out on each of them,'
+                + 'detecting the options hash as the last argument if provided.',
+        function () {
+            spyOn(window.console, 'log');
+            window.console.out(1, 2, 3, 4, {
+                "color": "navy"
+            });
+            expect(window.console.log).toHaveBeenCalledWith('%cnumber:\n1\nnumber:\n2\nnumber:\n3\nnumber:\n4',
+                'color:navy;background:#fff;font-weight:normal');
+        });
+
         it('should log using the user-specified color given any valid css declaration (open console to check output)',
         function () {
             window.console.out("hex 3-digit: this should be invisible", {"color": "#fff"});

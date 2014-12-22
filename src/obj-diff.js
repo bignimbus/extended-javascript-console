@@ -10,7 +10,9 @@ function (isEqual, getType, condition) {
         var firstObjectDiff,
             secondObjectDiff,
             currentPath = [],
-            uniqueData = '';
+            uniqueData = '',
+            problem = false,
+            errorMessage;
 
         function clone (thing) {
             // clone function was originally written by A. Levy
@@ -79,14 +81,30 @@ function (isEqual, getType, condition) {
             return uniqueData;
         }
 
-        firstObjectDiff = findUniqueData(obj, compare);
+        try {
+            firstObjectDiff = findUniqueData(obj, compare);
+        } catch (e) {
+            problem = true;
+            firstObjectDiff = true;
+        }
         currentPath = [];
         uniqueData = '';
-        secondObjectDiff = findUniqueData(compare, obj);
+        try {
+            secondObjectDiff = findUniqueData(compare, obj);
+        } catch (e) {
+            problem = true;
+            secondObjectDiff = true;
+        }
+
+        if (problem) {
+            errorMessage = 'object(s) too complex to diff.'
+                + ' Try testing smaller object(s) or one(s) with fewer circular data references.';
+        }
 
         return {
             "firstObjectDiff": firstObjectDiff,
-            "secondObjectDiff": secondObjectDiff
+            "secondObjectDiff": secondObjectDiff,
+            "errorMessage": errorMessage
         };
 
     }

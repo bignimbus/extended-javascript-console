@@ -4,7 +4,8 @@ function (format, Expectation, diff, isEqual, getType) {
     function Xcon () {
 
         // skins a console.log message to display the primitive type as well
-        // as the expected output of a vanilla .log() command
+        // as the expected output of a vanilla .log() command.  Accepts an
+        // arbitrary number of arguments.
         // opts: {
         //     "color": "#f9f9f9", // specify a css color
         //     "background": "rgb(0, 0, 0)", // specify a css color
@@ -19,11 +20,20 @@ function (format, Expectation, diff, isEqual, getType) {
         //     "error": true // indicates a thrown error
         // }
         this.out = this.out || function (blob, opts) {
-            opts = opts || {};
-            var logPart = format(blob, opts);
-            this.log(logPart[0], logPart[1]);
-            if (opts.log) {
-                this.log(blob);
+            var logMsg,
+                noOptsHash,
+                n;
+            opts = arguments[arguments.length - 1] || {};
+            noOptsHash = !(opts.color || opts.background || opts.log
+                || opts.error || opts.test || opts.fnName || opts.fnArgs);
+            opts = noOptsHash ? {} : opts;
+            if (arguments.length > this.out.length) {
+                blob = noOptsHash ? Array.prototype.slice.call(arguments) : Array.prototype.slice.call(arguments, 0, -1);
+            }
+            logMsg = format(blob, opts);
+            this.log(logMsg[0], logMsg[1]);
+            for (n in logMsg[2]) {
+                this.log(logMsg[2][n]);
             }
         };
 
@@ -86,16 +96,30 @@ function (format, Expectation, diff, isEqual, getType) {
                 return false;
             }
             var diffs = diff(obj, compare);
-            this.out("first " + getType(obj) + " has unique data:" + diffs.firstObjectDiff, {
-                "test": true,
-                "color": "black",
-                "background": "lightblue"
-            });
-            this.out("second " + getType(compare) + " has unique data:" + diffs.secondObjectDiff, {
-                "test": true,
-                "color": "black",
-                "background": "khaki"
-            });
+            if (!diffs.errorMessage) {
+                this.out("first " + getType(obj) + " has unique data:" + diffs.firstObjectDiff, {
+                    "test": true,
+                    "color": "black",
+                    "background": "lightblue"
+                });
+                this.out("second " + getType(compare) + " has unique data:" + diffs.secondObjectDiff, {
+                    "test": true,
+                    "color": "black",
+                    "background": "khaki"
+                });
+            } else {
+                this.out(diffs.errorMessage, {
+                    "test": true,
+                    "color": "black",
+                    "background": "lightgray"
+                });
+                if (diffs.firstObjectDiff) {
+                    this.log(obj);
+                }
+                if (diffs.secondObjectDiff) {
+                    this.log(compare);
+                }
+            }
         };
 
         return this;

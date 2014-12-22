@@ -4,7 +4,10 @@ define(['get-type'],
 function (getType) {
     "use strict";
     function condition (blob) {
-        var type = getType(blob);
+        var type = getType(blob),
+            truncated,
+            limit = 100,
+            log;
         switch (type) {
             case 'number':
             case 'boolean':
@@ -14,7 +17,12 @@ function (getType) {
             case 'object':
             case 'array':
             case 'null':
-                blob = JSON.stringify(blob);
+                try {
+                    blob = JSON.stringify(blob);
+                } catch (e) {
+                    console.out('*circular data structure detected:', {"color": "red", "test": true});
+                    console.log(blob);
+                }
                 break;
             case 'string':
                 blob = '"' + blob + '"';
@@ -23,9 +31,14 @@ function (getType) {
                 blob = 'undefined';
                 break;
         }
+        if (blob.length > limit) {
+            blob = blob.substring(0, limit) + '...' + (type === 'string' ? '"' : '');
+            truncated = true;
+        }
         return {
             "type": type,
-            "text": blob
+            "text": blob,
+            "truncated": !!truncated
         };
     }
     return condition;
