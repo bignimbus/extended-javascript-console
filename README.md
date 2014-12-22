@@ -50,9 +50,11 @@ plain ol' JavaScript:
 
 ###console.out()###
 like `console.log`, but also prints the primitive type.  Accepts any number of arguments.  The last argument can contain an options hash.
-```
 
-`console.out('hello world!');`
+```js
+console.out('hello world!');
+```
+outputs:
 ```
 string:
 hello world!
