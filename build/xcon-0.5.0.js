@@ -325,7 +325,7 @@ obj_diff = function (isEqual, getType, condition) {
       problem = true;
     }
     if (problem) {
-      errorMessage = 'this object is too complex to test.' + ' Try testing a smaller object or one with fewer circular data references.';
+      errorMessage = 'this object is too complex to diff.' + ' Try testing a smaller object or one with fewer circular data references.';
     }
     return {
       'firstObjectDiff': firstObjectDiff,
