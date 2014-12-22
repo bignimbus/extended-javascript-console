@@ -168,6 +168,7 @@ function () {
             spyOn(window.console, "out");
             window.console.diff("a", 3);
             expect(window.console.out).toHaveBeenCalledWith("both arguments must be objects or arrays", {
+                "test": true,
                 "color": "red"
             });
         });
