@@ -4,7 +4,8 @@ function (format, Expectation, diff, isEqual, getType) {
     function Xcon () {
 
         // skins a console.log message to display the primitive type as well
-        // as the expected output of a vanilla .log() command
+        // as the expected output of a vanilla .log() command.  Accepts an
+        // arbitrary number of arguments.
         // opts: {
         //     "color": "#f9f9f9", // specify a css color
         //     "background": "rgb(0, 0, 0)", // specify a css color

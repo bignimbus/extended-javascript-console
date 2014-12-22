@@ -49,7 +49,8 @@ plain ol' JavaScript:
 <hr>
 
 ###console.out()###
-like `console.log`, but also prints the primitive type.  Takes arguments to set the text color and to call native console to take a closer look at nested objects/arrays.
+like `console.log`, but also prints the primitive type.  Accepts any number of arguments.  The last argument can contain an options hash.
+```
 
 `console.out('hello world!');`
 ```
@@ -58,53 +59,36 @@ hello world!
 ```
 <hr width="50%">
 
-`console.out(Math.PI);`
-```
-number:
-3.141592653589793 
-```
-<hr width="50%">
-
-`console.out(false);`
-```
-boolean:
-false
-```
-<hr width="50%">
-
-`console.out(NaN)`
-```
-number:
-NaN 
-```
-<hr width="50%">
-
-`console.out([1, 2, 3]);`
-```
-array:
-[1,2,3] 
-```
-<hr width="50%">
-
 ```js
-console.out({
+console.out(Math.PI, false, NaN, [1, 2, 3], {
     "can": "tell",
     "the": "difference",
     "between": "objects",
     "and": "arrays"
 });
 ```
+outputs:
 ```
+number:
+3.141592653589793 
+boolean:
+false
+number:
+NaN 
+array:
+[1,2,3] 
 object:
 {"can":"tell","the":"difference","between":"objects","and":"arrays"}
 ```
+
 <hr width="50%">
 ####options####
 ```js
 var someVar = {"foo": "bar"};
-console.out(someVar, {
+console.out(someVar, { // options hash is passed last
 	"color": "rgba(0, 0, 255, 0.8)", // or any valid css color
-    "log": true, // also calls native console.  Useful for objects
+    "bg": "hsv(150, 150, 150)" // or any valid css color
+    "log": true, // also calls native console.  Useful for nesting complex objects
 });
 ```
 <hr>
