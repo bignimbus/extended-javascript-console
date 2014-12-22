@@ -33,7 +33,7 @@ condition = function (getType) {
       try {
         blob = JSON.stringify(blob);
       } catch (e) {
-        console.out('*circular data structure detected', {
+        console.out('*circular data structure detected:', {
           'color': 'red',
           'test': true
         });
@@ -259,7 +259,7 @@ obj_diff = function (isEqual, getType, condition) {
     if (getType(obj) !== getType(compare)) {
       return false;
     }
-    var firstObjectDiff, secondObjectDiff, currentPath = [], uniqueData = '';
+    var firstObjectDiff, secondObjectDiff, currentPath = [], uniqueData = '', problem = false, errorMessage;
     function clone(thing) {
       // clone function was originally written by A. Levy
       // and edited by Jeff Auriemma for style and accuracy
@@ -312,13 +312,25 @@ obj_diff = function (isEqual, getType, condition) {
       }
       return uniqueData;
     }
-    firstObjectDiff = findUniqueData(obj, compare);
+    try {
+      firstObjectDiff = findUniqueData(obj, compare);
+    } catch (e) {
+      problem = true;
+    }
     currentPath = [];
     uniqueData = '';
-    secondObjectDiff = findUniqueData(compare, obj);
+    try {
+      secondObjectDiff = findUniqueData(obj, compare);
+    } catch (e) {
+      problem = true;
+    }
+    if (problem) {
+      errorMessage = 'this object is too complex to test.' + ' Try testing a smaller object or one with fewer circular data references.';
+    }
     return {
       'firstObjectDiff': firstObjectDiff,
-      'secondObjectDiff': secondObjectDiff
+      'secondObjectDiff': secondObjectDiff,
+      'errorMessage': errorMessage
     };
   }
   return diff;
@@ -408,16 +420,24 @@ mainjs = function (format, Expectation, diff, isEqual, getType) {
         return false;
       }
       var diffs = diff(obj, compare);
-      this.out('first ' + getType(obj) + ' has unique data:' + diffs.firstObjectDiff, {
-        'test': true,
-        'color': 'black',
-        'background': 'lightblue'
-      });
-      this.out('second ' + getType(compare) + ' has unique data:' + diffs.secondObjectDiff, {
-        'test': true,
-        'color': 'black',
-        'background': 'khaki'
-      });
+      if (!diffs.errorMessage) {
+        this.out('first ' + getType(obj) + ' has unique data:' + diffs.firstObjectDiff, {
+          'test': true,
+          'color': 'black',
+          'background': 'lightblue'
+        });
+        this.out('second ' + getType(compare) + ' has unique data:' + diffs.secondObjectDiff, {
+          'test': true,
+          'color': 'black',
+          'background': 'khaki'
+        });
+      } else {
+        this.out(diffs.errorMessage, {
+          'test': true,
+          'color': 'black',
+          'background': 'lightgray'
+        });
+      }
     };
     return this;
   }
