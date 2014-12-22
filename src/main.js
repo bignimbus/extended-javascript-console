@@ -95,16 +95,24 @@ function (format, Expectation, diff, isEqual, getType) {
                 return false;
             }
             var diffs = diff(obj, compare);
-            this.out("first " + getType(obj) + " has unique data:" + diffs.firstObjectDiff, {
-                "test": true,
-                "color": "black",
-                "background": "lightblue"
-            });
-            this.out("second " + getType(compare) + " has unique data:" + diffs.secondObjectDiff, {
-                "test": true,
-                "color": "black",
-                "background": "khaki"
-            });
+            if (!diffs.errorMessage) {
+                this.out("first " + getType(obj) + " has unique data:" + diffs.firstObjectDiff, {
+                    "test": true,
+                    "color": "black",
+                    "background": "lightblue"
+                });
+                this.out("second " + getType(compare) + " has unique data:" + diffs.secondObjectDiff, {
+                    "test": true,
+                    "color": "black",
+                    "background": "khaki"
+                });
+            } else {
+                this.out(diffs.errorMessage, {
+                    "test": true,
+                    "color": "black",
+                    "background": "lightgray"
+                });
+            }
         };
 
         return this;
