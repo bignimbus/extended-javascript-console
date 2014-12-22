@@ -20,7 +20,7 @@ function (getType) {
                 try {
                     blob = JSON.stringify(blob);
                 } catch (e) {
-                    console.out('*circular data structure detected', {"color": "red", "test": true});
+                    console.out('*circular data structure detected:', {"color": "red", "test": true});
                     console.log(blob);
                 }
                 break;
