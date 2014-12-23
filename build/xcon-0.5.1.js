@@ -303,7 +303,7 @@ obj_diff = function (isEqual, getType, condition) {
         currentPath.push(key);
         if (first.hasOwnProperty(key) && !isEqual(first[key], second[key])) {
           if (getType(first[key]) !== getType(second[key]) || getType(first[key]) !== 'object' && getType(first[key]) !== 'array') {
-            uniqueData += '\n' + currentPath.join('.') + ' : ' + condition(getData(first, currentPath.pop())).text;
+            uniqueData += '\n' + currentPath.join('.') + ' : ' + condition(getData(first, currentPath.slice(-1))).text;
           } else {
             findUniqueData(first[key], second[key]);
           }

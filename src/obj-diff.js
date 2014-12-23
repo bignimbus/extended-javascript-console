@@ -71,7 +71,7 @@ function (isEqual, getType, condition) {
                     if (getType(first[key]) !== getType(second[key])
                     || getType(first[key]) !== "object" && getType(first[key]) !== "array") {
                         uniqueData += '\n' + currentPath.join('.')
-                            + ' : ' + condition(getData(first, currentPath.pop())).text;
+                            + ' : ' + condition(getData(first, currentPath.slice(-1))).text;
                     } else {
                         findUniqueData(first[key], second[key]);
                     }
