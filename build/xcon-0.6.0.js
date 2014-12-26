@@ -199,7 +199,7 @@ search = function (getType) {
   }
   return search;
 }(get_type);
-expectation = function (isEqual, getType, condition, Search) {
+expectation = function (isEqual, getType, condition, search) {
   
   function Expectation(context, thing, opts) {
     opts = opts || {};
@@ -231,7 +231,7 @@ expectation = function (isEqual, getType, condition, Search) {
       }
     };
     this.toContain = function (otherThing) {
-      var result = new Search(thing).thisFor(otherThing);
+      var result = search(thing, otherThing);
       passed = not ? !result : result;
       message('to contain ', getType(otherThing), ' ', condition(otherThing).text);
     };
