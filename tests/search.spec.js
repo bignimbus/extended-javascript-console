@@ -1,8 +1,7 @@
 define(['search'],
-function (Search) {
+function (search) {
     'use strict';
-    var search,
-        simpleObj = {
+    var simpleObj = {
             "starbucks": 3,
             "intelligentsia": 10,
             "dunkindonuts": 5
@@ -38,22 +37,22 @@ function (Search) {
             }
         ];
 
-    describe('contains', function () {
+    describe('search', function () {
         it('should search and find data stored in an object', function () {
-            expect(new Search(simpleObj).thisFor(5)).toEqual(true);
-            expect(new Search(simpleObj).thisFor(4)).toEqual(false);
+            expect(search(simpleObj, 5)).toEqual(true);
+            expect(search(simpleObj, 4)).toEqual(false);
         });
         it('should search and find data stored in an array', function () {
-            expect(new Search(simpleArr).thisFor("two")).toEqual(true);
-            expect(new Search(simpleArr).thisFor("metropolis")).toEqual(false);
+            expect(search(simpleArr, "two")).toEqual(true);
+            expect(search(simpleArr, "metropolis")).toEqual(false);
         });
         it('should find data deeply nested in an object', function () {
-            expect(new Search(complexObj).thisFor(6)).toEqual(true);
-            expect(new Search(complexObj).thisFor("hazelnut")).toEqual(false);
+            expect(search(complexObj, 6)).toEqual(true);
+            expect(search(complexObj, "hazelnut")).toEqual(false);
         });
         it('should find data deeply nested in an array', function () {
-            expect(new Search(complexArr)).thisFor(3)).toEqual(true);
-            expect(new Search(complexArr)).thisFor("peet's")).toEqual(false);
+            expect(search(complexArr, 3)).toEqual(true);
+            expect(search(complexArr, "peet's")).toEqual(false);
         });
     });
 });

@@ -194,7 +194,10 @@ search = function (getType) {
     };
     return this;
   }
-  return Search;
+  function search(collection, thing) {
+    return new Search(collection).thisFor(thing);
+  }
+  return search;
 }(get_type);
 expectation = function (isEqual, getType, condition, Search) {
   
