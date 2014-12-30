@@ -8,11 +8,9 @@
   },
   "dependencies": {
     "amdclean": "^2.3.0",
-    "es6-module-transpiler": "^0.9.3",
     "grunt": "^0.4.5",
     "grunt-contrib-requirejs": "^0.4.4",
     "grunt-contrib-uglify": "^0.6.0",
-    "grunt-es6-module-transpiler": "^0.6.0",
     "requirejs": "^2.1.15"
   },
   "devDependencies": {
