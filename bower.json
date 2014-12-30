@@ -16,8 +16,10 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "requirejs": "2.1.15",
-    "amdclean": "2.3.0"
+    "amdclean": "2.3.0",
+    "grunt-contrib-jasmine": "^0.8.1",
+    "grunt-template-jasmine-requirejs": "^0.2.0",
+    "requirejs": "2.1.15"
   },
   "moduleType": [
     "amd"
