@@ -45,5 +45,5 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-jasmine');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
     grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.registerTask('build', ['requirejs:js', 'uglify:js']);
+    grunt.registerTask('build', ['jasmine', 'requirejs:js', 'uglify:js']);
 };
