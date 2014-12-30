@@ -26,9 +26,13 @@ function (isEqual, getType, condition, search) {
             this.passed ? "PASSED:" : "FAILED:",
             "expected",
             getType(this.thing),
-            condition(this.thing).text,
-            this.not ? 'not' : ''
+            condition(this.thing).text
         ];
+
+        if (this.not) {
+            text.push('not');
+        }
+
         text = text.concat(Array.prototype.slice.call(arguments));
 
         this.context.out(text.join(' '), {
