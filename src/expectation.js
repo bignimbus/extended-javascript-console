@@ -20,9 +20,7 @@ function (isEqual, getType, condition, search) {
     Expectation.prototype.opposite = false;
 
     Expectation.prototype.message = function () {
-        var text;
-
-        text = [
+        var text = [
             this.passed ? "PASSED:" : "FAILED:",
             "expected",
             getType(this.thing),
