@@ -8,7 +8,7 @@ function (isEqual, getType, condition, search) {
 
     Expectation = function (context, thing, opts) {
         opts = opts || {};
-        this.not = !!opts.not;
+        this.opposite = !!opts.not;
 
         this.thing = thing;
         this.context = context;
@@ -17,7 +17,7 @@ function (isEqual, getType, condition, search) {
     Expectation.prototype.thing = null;
     Expectation.prototype.context = null;
     Expectation.prototype.passed = false;
-    Expectation.prototype.not = false;
+    Expectation.prototype.opposite = false;
 
     Expectation.prototype.message = function () {
         var text;
@@ -29,7 +29,7 @@ function (isEqual, getType, condition, search) {
             condition(this.thing).text
         ];
 
-        if (this.not) {
+        if (this.opposite) {
             text.push('not');
         }
 
@@ -43,7 +43,7 @@ function (isEqual, getType, condition, search) {
     };
 
     Expectation.prototype.setResult = function (result) {
-        result = this.not ^ result;
+        result = this.opposite ^ result;
         this.passed = !!result; // convert to boolean
     };
 
