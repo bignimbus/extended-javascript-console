@@ -29,7 +29,7 @@ function (isEqual, getType, condition, search) {
             condition(this.thing).text,
             this.not ? 'not' : ''
         ];
-        text = text.concat(arguments);
+        text = text.concat(Array.prototype.slice.call(arguments));
 
         this.context.out(text.join(' '), {
             "color": "#000",
