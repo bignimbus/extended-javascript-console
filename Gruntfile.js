@@ -1,5 +1,18 @@
 module.exports = function (grunt) {
     grunt.initConfig({
+        "jasmine": {
+            "pivotal": {
+                "src": 'src/*.js',
+                "options": {
+                    "specs": 'tests/*.spec.js',
+                    "version": "2.0.4",
+                    "template": require('grunt-template-jasmine-requirejs'),
+                    "templateOptions": {
+                        "requireConfigFile": 'config/config.js'
+                    }
+                }
+            }
+        },
         "uglify": {
             "js": {
                 "files": {
@@ -29,6 +42,7 @@ module.exports = function (grunt) {
             }
         }
     });
+    grunt.loadNpmTasks('grunt-contrib-jasmine');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.registerTask('build', ['requirejs:js', 'uglify:js']);
