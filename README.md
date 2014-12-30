@@ -311,7 +311,7 @@ To ensure that xcon.js will never break native console methods, there are fallba
 <hr>
 
 ###Tests###
-Jasmine unit tests are in the `tests` directory.
+`grunt jasmine` will run the tests in the command line.  Jasmine unit tests are in the `tests` directory.
 <hr>
 
 ###Contribute###
