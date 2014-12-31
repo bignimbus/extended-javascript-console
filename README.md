@@ -315,7 +315,9 @@ To ensure that xcon.js will never break native console methods, there are fallba
 <hr>
 
 ###Contribute###
-The `package.json` file is kept up-to-date and should contain all dev dependencies needed.  `grunt build` runs all test specs in the command line and will abort if any tests are broken.  A git-hook is around the corner: in the meantime, please do not commit broken code (honor system!).
+The `package.json` file is kept up-to-date and should contain all dev dependencies needed.  `grunt build` runs all test specs in the command line and will abort if any tests are broken.
+
+<a href="https://github.com/wecodemore/grunt-githooks">Grunt githooks</a> is a dev dependency and will run all jasmine unit tests on every commit.  To enable the git commit hook (please do), `grunt githooks`.  Do not skip the hook!
 
 Xcon source and test files use AMD modules via <a href="http://requirejs.org/">require.js</a>.  <a href="http://gruntjs.com/">Grunt</a>, <a href="https://github.com/gfranko/amdclean">AMDclean</a>, and <a href="https://github.com/gruntjs/grunt-contrib-uglify">uglify</a> are used to create production builds that do not need AMD.  The project makes use of release branching for new features.  See the <a href="https://github.com/bignimbus/extended-javascript-console/issues">issues</a> section for project milestones.
 <hr>
