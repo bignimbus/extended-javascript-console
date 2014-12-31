@@ -40,10 +40,16 @@ module.exports = function (grunt) {
                     }
                 }
             }
+        },
+        "githooks": {
+            "all": {
+                "pre-commit": "jasmine"
+            }
         }
     });
     grunt.loadNpmTasks('grunt-contrib-jasmine');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-githooks');
     grunt.registerTask('build', ['jasmine', 'requirejs:js', 'uglify:js']);
 };
