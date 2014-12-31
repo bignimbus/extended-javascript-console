@@ -24,5 +24,8 @@ function (getType) {
         };
         return this;
     }
-    return Search;
+    function search (collection, thing) {
+        return new Search(collection).thisFor(thing);
+    }
+    return search;
 });

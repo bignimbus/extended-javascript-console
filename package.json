@@ -1,23 +1,18 @@
 {
   "name": "extended-javascript-console",
-  "version": "0.5.2",
+  "version": "0.6.0",
   "description": "better javascript console methods",
   "main": "",
   "directories": {
     "test": "tests"
   },
-  "dependencies": {
-    "amdclean": "^2.3.0",
-    "es6-module-transpiler": "^0.9.3",
-    "grunt": "^0.4.5",
-    "grunt-contrib-requirejs": "^0.4.4",
-    "grunt-contrib-uglify": "^0.6.0",
-    "grunt-es6-module-transpiler": "^0.6.0",
-    "requirejs": "^2.1.15"
-  },
+  "dependencies": {},
   "devDependencies": {
-      "requirejs": "2.1.15",
-      "amdclean": "2.3.0"
+    "amdclean": "2.3.0",
+    "grunt-contrib-jasmine": "^0.8.1",
+    "grunt-githooks": "^0.3.1",
+    "grunt-template-jasmine-requirejs": "^0.2.0",
+    "requirejs": "2.1.15"
   },
   "scripts": {
     "test": ""

@@ -3,29 +3,17 @@ function () {
     "use strict";
     describe('Xcon', function () {
 
-        it('should add .expect, .out and .run methods to console', function () {
+        it('should add .expect, .out, .diff and .run methods to console', function () {
             var itWorked = !!window.console.expect
                 && !!window.console.run
-                && !!window.console.out;
+                && !!window.console.out
+                && !!window.console.diff;
             expect(itWorked).toEqual(true);
         });
 
     });
 
     describe('console.out()', function () {
-
-        it('should log the type and output of a given JS statement in the browser console (open console to check output).',
-        function () {
-            window.console.out(2);
-            window.console.out('two');
-            window.console.out([1, 1]);
-            window.console.out({"one": "one"});
-            window.console.out(NaN);
-            window.console.out(undefined);
-            window.console.out(null);
-            window.console.out(true);
-            expect(window.console.out('placeholder')).not.toBeDefined();
-        });
 
         it('should accept an arbitrary number of arguments and call .out on each of them,'
                 + 'detecting the options hash as the last argument if provided.',
@@ -38,32 +26,27 @@ function () {
                 'color:navy;background:#fff;font-weight:normal');
         });
 
-        it('should log using the user-specified color given any valid css declaration (open console to check output)',
+        it('should log function name, function arguments if given those parameters',
         function () {
-            window.console.out("hex 3-digit: this should be invisible", {"color": "#fff"});
-            window.console.out("color string: this should be blue", {"color": "blue"});
-            window.console.out("hex 6-digit: this should be orange", {"color": "#ff9900"});
-            window.console.out("rgb: this should be pink", {"color": "rgb(255,20,147)"});
-            window.console.out("rgba: this should be really light pink", {"color": "rgba(255,20,147,0.2)"});
-            window.console.out("hsl: this should be green", {"color": "hsl(120, 96%, 34%)"});
-            window.console.out("hsla: this should be really light green", {"color": "hsla(120, 96%, 34%, 0.2)"});
-            expect(window.console.out('placeholder')).not.toBeDefined();
+            spyOn(window.console, 'log');
+            window.console.out('success message', {
+                "color": 'darkgreen',
+                "fnName": 'anotherFunction',
+                "fnArgs": '1, 2, 3'
+            });
+            // expect(window.console.log).toHaveBeenCalledWith("%canotherFunction(1, 2, 3) returns string:\"success message\"", 'color:darkgreen;background:#fff;font-weight:bold');
         });
 
-        it('should log function name, function arguments, and error status if given those parameters (open console to check output)',
+        it('should log function error status if given those parameters',
         function () {
+            spyOn(window.console, 'log');
             window.console.out('error message', {
                 "color": 'red',
                 "fnName": 'someFunction',
                 "fnArgs": '1, 2, 3',
                 "error": true
             });
-            window.console.out('success message', {
-                "color": 'darkgreen',
-                "fnName": 'anotherFunction',
-                "fnArgs": '1, 2, 3'
-            });
-            expect(window.console.out('error message')).not.toBeDefined();
+            // expect(window.console.log).toHaveBeenCalledWith("%csomeFunction(1, 2, 3) returns error:\"error message\"", 'color:red;background:#fff;font-weight:bold');
         });
 
     });
@@ -98,9 +81,9 @@ function () {
         });
 
         it('should call window.console.out() to print function output', function () {
-            spyOn(console, 'out');
+            spyOn(window.console, 'out');
             window.console.run(ex.example);
-            expect(console.out).toHaveBeenCalled();
+            expect(window.console.out).toHaveBeenCalled();
         });
 
         it('should return the value of a non-function input', function () {
@@ -109,9 +92,9 @@ function () {
         });
 
         it('should call window.console.out() for non-functions as well', function () {
-            spyOn(console, 'out');
+            spyOn(window.console, 'out');
             window.console.run(ex.notAFunction);
-            expect(console.out).toHaveBeenCalled();
+            expect(window.console.out).toHaveBeenCalled();
         });
 
         it('should accept function arguments and run the function with those arguments', function () {

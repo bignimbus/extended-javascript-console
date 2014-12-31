@@ -1,9 +1,22 @@
 module.exports = function (grunt) {
     grunt.initConfig({
+        "jasmine": {
+            "pivotal": {
+                "src": 'src/*.js',
+                "options": {
+                    "specs": 'tests/*.spec.js',
+                    "version": "2.0.4",
+                    "template": require('grunt-template-jasmine-requirejs'),
+                    "templateOptions": {
+                        "requireConfigFile": 'config/config.js'
+                    }
+                }
+            }
+        },
         "uglify": {
             "js": {
                 "files": {
-                    'dist/xcon-0.5.2.min.js': ['build/xcon-0.5.2.js']
+                    'dist/xcon-0.6.0.min.js': ['build/xcon-0.6.0.js']
                 }
             }
         },
@@ -15,7 +28,7 @@ module.exports = function (grunt) {
                     'optimize': 'none',
                     'mainConfigFile': 'config/config.js',
                     'include': ['main.js'],
-                    'out': 'build/xcon-0.5.2.js',
+                    'out': 'build/xcon-0.6.0.js',
                     'onModuleBundleComplete': function (data) {
                         var fs = require('fs'),
                         amdclean = require('amdclean'),
@@ -27,9 +40,16 @@ module.exports = function (grunt) {
                     }
                 }
             }
+        },
+        "githooks": {
+            "all": {
+                "pre-commit": "jasmine"
+            }
         }
     });
+    grunt.loadNpmTasks('grunt-contrib-jasmine');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
     grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.registerTask('build', ['requirejs:js', 'uglify:js']);
+    grunt.loadNpmTasks('grunt-githooks');
+    grunt.registerTask('build', ['jasmine', 'requirejs:js', 'uglify:js']);
 };
