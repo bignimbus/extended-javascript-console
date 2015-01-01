@@ -44,7 +44,7 @@ require(["path/to/xcon-0.6.0.min"])
 
 plain ol' JavaScript:
 ```html
-<script src="path/to/dist/xcon-0.5.2.min.js"></script>
+<script src="path/to/dist/xcon-0.6.0.min.js"></script>
 ```
 <hr>
 
