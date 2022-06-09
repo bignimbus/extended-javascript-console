@@ -156,32 +156,30 @@ in the above example, `fakeObj` will be interpreted as `this` by `FakeConstructo
 #### nesting calls ####
 sometimes it helps to know what a chain of dependent functions are doing.  Because console.run() returns the value of the function, you can keep eye on the output of each function in an organized way.
 ```js
-function mcConaughey (article) {
-	return "removing " + article;
+function foo (str) {
+	return "foo " + str;
 }
-function carrey (topic) {
-	return "makes a joke about " + topic;
+function bar (str) {
+	return "bar " + str;
 }
-console.run(carrey,
-	[console.run(mcConaughey, ["shirt"])]
+console.run(bar,
+	[console.run(foo, ["baz"])]
 );
 ```
-![chaining](https://lh4.googleusercontent.com/-nkWZ04G9agk/VG62fgNnz0I/AAAAAAAAKuY/AAYZzv1HsC0/w465-h82-no/Screen%2BShot%2B2014-11-20%2Bat%2B9.50.02%2BPM.png "Chaining")
 
 <hr width="50%">
 It can help keep track of what's going wrong in your application flow:
 
 ```js
-function carrotTop () {
-	return hasNoIdeaWhatHesDoingHere;
+function undefinedFn () {
+	return anUndefinedValue;
 }
 console.run(carrey, 
-	[console.run(mcConaughey, 
-    		[console.run(carrotTop)]
+	[console.run(bar, 
+    		[console.run(undefinedFn)]
     	)]
 );
 ```
-![chain undefined](https://lh6.googleusercontent.com/-n3olWEE3yO8/VG63A8H-6cI/AAAAAAAAKuo/u44gRCu6w-0/w458-h112-no/Screen%2BShot%2B2014-11-20%2Bat%2B9.52.17%2BPM.png "Chain Debugging")
 
 <hr width="50%">
 
@@ -309,21 +307,19 @@ console.expect([0, 1, 2]).not.toEqual({"0": 0, "1": 1, "2": 2});
 Given two objects or two arrays, tells the user whether the two arguments are equal and, if not, exactly what unique data is in each argument.  Will return false if the types of both arguments do not match or if given a non-object or non-array as an argument.  Works for nested objects and arrays, as well.  This method is automatically called when there is a failed isEqual() test in <a href="#consoleexpect">console.expect()</a>.
 
 ```js
-var harry = {
-		"mock": "yeah",
-		"ing": "yeah",
-		"bird": {
-			"yeah": "yeah",
-			"yeah": ["yeah"]
+var foo = {
+		"foo": "foo",
+		"bar": "bar",
+		"baz": {
+			"quux": ["quux"]
 		}
 	},
-	lloyd = {
-		"mock": "yeah",
-		"annoyingSound": "eeeeehhhhhh"
+	bar = {
+		"foo": "foo",
+		"foobar": "foobar"
 	};
-console.diff(harry, lloyd);
+console.diff(foo, bar);
 ```
-![console.diff](https://lh6.googleusercontent.com/-QUb1LCGN3LQ/VIcOjTKilqI/AAAAAAAALuI/4YIvF34eZ3k/w230-h78-no/Screen%2BShot%2B2014-12-09%2Bat%2B8.57.02%2BAM.png "console.diff")
 <hr>
 
 ### Namespace ###
